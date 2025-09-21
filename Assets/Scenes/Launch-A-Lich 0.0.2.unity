@@ -2409,6 +2409,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1044183632}
+  - component: {fileID: 1044183633}
   m_Layer: 5
   m_Name: UI MANAGER
   m_TagString: Untagged
@@ -2436,6 +2437,24 @@ RectTransform:
   m_AnchoredPosition: {x: 960, y: 540}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1044183633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044183631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b11f635ac232d684c9e9c9fd33390422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Options: {fileID: 1285052789}
+  Menu: {fileID: 1683774342}
+  Gameplay: {fileID: 1532331715}
+  Pause: {fileID: 592919252}
+  Credits: {fileID: 1795878700}
+  Confirmation: {fileID: 0}
 --- !u!1 &1078538673
 GameObject:
   m_ObjectHideFlags: 0
@@ -2923,7 +2942,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1285052790
 RectTransform:
   m_ObjectHideFlags: 0
