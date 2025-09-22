@@ -639,7 +639,7 @@ GameObject:
   - component: {fileID: 392274816}
   - component: {fileID: 392274815}
   m_Layer: 0
-  m_Name: Image
+  m_Name: Results Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -652,12 +652,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 392274813}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1532331716}
+  m_Father: {fileID: 1998686132}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3409,7 +3409,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 392274814}
   - {fileID: 1998686132}
   m_Father: {fileID: 2119655189}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4823,6 +4822,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1098367654}
+  - {fileID: 392274814}
   m_Father: {fileID: 1532331716}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4845,6 +4845,7 @@ MonoBehaviour:
   player: {fileID: 2119655188}
   startPosition: {x: 0, y: 0}
   distanceArrow: {fileID: 1098367653}
+  resultsMenu: {fileID: 392274815}
   distanceTraveledThisRunText: {fileID: 1733561107}
 --- !u!1 &2075411156
 GameObject:
