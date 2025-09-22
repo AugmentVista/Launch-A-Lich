@@ -10,6 +10,8 @@ public class PlayerStateMachine : MonoBehaviour
     public float angularDamping = 1f;
 
     public float speedToStopAt = 3f;
+    public float flyingHeightThreshold = 15f;
+
 
     public enum PlayerState
     { 
@@ -71,19 +73,19 @@ public class PlayerStateMachine : MonoBehaviour
     }
 
     /// <summary>
-    /// Reads the forward velocity of the player and sets velocity to 0 if 1 or less
+    /// Changes the playerState according to the player's velocity and height.
     /// </summary>
     void ReadVelocity()
     {
         if (playerState == PlayerState.ReadyToLaunch || playerState == PlayerState.Rolling || playerState == PlayerState.Flying)
         {
-            if (Mathf.Abs(playerRb.linearVelocityY) > 1 && player.gameObject.transform.position.y > 15f)
+            if (Mathf.Abs(playerRb.linearVelocityY) > 1 && player.gameObject.transform.position.y > flyingHeightThreshold)
             {
                 if (playerState != PlayerState.Flying) { Debug.Log("Player has begun Flying"); }
                 ChangePlayerState(PlayerState.Flying);
                
             }
-            else if (Mathf.Abs(playerRb.linearVelocityX) > 1 && player.transform.position.y <= 15f) 
+            else if (Mathf.Abs(playerRb.linearVelocityX) > 1 && player.transform.position.y <= flyingHeightThreshold) 
             {
                 if (playerState != PlayerState.Rolling) { Debug.Log("Player has begun "); }
                 ChangePlayerState(PlayerState.Rolling);
@@ -96,6 +98,7 @@ public class PlayerStateMachine : MonoBehaviour
             if (Mathf.Abs(playerRb.linearVelocityX) <= speedToStopAt && Mathf.Abs(playerRb.linearVelocityX) > 0)
             {
                 Debug.Log($"Speed before stop was {playerRb.linearVelocityX}");
+
                 // Player has stopped moving. Triggers state change to Stopped
                 ChangePlayerState(PlayerState.Stopped);
 
@@ -109,7 +112,5 @@ public class PlayerStateMachine : MonoBehaviour
         }
             
     }
-
-    
 
 }
