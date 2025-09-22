@@ -8,7 +8,6 @@ public class PlayerResultsManager : MonoBehaviour
     public GameObject player;
     public Vector2 startPosition;
 
-    Color alpha;
     float resultsMenuWaitTime = 1f;
 
     public GameObject distanceArrow;
@@ -25,9 +24,7 @@ public class PlayerResultsManager : MonoBehaviour
         startPosition = new Vector2(player.transform.position.x, player.transform.position.y);
         PlayerStateMachine.OnStopped += ShowDistanceTraveled;
         distanceArrow.SetActive(false);
-        alpha = resultsMenu.color;
-        alpha.a = 0f;
-        resultsMenu.color = alpha;
+        resultsMenu.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -60,9 +57,7 @@ public class PlayerResultsManager : MonoBehaviour
 
     void ResultsMenu()
     {
-        Color alpha = resultsMenu.color;
-        alpha.a = 1f;
-        resultsMenu.color = alpha;
+        resultsMenu.gameObject.SetActive(true);
     }
 
 
