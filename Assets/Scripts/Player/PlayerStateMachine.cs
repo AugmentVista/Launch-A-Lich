@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
@@ -5,6 +6,10 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerBase playerBase;
     public GameObject player;
     public Rigidbody2D playerRb;
+
+    public float angularDamping = 1f;
+
+    public float speedToStopAt = 3f;
 
     public enum PlayerState
     { 
@@ -43,7 +48,7 @@ public class PlayerStateMachine : MonoBehaviour
                 break;
             case PlayerState.Rolling:
                 OnRolling?.Invoke();
-                //Debug.Log("Player is rolling");
+                Debug.Log("Player is rolling");
                 break;
             case PlayerState.Flying:
                 OnFlying?.Invoke();
@@ -70,24 +75,35 @@ public class PlayerStateMachine : MonoBehaviour
     /// </summary>
     void ReadVelocity()
     {
-        if (playerState == PlayerState.ReadyToLaunch)
+        if (playerState == PlayerState.ReadyToLaunch || playerState == PlayerState.Rolling || playerState == PlayerState.Flying)
         {
-            if (Mathf.Abs(playerRb.linearVelocityX) > 1) 
+            if (Mathf.Abs(playerRb.linearVelocityY) > 1 && player.gameObject.transform.position.y > 15f)
             {
+                if (playerState != PlayerState.Flying) { Debug.Log("Player has begun Flying"); }
+                ChangePlayerState(PlayerState.Flying);
+               
+            }
+            else if (Mathf.Abs(playerRb.linearVelocityX) > 1 && player.transform.position.y <= 15f) 
+            {
+                if (playerState != PlayerState.Rolling) { Debug.Log("Player has begun "); }
                 ChangePlayerState(PlayerState.Rolling);
-                Debug.Log("Player has begun rolling");
             }
         }
 
 
         if (playerState == PlayerState.Flying || playerState == PlayerState.Rolling)
         {
-            if (Mathf.Abs(playerRb.linearVelocityX) < 1 && Mathf.Abs(playerRb.linearVelocityX) > 0)
+            if (Mathf.Abs(playerRb.linearVelocityX) <= speedToStopAt && Mathf.Abs(playerRb.linearVelocityX) > 0)
             {
-                playerRb.linearVelocity = Vector2.zero;
-
+                Debug.Log($"Speed before stop was {playerRb.linearVelocityX}");
                 // Player has stopped moving. Triggers state change to Stopped
                 ChangePlayerState(PlayerState.Stopped);
+
+                playerRb.bodyType = RigidbodyType2D.Kinematic; // Stops all motion
+                playerRb.linearVelocity = Vector2.zero;
+                playerRb.angularVelocity = 0f;
+
+                playerRb.bodyType = RigidbodyType2D.Dynamic;
                 Debug.Log("Player has stopped moving");
             }
         }
