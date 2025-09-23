@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerStateMachine : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PlayerStateMachine : MonoBehaviour
 
     public float speedToStopAt = 3f;
     public float flyingHeightThreshold = 15f;
+
+    float timeSpentStopped = 2f;
 
 
     public enum PlayerState
@@ -65,16 +68,25 @@ public class PlayerStateMachine : MonoBehaviour
                 break;
         }
     }
-
     private void Update()
     {
-        ReadVelocity();
+        DetermineState();
     }
 
     /// <summary>
     /// Changes the playerState according to the player's velocity and height.
     /// </summary>
-    void ReadVelocity()
+    private void DetermineState()
+    {
+        LaunchToMoving();
+
+        MovingToStopped();
+
+        StoppedToLaunchReady();
+
+    }
+
+    private void LaunchToMoving()
     {
         if (playerState == PlayerState.ReadyToLaunch || playerState == PlayerState.Rolling || playerState == PlayerState.Flying)
         {
@@ -82,21 +94,23 @@ public class PlayerStateMachine : MonoBehaviour
             {
                 if (playerState != PlayerState.Flying) { Debug.Log("Player has begun Flying"); }
                 ChangePlayerState(PlayerState.Flying);
-               
+
             }
-            else if (Mathf.Abs(playerRb.linearVelocityX) > 1 && player.transform.position.y <= flyingHeightThreshold) 
+            else if (Mathf.Abs(playerRb.linearVelocityX) > 1 && player.transform.position.y <= flyingHeightThreshold)
             {
                 if (playerState != PlayerState.Rolling) { Debug.Log("Player has begun "); }
                 ChangePlayerState(PlayerState.Rolling);
             }
         }
+    }
 
-
+    private void MovingToStopped()
+    {
         if (playerState == PlayerState.Flying || playerState == PlayerState.Rolling)
         {
             if (Mathf.Abs(playerRb.linearVelocityX) <= speedToStopAt && Mathf.Abs(playerRb.linearVelocityX) > 0)
             {
-                Debug.Log($"Speed before stop was {playerRb.linearVelocityX}");
+                //Debug.Log($"Speed before stop was {playerRb.linearVelocityX}");
 
                 // Player has stopped moving. Triggers state change to Stopped
                 ChangePlayerState(PlayerState.Stopped);
@@ -109,7 +123,21 @@ public class PlayerStateMachine : MonoBehaviour
                 Debug.Log("Player has stopped moving");
             }
         }
-            
     }
+
+    private void StoppedToLaunchReady()
+    {
+        if (playerState == PlayerState.Stopped)
+        {
+            StartCoroutine(DelayAfterStopped(timeSpentStopped));
+        }
+    }
+
+    IEnumerator DelayAfterStopped(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ChangePlayerState(PlayerState.ReadyToLaunch);
+    }
+
 
 }

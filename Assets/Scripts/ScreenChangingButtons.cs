@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class ScreenChangingButtons : MonoBehaviour
 {
@@ -15,7 +14,7 @@ public class ScreenChangingButtons : MonoBehaviour
     public GameObject Results;
     public GameObject Shop;
 
-    private GameObject LastScreenActive;
+    [SerializeField] private GameObject LastScreenActive;
 
     private void Start()
     {
@@ -47,6 +46,14 @@ public class ScreenChangingButtons : MonoBehaviour
         Credits.gameObject.SetActive(false);
         Results.gameObject.SetActive(false);
         Shop.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// This method is called by other scripts when they need to change the screen
+    /// </summary>
+    /// <param name="screenToChangeTo"></param>
+    public void ExternalScreenChange(string screenToChangeTo)
+    {
     }
 
     private GameObject GetCurrentActiveScreen()
@@ -135,9 +142,10 @@ public class ScreenChangingButtons : MonoBehaviour
     }
 
     public void B_Continue()
-    { 
-    // Level Manager reset? 
-    // SetScreen(Gameplay);
+    {
+        Respawner.hasPlayerReturnedToLaunchpad = true;
+        SetUIFalse();
+        SetScreen(Gameplay);
     }
 
     public void B_ResetScene()
@@ -149,9 +157,5 @@ public class ScreenChangingButtons : MonoBehaviour
     {
         Application.Quit();
     }
-
-   
-
-    
 
 }

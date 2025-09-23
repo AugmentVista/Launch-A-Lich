@@ -8,12 +8,11 @@ public class PlayerResultsManager : MonoBehaviour
     public GameObject player;
     public Vector2 startPosition;
 
-    float resultsMenuWaitTime = 1f;
+    float resultsMenuWaitTime = 2f;
 
     public GameObject distanceArrow;
     public Image resultsMenu;
     public TextMeshProUGUI distanceTraveledThisRunText;
-
 
     Vector2 finalPosition;
 
@@ -23,6 +22,7 @@ public class PlayerResultsManager : MonoBehaviour
     {
         startPosition = new Vector2(player.transform.position.x, player.transform.position.y);
         PlayerStateMachine.OnStopped += ShowDistanceTraveled;
+        PlayerStateMachine.OnReadyToLaunch += ResetResults;
         distanceArrow.SetActive(false);
         resultsMenu.gameObject.SetActive(false);
     }
@@ -38,13 +38,12 @@ public class PlayerResultsManager : MonoBehaviour
         return distanceCovered.x;
     }
 
-
     void ShowDistanceTraveled()
     {
         distanceArrow.SetActive(true);
         float distance = RecordedFinalDistanceX();
         distanceTraveledThisRunText.text = $"Distance Traveled: {distance:F1} meters";
-
+        
         StartCoroutine(ShowResultsMenuAfterDelay(resultsMenuWaitTime));
     }
 
@@ -54,23 +53,23 @@ public class PlayerResultsManager : MonoBehaviour
         ResultsMenu();
     }
 
-
     void ResultsMenu()
     {
         resultsMenu.gameObject.SetActive(true);
         Time.timeScale = 0;
     }
 
-
-    void Respawn()
+    void ResetResults()
     {
-        player.transform.position = startPosition;
+        distanceArrow.SetActive(false);
+        distanceTraveledThisRunText.text = $"";
     }
 
     private void OnDestroy()
     {
         Debug.Log("PlayerResultsManager destroyed — unsubscribing from event.");
         PlayerStateMachine.OnStopped -= ShowDistanceTraveled;
+        PlayerStateMachine.OnReadyToLaunch -= ResetResults;
     }
 
 }

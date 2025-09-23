@@ -6,6 +6,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] Image gauge;
     [SerializeField] Rigidbody2D playerRb;
+    [SerializeField] ScreenChangingButtons UIManager;
 
     [SerializeField] float chargeSpeed;
     public float launchForceMultiplier;
@@ -13,9 +14,11 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public float force;
 
     bool isCharging = false;
-    
+
+
     private void Update()
     {
+        if (UIManager.Results.activeSelf) { return; }
         if (isCharging)
         {
             chargeAmount += chargeSpeed * Time.deltaTime;
