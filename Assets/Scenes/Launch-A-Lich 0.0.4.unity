@@ -1185,7 +1185,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1044183633}
         m_TargetAssemblyTypeName: ScreenChangingButtons, Assembly-CSharp
-        m_MethodName: BOptionsMenu
+        m_MethodName: B_OptionsMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1609,7 +1609,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1044183633}
         m_TargetAssemblyTypeName: ScreenChangingButtons, Assembly-CSharp
-        m_MethodName: BReturn
+        m_MethodName: B_Return
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1742,7 +1742,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1044183633}
         m_TargetAssemblyTypeName: ScreenChangingButtons, Assembly-CSharp
-        m_MethodName: BResume
+        m_MethodName: B_Resume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2531,7 +2531,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1044183633}
         m_TargetAssemblyTypeName: ScreenChangingButtons, Assembly-CSharp
-        m_MethodName: BToMainMenu
+        m_MethodName: B_ToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2875,7 +2875,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1044183633}
         m_TargetAssemblyTypeName: ScreenChangingButtons, Assembly-CSharp
-        m_MethodName: BOptionsMenu
+        m_MethodName: B_OptionsMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3141,7 +3141,6 @@ MonoBehaviour:
   Pause: {fileID: 592919252}
   Credits: {fileID: 1795878700}
   Results: {fileID: 236726156}
-  Confirmation: {fileID: 0}
 --- !u!1 &1078538673
 GameObject:
   m_ObjectHideFlags: 0
@@ -3227,7 +3226,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1044183633}
         m_TargetAssemblyTypeName: ScreenChangingButtons, Assembly-CSharp
-        m_MethodName: BCreditsMenu
+        m_MethodName: B_CreditsMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3759,7 +3758,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1044183633}
         m_TargetAssemblyTypeName: ScreenChangingButtons, Assembly-CSharp
-        m_MethodName: BStarting
+        m_MethodName: B_Resume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5246,7 +5245,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1044183633}
         m_TargetAssemblyTypeName: ScreenChangingButtons, Assembly-CSharp
-        m_MethodName: BQuiting
+        m_MethodName: B_Quiting
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5649,7 +5648,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1044183633}
         m_TargetAssemblyTypeName: ScreenChangingButtons, Assembly-CSharp
-        m_MethodName: BStarting
+        m_MethodName: B_Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

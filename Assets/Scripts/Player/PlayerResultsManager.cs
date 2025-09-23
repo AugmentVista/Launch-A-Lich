@@ -58,6 +58,7 @@ public class PlayerResultsManager : MonoBehaviour
     void ResultsMenu()
     {
         resultsMenu.gameObject.SetActive(true);
+        Time.timeScale = 0;
     }
 
 

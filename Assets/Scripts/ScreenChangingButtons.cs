@@ -13,7 +13,6 @@ public class ScreenChangingButtons : MonoBehaviour
     public GameObject Pause;
     public GameObject Credits;
     public GameObject Results;
-    public GameObject Confirmation;
     // public GameObject Shop;
 
     private GameObject LastScreenActive;
@@ -23,28 +22,25 @@ public class ScreenChangingButtons : MonoBehaviour
         SetUIFalse();
 
         Menu.gameObject.SetActive(true);
-
-        Time.timeScale = 0;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !Pause.activeSelf)
         {
-            Debug.Log("Pause");
             SetScreen(Pause);
         }
 
         else if (Input.GetKeyDown(KeyCode.Escape) && Pause.activeSelf)
         {
             SetScreen(Gameplay);
-            Debug.Log("Continue");
         }
     }
 
     public void SetUIFalse()
     {
         Options.gameObject.SetActive(false);
+        Gameplay.gameObject.SetActive(false);
         Menu.gameObject.SetActive(false);
         Pause.gameObject.SetActive(false);
         Credits.gameObject.SetActive(false);
@@ -90,84 +86,65 @@ public class ScreenChangingButtons : MonoBehaviour
 
     // All Buttons start with B to make them easier to find in unity
 
-    public void BStarting()
+    public void B_Play()
     {
         LastScreenActive = GetCurrentActiveScreen();
 
         SetScreen(Gameplay);
-
-        Time.timeScale = 1;
     }
 
-    public void BCreditsMenu()
+    public void B_CreditsMenu()
     {
         LastScreenActive = GetCurrentActiveScreen();
 
         SetScreen(Credits);
-
-        Time.timeScale = 0;
     }
 
-    public void BOptionsMenu()
+    public void B_OptionsMenu()
     {
         LastScreenActive = GetCurrentActiveScreen();
 
         SetScreen(Options);
-
-        Time.timeScale = 0;
     }
 
-    public void BPause()
+    public void B_Pause()
     {
         LastScreenActive = GetCurrentActiveScreen();
 
         SetScreen(Pause);
-
-        Time.timeScale = 0;
     }
 
-    public void BReturn()
+    public void B_Return()
     {
         SetScreen(LastScreenActive);
     }
 
-    public void BToMainMenu()
+    public void B_ToMainMenu()
     {
         SetScreen(Menu);
-
-        Time.timeScale = 0;
     }
 
-    public void BQuiting()
+    public void B_OpenShop()
     {
-        Application.Quit();
+        //SetScreen(Shop);
     }
-
-    public void BResume()
+    public void B_Resume()
     {
         SetScreen(Gameplay);
-
-        Time.timeScale = 1;
-    }
-    public void BReset()
-    {
-        Confirmation.SetActive(true);
     }
 
-    public void BYesReset()
+    public void B_ResetScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void BNoReset()
+    public void B_Quiting()
     {
-        Confirmation.SetActive(false);
+        Application.Quit();
     }
 
-    public void BOpenShop()
-    {
-        //SetScreen(Shop);
-        Time.timeScale = 0;
-    }
+   
+
+    
 
 }
