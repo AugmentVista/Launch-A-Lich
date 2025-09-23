@@ -13,19 +13,20 @@ public class ScreenChangingButtons : MonoBehaviour
     public GameObject Pause;
     public GameObject Credits;
     public GameObject Results;
-    // public GameObject Shop;
+    public GameObject Shop;
 
     private GameObject LastScreenActive;
 
     private void Start()
     {
         SetUIFalse();
-
+        Time.timeScale = 0;
         Menu.gameObject.SetActive(true);
     }
 
     private void Update()
     {
+        if (Gameplay.gameObject.activeSelf) { Time.timeScale = 1; }
         if (Input.GetKeyDown(KeyCode.Escape) && !Pause.activeSelf)
         {
             SetScreen(Pause);
@@ -45,7 +46,7 @@ public class ScreenChangingButtons : MonoBehaviour
         Pause.gameObject.SetActive(false);
         Credits.gameObject.SetActive(false);
         Results.gameObject.SetActive(false);
-        //Shop.gameObject.SetActive(false);
+        Shop.gameObject.SetActive(false);
     }
 
     private GameObject GetCurrentActiveScreen()
@@ -56,7 +57,7 @@ public class ScreenChangingButtons : MonoBehaviour
         if (Pause.activeSelf) return Pause;
         if (Credits.activeSelf) return Credits;
         if (Results.activeSelf) return Results;
-        // if (Shop.activeSelf) return Shop;
+        if (Shop.activeSelf) return Shop;
         return null;
     }
 
@@ -126,11 +127,17 @@ public class ScreenChangingButtons : MonoBehaviour
 
     public void B_OpenShop()
     {
-        //SetScreen(Shop);
+        SetScreen(Shop);
     }
     public void B_Resume()
     {
         SetScreen(Gameplay);
+    }
+
+    public void B_Continue()
+    { 
+    // Level Manager reset? 
+    // SetScreen(Gameplay);
     }
 
     public void B_ResetScene()
