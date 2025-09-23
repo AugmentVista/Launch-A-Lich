@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class ScreenChangingButtons : MonoBehaviour
 {
@@ -12,40 +11,49 @@ public class ScreenChangingButtons : MonoBehaviour
     public GameObject Gameplay;
     public GameObject Pause;
     public GameObject Credits;
-    public GameObject Confirmation;
+    public GameObject Results;
+    public GameObject Shop;
 
-    private GameObject LastScreenActive;
+    [SerializeField] private GameObject LastScreenActive;
 
     private void Start()
     {
         SetUIFalse();
-
-        Menu.gameObject.SetActive(true);
-
         Time.timeScale = 0;
+        Menu.gameObject.SetActive(true);
     }
 
     private void Update()
     {
+        if (Gameplay.gameObject.activeSelf) { Time.timeScale = 1; }
         if (Input.GetKeyDown(KeyCode.Escape) && !Pause.activeSelf)
         {
-            Debug.Log("Pause");
             SetScreen(Pause);
         }
 
         else if (Input.GetKeyDown(KeyCode.Escape) && Pause.activeSelf)
         {
             SetScreen(Gameplay);
-            Debug.Log("Continue");
         }
     }
 
     public void SetUIFalse()
     {
         Options.gameObject.SetActive(false);
+        Gameplay.gameObject.SetActive(false);
         Menu.gameObject.SetActive(false);
         Pause.gameObject.SetActive(false);
         Credits.gameObject.SetActive(false);
+        Results.gameObject.SetActive(false);
+        Shop.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// This method is called by other scripts when they need to change the screen
+    /// </summary>
+    /// <param name="screenToChangeTo"></param>
+    public void ExternalScreenChange(string screenToChangeTo)
+    {
     }
 
     private GameObject GetCurrentActiveScreen()
@@ -55,6 +63,8 @@ public class ScreenChangingButtons : MonoBehaviour
         if (Gameplay.activeSelf) return Gameplay;
         if (Pause.activeSelf) return Pause;
         if (Credits.activeSelf) return Credits;
+        if (Results.activeSelf) return Results;
+        if (Shop.activeSelf) return Shop;
         return null;
     }
 
@@ -84,78 +94,68 @@ public class ScreenChangingButtons : MonoBehaviour
 
     // All Buttons start with B to make them easier to find in unity
 
-    public void BStarting()
+    public void B_Play()
     {
         LastScreenActive = GetCurrentActiveScreen();
 
         SetScreen(Gameplay);
-
-        Time.timeScale = 1;
     }
 
-    public void BCreditsMenu()
+    public void B_CreditsMenu()
     {
         LastScreenActive = GetCurrentActiveScreen();
 
         SetScreen(Credits);
-
-        Time.timeScale = 0;
     }
 
-    public void BOptionsMenu()
+    public void B_OptionsMenu()
     {
         LastScreenActive = GetCurrentActiveScreen();
 
         SetScreen(Options);
-
-        Time.timeScale = 0;
     }
 
-    public void BPause()
+    public void B_Pause()
     {
         LastScreenActive = GetCurrentActiveScreen();
 
         SetScreen(Pause);
-
-        Time.timeScale = 0;
     }
 
-    public void BReturn()
+    public void B_Return()
     {
         SetScreen(LastScreenActive);
     }
 
-    public void BToMainMenu()
+    public void B_ToMainMenu()
     {
         SetScreen(Menu);
-
-        Time.timeScale = 0;
     }
 
-    public void BQuiting()
+    public void B_OpenShop()
     {
-        Application.Quit();
+        SetScreen(Shop);
     }
-
-    public void BResume()
+    public void B_Resume()
     {
         SetScreen(Gameplay);
-
-        Time.timeScale = 1;
     }
-    public void BReset()
+
+    public void B_Continue()
     {
-        Confirmation.SetActive(true);
+        Respawner.hasPlayerReturnedToLaunchpad = true;
+        SetUIFalse();
+        SetScreen(Gameplay);
     }
 
-    public void BYesReset()
+    public void B_ResetScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void BNoReset()
+    public void B_Quiting()
     {
-        Confirmation.SetActive(false);
+        Application.Quit();
     }
 
 }
