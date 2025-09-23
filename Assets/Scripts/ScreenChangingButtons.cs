@@ -12,7 +12,9 @@ public class ScreenChangingButtons : MonoBehaviour
     public GameObject Gameplay;
     public GameObject Pause;
     public GameObject Credits;
+    public GameObject Results;
     public GameObject Confirmation;
+    // public GameObject Shop;
 
     private GameObject LastScreenActive;
 
@@ -46,6 +48,8 @@ public class ScreenChangingButtons : MonoBehaviour
         Menu.gameObject.SetActive(false);
         Pause.gameObject.SetActive(false);
         Credits.gameObject.SetActive(false);
+        Results.gameObject.SetActive(false);
+        //Shop.gameObject.SetActive(false);
     }
 
     private GameObject GetCurrentActiveScreen()
@@ -55,6 +59,8 @@ public class ScreenChangingButtons : MonoBehaviour
         if (Gameplay.activeSelf) return Gameplay;
         if (Pause.activeSelf) return Pause;
         if (Credits.activeSelf) return Credits;
+        if (Results.activeSelf) return Results;
+        // if (Shop.activeSelf) return Shop;
         return null;
     }
 
@@ -156,6 +162,12 @@ public class ScreenChangingButtons : MonoBehaviour
     public void BNoReset()
     {
         Confirmation.SetActive(false);
+    }
+
+    public void BOpenShop()
+    {
+        //SetScreen(Shop);
+        Time.timeScale = 0;
     }
 
 }
