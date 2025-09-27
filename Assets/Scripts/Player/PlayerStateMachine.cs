@@ -8,7 +8,6 @@ public class PlayerStateMachine : MonoBehaviour
     public Rigidbody2D playerRb;
 
     public float angularDamping = 1f;
-
     public float speedToStopAt = 3f;
     public float flyingHeightThreshold = 15f;
 
@@ -16,7 +15,7 @@ public class PlayerStateMachine : MonoBehaviour
 
 
     public enum PlayerState
-    { 
+    {
         Inactive, Rolling, Flying, Stopped, ReadyToLaunch
     }
     public PlayerState playerState;
@@ -112,15 +111,11 @@ public class PlayerStateMachine : MonoBehaviour
             {
                 //Debug.Log($"Speed before stop was {playerRb.linearVelocityX}");
 
-                // Player has stopped moving. Triggers state change to Stopped
+                // Player has stopped moving, trigger state change to Stopped
                 ChangePlayerState(PlayerState.Stopped);
 
-                playerRb.bodyType = RigidbodyType2D.Kinematic; // Stops all motion
-                playerRb.linearVelocity = Vector2.zero;
-                playerRb.angularVelocity = 0f;
-
-                playerRb.bodyType = RigidbodyType2D.Dynamic;
-                Debug.Log("Player has stopped moving");
+                FreezePlayerMovement();
+                
             }
         }
     }
@@ -136,8 +131,29 @@ public class PlayerStateMachine : MonoBehaviour
     IEnumerator DelayAfterStopped(float delay)
     {
         yield return new WaitForSeconds(delay);
+        FreezePlayerMovement();
+        // Player has respawned, trigger state change to ReadyToLaunch
         ChangePlayerState(PlayerState.ReadyToLaunch);
     }
 
 
+    public void FreezePlayerMovement()
+    {
+       StartCoroutine(FreezeRoutine());
+    }
+
+    private IEnumerator FreezeRoutine()
+    {
+        // Make the player kinematic to stop movement
+        playerRb.bodyType = RigidbodyType2D.Kinematic;
+        playerRb.linearVelocity = Vector2.zero;
+        playerRb.angularVelocity = 0f;
+        player.transform.rotation = Quaternion.identity;
+
+        // Wait for 0.25 seconds
+        yield return new WaitForSeconds(0.25f);
+
+        // Restore dynamic behavior
+        playerRb.bodyType = RigidbodyType2D.Dynamic;
+    }
 }
