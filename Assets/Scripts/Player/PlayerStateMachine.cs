@@ -139,11 +139,21 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void FreezePlayerMovement()
     {
-        playerRb.bodyType = RigidbodyType2D.Kinematic; // Stops character from carrying movement 
+       StartCoroutine(FreezeRoutine());
+    }
+
+    private IEnumerator FreezeRoutine()
+    {
+        // Make the player kinematic to stop movement
+        playerRb.bodyType = RigidbodyType2D.Kinematic;
         playerRb.linearVelocity = Vector2.zero;
         playerRb.angularVelocity = 0f;
         player.transform.rotation = Quaternion.identity;
-        Debug.Log("Player has stopped moving");
+
+        // Wait for 0.25 seconds
+        yield return new WaitForSeconds(0.25f);
+
+        // Restore dynamic behavior
         playerRb.bodyType = RigidbodyType2D.Dynamic;
     }
 }

@@ -11,9 +11,18 @@ public class PlayerBase : MonoBehaviour
     public float floorSlowFactor = 0.7f; // Horizontal slowdown when hitting floor
     public float backwardsThreshold = -0.05f; // Prevent moving slightly backwards
 
+    private PlayerStateMachine stateMachine;
+
+    private void Awake()
+    {
+        stateMachine = GetComponent<PlayerStateMachine>();
+        if (stateMachine == null)
+            Debug.LogError("PlayerBase requires a PlayerStateMachine component on the same GameObject.");
+    }
+
     private void Start()
     {
-        // Subscribe to player state events
+        // Subscribe to player state events (optional if needed elsewhere)
         PlayerStateMachine.OnInactive += Inactive;
         PlayerStateMachine.OnRolling += Rolling;
         PlayerStateMachine.OnFlying += Flying;
@@ -23,7 +32,6 @@ public class PlayerBase : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Unsubscribe to avoid memory leaks
         PlayerStateMachine.OnInactive -= Inactive;
         PlayerStateMachine.OnRolling -= Rolling;
         PlayerStateMachine.OnFlying -= Flying;
@@ -34,13 +42,32 @@ public class PlayerBase : MonoBehaviour
     private void FixedUpdate()
     {
         CounterBackwardsMovement();
+        StopPlayerIfNecessary();
+    }
+
+    private void StopPlayerIfNecessary()
+    {
+        if (stateMachine.playerState == PlayerStateMachine.PlayerState.Stopped ||
+            stateMachine.playerState == PlayerStateMachine.PlayerState.ReadyToLaunch)
+        {
+            playerRb.linearVelocity = Vector2.zero;
+            playerRb.angularVelocity = 0f;
+            playerRb.rotation = 0f;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Vector2 vel = playerRb.linearVelocity; // Use the current velocity
+        // Only apply bounce/velocity changes if player is moving
+        if (stateMachine.playerState == PlayerStateMachine.PlayerState.Stopped ||
+            stateMachine.playerState == PlayerStateMachine.PlayerState.ReadyToLaunch)
+            return;
 
-         if (collision.gameObject.CompareTag("Enemy"))
+        Vector2 vel = playerRb.linearVelocity;
+
+        Debug.Log($"Player collided with {collision.gameObject.name}");
+
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             GameObject lastEnemy = collision.gameObject;
             var enemyComponent = lastEnemy.GetComponent<Enemy>();
@@ -48,42 +75,35 @@ public class PlayerBase : MonoBehaviour
             {
                 enemyComponent.isDead = true;
             }
-            // Apply bounce / momentum changes to player
-            vel.x *= 0.9f; // reduce horizontal speed slightly
-            vel.y = Mathf.Max(vel.y, minBounceVelocity); // apply vertical bounce
-            playerRb.linearVelocity = vel;
+
+            vel.x *= enemySlowFactor; // Reduce horizontal speed slightly
+            vel.y = Mathf.Max(vel.y, minBounceVelocity); // Apply vertical bounce
         }
+
         if (collision.collider.CompareTag("Floor"))
         {
-            // Reduce horizontal speed more when hitting the floor
             vel.x *= floorSlowFactor;
         }
 
-        playerRb.linearVelocity = vel; // Apply the modified velocity
+        playerRb.linearVelocity = vel;
     }
 
     /// <summary>
     /// Prevent the player from sliding slightly backwards
     /// </summary>
-    public void CounterBackwardsMovement()
+    private void CounterBackwardsMovement()
     {
-        if (playerRb.linearVelocity.x < backwardsThreshold)
-        {
-            Vector2 vel = playerRb.linearVelocity;
+        Vector2 vel = playerRb.linearVelocity;
+        if (vel.x < backwardsThreshold)
             vel.x = 0f;
-            playerRb.linearVelocity = vel;
-        }
+
+        playerRb.linearVelocity = vel;
     }
 
     // --- Event handlers for PlayerStateMachine ---
-
     void Inactive() { }
-
     void Rolling() { }
-
     void Flying() { }
-
     void Stopped() { }
-
     void ReadyToLaunch() { }
 }
