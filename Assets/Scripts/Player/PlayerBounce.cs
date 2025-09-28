@@ -13,9 +13,13 @@ public class PlayerBounce : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // Play the bounce sound whenever the player collides with something
-        if (bounceSound != null)
-        {
-            bounceSound.Play();
+        if (collision.gameObject.CompareTag("Enemy"))
+        { 
+            if (bounceSound != null)
+            {
+                bounceSound.Play();
+            }
         }
+        
     }
 }
