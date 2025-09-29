@@ -104,15 +104,12 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (playerState == PlayerState.Flying || playerState == PlayerState.Rolling)
         {
-            if (Mathf.Abs(playerRb.linearVelocityX) <= speedToStopAt && Mathf.Abs(playerRb.linearVelocityX) > 0)
+            // check that the player is moving at less than the speed limit and more than 0 to set it to 0 and that the player is on the ground.
+            if (Mathf.Abs(playerRb.linearVelocityX) <= speedToStopAt && Mathf.Abs(playerRb.linearVelocityX) > 0 && player.transform.position.y < 5f) 
             {
-                //Debug.Log($"Speed before stop was {playerRb.linearVelocityX}");
-
-                // Player has stopped moving, trigger state change to Stopped
                 ChangePlayerState(PlayerState.Stopped);
 
                 FreezePlayerMovement();
-                
             }
         }
     }

@@ -12,20 +12,22 @@ public class EnemyClear : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerStateMachine.OnReadyToLaunch += ClearEnemies;
+        PlayerStateMachine.OnStopped += ClearEnemies;
+
+        PlayerStateMachine.OnReadyToLaunch += DisableCollider;
         PlayerStateMachine.OnRolling += DisableCollider;
         PlayerStateMachine.OnFlying += DisableCollider;
         PlayerStateMachine.OnInactive += DisableCollider;
-        PlayerStateMachine.OnStopped += DisableCollider;
     }
 
     private void OnDisable()
     {
-        PlayerStateMachine.OnReadyToLaunch -= ClearEnemies;
+        PlayerStateMachine.OnStopped -= ClearEnemies;
+
+        PlayerStateMachine.OnReadyToLaunch -= DisableCollider;
         PlayerStateMachine.OnRolling -= DisableCollider;
         PlayerStateMachine.OnFlying -= DisableCollider;
         PlayerStateMachine.OnInactive -= DisableCollider;
-        PlayerStateMachine.OnStopped -= DisableCollider;
     }
 
     private void ClearEnemies()
@@ -33,7 +35,7 @@ public class EnemyClear : MonoBehaviour
         enemyClearCollider.enabled = true;
 
         // Get all colliders overlapping this BoxCollider
-        Collider2D[] hits = new Collider2D[50]; // max 50 enemies at once, adjust if needed
+        Collider2D[] hits = new Collider2D[100]; 
         ContactFilter2D filter = new ContactFilter2D();
         filter.SetLayerMask(LayerMask.GetMask("Enemy"));
         filter.useTriggers = true;
@@ -50,7 +52,7 @@ public class EnemyClear : MonoBehaviour
             }
         }
 
-        enemyClearCollider.enabled = false; // turn off after clearing
+        enemyClearCollider.enabled = false;
     }
 
     private void DisableCollider()

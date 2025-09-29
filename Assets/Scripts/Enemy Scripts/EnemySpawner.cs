@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -14,8 +13,6 @@ public class EnemySpawner : MonoBehaviour
     private bool canSpawn = false;
     private float timer = 0f;
 
-    // Track all spawned enemies
-    private List<Enemy> activeEnemies = new List<Enemy>();
 
     void Awake()
     {
@@ -56,39 +53,44 @@ public class EnemySpawner : MonoBehaviour
                 timer = 0f;
             }
         }
-
-        // Check for off-screen enemies and despawn
-        //for (int i = activeEnemies.Count - 1; i >= 0; i--)
-        //{
-        //    if (activeEnemies[i] != null && ShouldDespawn(activeEnemies[i].transform.position))
-        //    {
-        //        Destroy(activeEnemies[i].gameObject);
-        //        activeEnemies.RemoveAt(i);
-        //    }
-        //}
     }
 
     void SpawnEnemy()
     {
         if (enemyPrefab == null) return;
 
-        Vector2 rightEdge = cam.ViewportToWorldPoint(new Vector3(1, 0.5f, 0));
-        Vector2 spawnPos = new Vector2(rightEdge.x + spawnOffset, spawnY);
-
-        GameObject enemyObj = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-
-        Enemy enemy = enemyObj.GetComponent<Enemy>();
-        if (enemy != null)
+        // Get the size of the BoxCollider2D on the prefab
+        BoxCollider2D prefabCollider = enemyPrefab.GetComponent<BoxCollider2D>();
+        if (prefabCollider == null)
         {
-            activeEnemies.Add(enemy);
+            Debug.LogError("Enemy prefab does not have a BoxCollider2D attached.");
+            return;
         }
+
+        Vector2 colliderSize = prefabCollider.size;
+        Vector2 overlapBoxSize = colliderSize * 2f; // Double the size for spacing
+
+        Vector2 rightEdge = cam.ViewportToWorldPoint(new Vector3(1, 0.5f, 0));
+
+        const int maxAttempts = 10;
+        for (int attempt = 0; attempt < maxAttempts; attempt++)
+        {
+            float randomSpawnOffset = Random.Range(0.25f, 0.75f);
+            Vector2 spawnPos = new Vector2(rightEdge.x + randomSpawnOffset, spawnY);
+
+            Collider2D hit = Physics2D.OverlapBox(spawnPos, overlapBoxSize, 0f, LayerMask.GetMask("Enemies"));
+
+            if (hit == null || !hit.CompareTag("Enemy"))
+            {
+                Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+                return;
+            }
+        }
+
+        Debug.LogWarning("EnemySpawner: Could not find valid spawn position after multiple attempts.");
     }
 
-    public bool ShouldDespawn(Vector2 position)
-    {
-        Vector2 leftEdge = cam.ViewportToWorldPoint(new Vector3(0, 0.5f, 0));
-        return position.x <= leftEdge.x - 0.5f; // just outside camera
-    }
+
 
     private void EnableSpawning() => canSpawn = true;
     private void DisableSpawning() => canSpawn = false;
@@ -96,21 +98,6 @@ public class EnemySpawner : MonoBehaviour
     private void OnPlayerReadyToLaunch()
     {
         DisableSpawning();
-
-        // Destroy all active enemies
-        for (int i = activeEnemies.Count - 1; i >= 0; i--)
-        {
-            if (activeEnemies[i] != null)
-                Destroy(activeEnemies[i].gameObject);
-        }
-
-        activeEnemies.Clear();
     }
 
-    // Called by Enemy when it dies
-    public void NotifyEnemyDestroyed(Enemy enemy)
-    {
-        if (activeEnemies.Contains(enemy))
-            activeEnemies.Remove(enemy);
-    }
 }
