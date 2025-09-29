@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class PlayerStateMachine : MonoBehaviour
 {
@@ -130,16 +131,17 @@ public class PlayerStateMachine : MonoBehaviour
 
     private IEnumerator FreezeRoutine()
     {
-        // Make the player kinematic to stop movement
+        // HARD STOP THE PLAYER
         playerRb.bodyType = RigidbodyType2D.Kinematic;
         playerRb.linearVelocity = Vector2.zero;
         playerRb.angularVelocity = 0f;
         player.transform.rotation = Quaternion.identity;
 
-        // Wait for 0.25 seconds
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.05f);
 
-        // Restore dynamic behavior
+        Vector3 pos = player.transform.position;
+        pos.y = 0.51f;
+        player.transform.position = pos;
         playerRb.bodyType = RigidbodyType2D.Dynamic;
     }
 }
