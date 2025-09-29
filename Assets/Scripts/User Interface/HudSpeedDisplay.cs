@@ -1,26 +1,30 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class HudSpeedDisplay : MonoBehaviour
 {
     public Rigidbody2D playerRb;
     public TextMeshProUGUI speedText;
 
+    public TextMeshProUGUI heightText;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public float groundHeight = -0.51f;
 
     public void measurePlayerSpeed()
     {
-        speedText.text = "Speed: " + playerRb.linearVelocityX.ToString("F2");
+        speedText.text = $"Speed: {playerRb.linearVelocityX:F2}";
+    }
+
+    public void measurePlayerHeight()
+    {
+        float currentHeight = playerRb.transform.position.y - groundHeight;
+        heightText.text = $"Height: {currentHeight:F2} meters";
     }
 
     void FixedUpdate()
     {
         measurePlayerSpeed();
+        measurePlayerHeight();
     }
 }
