@@ -67,7 +67,7 @@ public class PlayerResultsManager : MonoBehaviour
 
         // Position and show confirm button
         confirmButton.SetActive(true);
-        Vector3 confirmButtonPosition = basePosition + new Vector3(10f, 0f, 0f); // 10f to the right
+        Vector3 confirmButtonPosition = basePosition + new Vector3(5f, -bannerGroundOffsetY, 0f); // 10f to the right
         confirmButton.GetComponent<RectTransform>().position = confirmButtonPosition;
     }
 
