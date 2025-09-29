@@ -6,6 +6,7 @@ public class PlayerResultsManager : MonoBehaviour
     public Respawner respawner;
 
     public GameObject player;
+    public GameObject ground;
     public GameObject respawnPoint;
     public Vector2 startPosition;
     public ScreenChangingButtons UIManager;
@@ -15,6 +16,8 @@ public class PlayerResultsManager : MonoBehaviour
     public GameObject confirmButton;
 
     float highScore = 0f;
+
+    public float bannerGroundOffsetY = 1f;
 
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI distanceTraveledThisRunText;
@@ -42,7 +45,7 @@ public class PlayerResultsManager : MonoBehaviour
     void ShowDistanceTraveled()
     {
         float distance = RecordedFinalDistanceX();
-        Vector3 basePosition = new Vector3(finalPosition.x, finalPosition.y + 2f, 0f); // distance banner base
+        Vector3 basePosition = new Vector3(finalPosition.x, bannerGroundOffsetY + 2f, 0f);
 
         // Position and show distance banner
         distanceBanner.SetActive(true);
@@ -52,15 +55,11 @@ public class PlayerResultsManager : MonoBehaviour
         if (highScore < distance)
         {
             highScore = distance;
-            highScoreText.text = $"New HighScore! {highScore:F1}";
+            highScoreText.text = $"New High Score! {highScore:F1} meters";
             highScoreBanner.SetActive(true);
 
-            Vector3 highScorePosition = basePosition + new Vector3(0f, 3f, 0f); // 3f higher
+            Vector3 highScorePosition = basePosition + new Vector3(0f, bannerGroundOffsetY + 5f, 0f); 
             highScoreBanner.GetComponent<RectTransform>().position = highScorePosition;
-        }
-        else
-        {
-            highScoreBanner.SetActive(false);
         }
 
         // Update distance text
@@ -95,8 +94,6 @@ public class PlayerResultsManager : MonoBehaviour
     {
         distanceBanner.SetActive(false);
         distanceTraveledThisRunText.text = "";
-        highScoreBanner.SetActive(false);
-        highScoreText.text = "";
     }
 
     private void OnDestroy()
