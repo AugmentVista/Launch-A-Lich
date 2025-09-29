@@ -30,6 +30,7 @@ public class EnemySpawner : MonoBehaviour
 
         PlayerStateMachine.OnInactive += DisableSpawning;
         PlayerStateMachine.OnStopped += DisableSpawning;
+
         PlayerStateMachine.OnReadyToLaunch += OnPlayerReadyToLaunch;
     }
 
@@ -40,6 +41,7 @@ public class EnemySpawner : MonoBehaviour
 
         PlayerStateMachine.OnInactive -= DisableSpawning;
         PlayerStateMachine.OnStopped -= DisableSpawning;
+
         PlayerStateMachine.OnReadyToLaunch -= OnPlayerReadyToLaunch;
     }
 
@@ -56,14 +58,14 @@ public class EnemySpawner : MonoBehaviour
         }
 
         // Check for off-screen enemies and despawn
-        for (int i = activeEnemies.Count - 1; i >= 0; i--)
-        {
-            if (activeEnemies[i] != null && ShouldDespawn(activeEnemies[i].transform.position))
-            {
-                Destroy(activeEnemies[i].gameObject);
-                activeEnemies.RemoveAt(i);
-            }
-        }
+        //for (int i = activeEnemies.Count - 1; i >= 0; i--)
+        //{
+        //    if (activeEnemies[i] != null && ShouldDespawn(activeEnemies[i].transform.position))
+        //    {
+        //        Destroy(activeEnemies[i].gameObject);
+        //        activeEnemies.RemoveAt(i);
+        //    }
+        //}
     }
 
     void SpawnEnemy()

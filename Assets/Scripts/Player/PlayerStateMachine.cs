@@ -80,9 +80,6 @@ public class PlayerStateMachine : MonoBehaviour
         LaunchToMoving();
 
         MovingToStopped();
-
-        StoppedToLaunchReady();
-
     }
 
     private void LaunchToMoving()
@@ -120,20 +117,12 @@ public class PlayerStateMachine : MonoBehaviour
         }
     }
 
-    private void StoppedToLaunchReady()
+    public void StoppedToLaunchReady()
     {
         if (playerState == PlayerState.Stopped)
-        {
-            StartCoroutine(DelayAfterStopped(timeSpentStopped));
+        { 
+            ChangePlayerState(PlayerState.ReadyToLaunch);
         }
-    }
-
-    IEnumerator DelayAfterStopped(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        FreezePlayerMovement();
-        // Player has respawned, trigger state change to ReadyToLaunch
-        ChangePlayerState(PlayerState.ReadyToLaunch);
     }
 
 

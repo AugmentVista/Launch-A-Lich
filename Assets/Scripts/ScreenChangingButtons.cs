@@ -6,13 +6,15 @@ using UnityEngine.SceneManagement;
 public class ScreenChangingButtons : MonoBehaviour
 {
     [Header("UI Screens")]
-    public GameObject Options;
     public GameObject Menu;
-    public GameObject Gameplay;
-    public GameObject Pause;
-    public GameObject Credits;
-    public GameObject Results;
+    public GameObject Instructions;
+    public GameObject Options;
     public GameObject Shop;
+    public GameObject Pause;
+    public GameObject Gameplay;
+    public GameObject Results;
+    public GameObject Credits;
+    public GameObject Victory;
 
     [SerializeField] private GameObject LastScreenActive;
 
@@ -46,25 +48,22 @@ public class ScreenChangingButtons : MonoBehaviour
         Credits.gameObject.SetActive(false);
         Results.gameObject.SetActive(false);
         Shop.gameObject.SetActive(false);
+        Instructions.gameObject.SetActive(false);
+        Victory.gameObject.SetActive(false);
     }
 
-    /// <summary>
-    /// This method is called by other scripts when they need to change the screen
-    /// </summary>
-    /// <param name="screenToChangeTo"></param>
-    public void ExternalScreenChange(string screenToChangeTo)
-    {
-    }
 
     private GameObject GetCurrentActiveScreen()
     {
         if (Options.activeSelf) return Options;
+        if (Instructions.activeSelf) return Instructions;
         if (Menu.activeSelf) return Menu;
         if (Gameplay.activeSelf) return Gameplay;
         if (Pause.activeSelf) return Pause;
         if (Credits.activeSelf) return Credits;
         if (Results.activeSelf) return Results;
         if (Shop.activeSelf) return Shop;
+        if (Victory.activeSelf) return Victory;
         return null;
     }
 
@@ -98,7 +97,7 @@ public class ScreenChangingButtons : MonoBehaviour
     {
         LastScreenActive = GetCurrentActiveScreen();
 
-        SetScreen(Gameplay);
+        SetScreen(Instructions);
     }
 
     public void B_CreditsMenu()
@@ -120,6 +119,13 @@ public class ScreenChangingButtons : MonoBehaviour
         LastScreenActive = GetCurrentActiveScreen();
 
         SetScreen(Pause);
+    }
+
+    public void B_Results()
+    {
+        LastScreenActive = GetCurrentActiveScreen();
+
+        SetScreen(Results);
     }
 
     public void B_Return()

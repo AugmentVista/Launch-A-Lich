@@ -1,62 +1,36 @@
 using UnityEngine;
-using System.Collections;
-
 
 public class Respawner : MonoBehaviour
 {
-    [SerializeField] GameObject player;
-
+    [SerializeField] private GameObject player;
 
     public static bool hasPlayerReturnedToLaunchpad = false;
 
-    void Start()
-    {
-        PlayerStateMachine.OnStopped += StartRespawnTimer;
-    }
-
-    void StartRespawnTimer()
-    {
-        StartCoroutine(DelayBeforeRespawn(2.5f));
-    }
-
-    IEnumerator DelayBeforeRespawn(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        RespawnPlayer();
-    }
-
+    // Call this from PlayerResultsManager after results screen opens
     public void RespawnPlayer()
     {
         if (player != null)
         {
             player.transform.position = transform.position;
-            hasPlayerReturnedToLaunchpad = true;
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
             player = collision.gameObject;
-            PlayerStateMachine.OnStopped -= StartRespawnTimer;
+            hasPlayerReturnedToLaunchpad = true;
+            Debug.Log("Player has returned to launchpad.");
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
-            player = collision.gameObject;
             hasPlayerReturnedToLaunchpad = false;
-            PlayerStateMachine.OnStopped += StartRespawnTimer;
+            Debug.Log("Player has left the launchpad.");
         }
     }
-
-    private void OnDestroy()
-    {
-        Debug.Log("Respawner destroyed — unsubscribing from event.");
-        PlayerStateMachine.OnStopped -= StartRespawnTimer;
-    }
-
 }
