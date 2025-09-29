@@ -2,26 +2,27 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
-    [Header("References")]
     public Rigidbody2D playerRb;
 
-    [Header("Bounce Settings")]
-    public float minBounceVelocity = 5f; // Minimum Y velocity when bouncing on enemies
-    public float enemySlowFactor = 0.95f; // Horizontal slowdown when hitting enemy
-    public float floorSlowFactor = 0.7f; // Horizontal slowdown when hitting floor
+    public float minBounceVelocity = 4f;
+    public float enemySlowFactor = 0.95f;
+    public float floorSlowFactor = 0.7f;
 
     private PlayerStateMachine stateMachine;
+
+    private GameObject lastCollidedObject = null;
+    private float lastCollisionTime = 0f;
+    private float collisionIgnoreTime = 0.1f;
 
     private void Awake()
     {
         stateMachine = GetComponent<PlayerStateMachine>();
         if (stateMachine == null)
-            Debug.LogError("PlayerBase requires a PlayerStateMachine component on the same GameObject.");
+            Debug.LogError("PlayerBase requires a PlayerStateMachine component.");
     }
 
     private void Start()
     {
-        // Subscribe to player state events (optional if needed elsewhere)
         PlayerStateMachine.OnInactive += Inactive;
         PlayerStateMachine.OnRolling += Rolling;
         PlayerStateMachine.OnFlying += Flying;
@@ -57,53 +58,45 @@ public class PlayerBase : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Only apply bounce/velocity changes if player is moving
         if (stateMachine.playerState == PlayerStateMachine.PlayerState.Stopped ||
             stateMachine.playerState == PlayerStateMachine.PlayerState.ReadyToLaunch)
             return;
 
-        Vector2 vel = playerRb.linearVelocity;
+        // Prevent multiple triggers from same object
+        if (collision.gameObject == lastCollidedObject && Time.time - lastCollisionTime < collisionIgnoreTime)
+            return;
 
-        Debug.Log($"Player collided with {collision.gameObject.name}");
+        lastCollidedObject = collision.gameObject;
+        lastCollisionTime = Time.time;
+
+        Vector2 vel = playerRb.linearVelocity;
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            GameObject lastEnemy = collision.gameObject;
-            var enemyComponent = lastEnemy.GetComponent<Enemy>();
-            if (enemyComponent != null)
-            {
-                enemyComponent.isDead = true;
-            }
+            var enemy = collision.gameObject.GetComponent<Enemy>();
+            if (enemy != null)
+                enemy.isDead = true;
 
-            vel.x = Mathf.Min(vel.x - enemySlowFactor, 3.1f);
+            vel.x = Mathf.Max(vel.x * enemySlowFactor, 0f);
             vel.y = Mathf.Max(vel.y, minBounceVelocity);
         }
 
         if (collision.collider.CompareTag("Floor"))
         {
-            vel.x *= floorSlowFactor;
+            vel.x = Mathf.Max(vel.x * floorSlowFactor, 0f); // Clamp to prevent going left
         }
 
         playerRb.linearVelocity = vel;
     }
 
-    /// <summary>
-    /// Prevent the player from sliding slightly backwards
-    /// </summary>
     private void CounterBackwardsMovement()
     {
         Vector2 vel = playerRb.linearVelocity;
-
-        // If velocity is negative (moving left), clamp to zero
         if (vel.x < 0f)
-        {
             vel.x = 0f;
-        }
 
         playerRb.linearVelocity = vel;
     }
-
-    // --- Event handlers for PlayerStateMachine ---
     void Inactive() { }
     void Rolling() { }
     void Flying() { }
