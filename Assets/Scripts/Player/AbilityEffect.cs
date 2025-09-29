@@ -3,7 +3,8 @@ using UnityEngine;
 public class AbilityEffect : MonoBehaviour
 {
     private Animator animator;
-    public float Force = 50f;
+    public float forceX;
+    public float forceY;
 
     private void Start()
     {
@@ -19,7 +20,7 @@ public class AbilityEffect : MonoBehaviour
             if (playerRb != null)
             {
                 // Combine upward and rightward force into one vector
-                Vector2 force = (Vector2.up * Force*2) + (Vector2.right * Force);
+                Vector2 force = (Vector2.up * forceY) + (Vector2.right * forceX);
 
                 // Apply the force
                 playerRb.AddForce(force, ForceMode2D.Impulse);

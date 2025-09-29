@@ -13,7 +13,7 @@ public class PlayerResultsManager : MonoBehaviour
 
     public GameObject highScoreBanner;
     public GameObject distanceBanner;
-    public GameObject confirmButton;
+    public GameObject nextButton;
 
     float highScore = 0f;
 
@@ -32,7 +32,7 @@ public class PlayerResultsManager : MonoBehaviour
 
         distanceBanner.SetActive(false);
         highScoreBanner.SetActive(false);
-        confirmButton.SetActive(false);
+        nextButton.SetActive(false);
     }
 
     float RecordedFinalDistanceX()
@@ -66,9 +66,9 @@ public class PlayerResultsManager : MonoBehaviour
         distanceTraveledThisRunText.text = $"Distance Traveled: {distance:F1} meters";
 
         // Position and show confirm button
-        confirmButton.SetActive(true);
-        Vector3 confirmButtonPosition = basePosition + new Vector3(5f, -bannerGroundOffsetY, 0f); // 10f to the right
-        confirmButton.GetComponent<RectTransform>().position = confirmButtonPosition;
+        nextButton.SetActive(true);
+        Vector3 confirmButtonPosition = basePosition + new Vector3(15.1f, -bannerGroundOffsetY - 5.7f, 0f); // 10f to the right
+        nextButton.GetComponent<RectTransform>().position = confirmButtonPosition;
     }
 
     public void NextButton()
@@ -78,7 +78,7 @@ public class PlayerResultsManager : MonoBehaviour
 
     void ResultsMenu()
     {
-        confirmButton.SetActive(false);
+        nextButton.SetActive(false);
         UIManager.B_Results();
 
         if (respawner != null)
