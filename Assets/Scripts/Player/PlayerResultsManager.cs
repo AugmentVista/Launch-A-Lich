@@ -71,7 +71,7 @@ public class PlayerResultsManager : MonoBehaviour
         confirmButton.GetComponent<RectTransform>().position = confirmButtonPosition;
     }
 
-    public void distanceArrowButton()
+    public void NextButton()
     {
         ResultsMenu();
     }

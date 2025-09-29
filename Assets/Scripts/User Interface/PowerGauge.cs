@@ -9,7 +9,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] ScreenChangingButtons UIManager;
 
     [SerializeField] float chargeSpeed;
-    public float launchForceMultiplier;
+    [SerializeField]float launchForceMultiplier;
     float chargeAmount;
     public float force;
 
@@ -18,7 +18,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void Update()
     {
-        if (UIManager.Results.activeSelf) { return; }
+        if (!UIManager.Gameplay.activeSelf) { return; }
         if (isCharging)
         {
             chargeAmount += chargeSpeed * Time.deltaTime;
@@ -44,6 +44,8 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void Launch()
     {
+        launchForceMultiplier = Mathf.Clamp(launchForceMultiplier, 0.2f, 1f);
+
         playerRb.AddForce(transform.up * force * launchForceMultiplier, ForceMode2D.Impulse);
         playerRb.AddForce(transform.right * force * launchForceMultiplier, ForceMode2D.Impulse);
     }
