@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class PlayerStateMachine : MonoBehaviour
 {
@@ -8,12 +7,8 @@ public class PlayerStateMachine : MonoBehaviour
     public GameObject player;
     public Rigidbody2D playerRb;
 
-    public float angularDamping = 1f;
     public float speedToStopAt = 3f;
     public float flyingHeightThreshold = 15f;
-
-    float timeSpentStopped = 2f;
-
 
     public enum PlayerState
     {
@@ -122,7 +117,6 @@ public class PlayerStateMachine : MonoBehaviour
             ChangePlayerState(PlayerState.ReadyToLaunch);
         }
     }
-
 
     public void FreezePlayerMovement()
     {

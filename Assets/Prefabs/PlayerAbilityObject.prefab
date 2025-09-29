@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceX: 20
-  forceY: 10
+  forceY: 20
 --- !u!95 &-6549935195534877416
 Animator:
   serializedVersion: 7

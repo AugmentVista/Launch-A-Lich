@@ -5,7 +5,7 @@ public class AbilityCooldownBar : MonoBehaviour
 {
     [SerializeField] PlayerAbility ability;
 
-    public float cooldownDuration;
+    float cooldownDuration;
     private float cooldownTimer;
 
     public Image fillImage;
@@ -15,6 +15,7 @@ public class AbilityCooldownBar : MonoBehaviour
     private void Start()
     {
         cooldownDuration = ability.cooldown;
+        fillImage.fillAmount = 1f;
     }
 
     void Update()
@@ -23,14 +24,13 @@ public class AbilityCooldownBar : MonoBehaviour
         {
             cooldownTimer -= Time.deltaTime;
 
-            // Clamp value between 0 and 1
-            float fillAmount = Mathf.Clamp01(cooldownTimer / cooldownDuration);
+            float fillAmount = Mathf.Clamp01(1 - (cooldownTimer / cooldownDuration));
             fillImage.fillAmount = fillAmount;
 
             if (cooldownTimer <= 0f)
             {
                 isCoolingDown = false;
-                fillImage.fillAmount = 0f;
+                fillImage.fillAmount = 1f;
             }
         }
     }
@@ -39,7 +39,7 @@ public class AbilityCooldownBar : MonoBehaviour
     {
         cooldownTimer = cooldownDuration;
         isCoolingDown = true;
-        fillImage.fillAmount = 1f;
+        fillImage.fillAmount = 0f;
     }
 
     public bool IsOnCooldown()

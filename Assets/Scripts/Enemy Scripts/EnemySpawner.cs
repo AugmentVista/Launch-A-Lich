@@ -59,7 +59,7 @@ public class EnemySpawner : MonoBehaviour
         if (enemyPrefab == null) return;
 
         // Get the size of the BoxCollider2D on the prefab
-        BoxCollider2D prefabCollider = enemyPrefab.GetComponent<BoxCollider2D>();
+        CapsuleCollider2D prefabCollider = enemyPrefab.GetComponent<CapsuleCollider2D>();
         if (prefabCollider == null)
         {
             Debug.LogError("Enemy prefab does not have a BoxCollider2D attached.");

@@ -6323,8 +6323,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabToSpawn: {fileID: 5276539905045720938, guid: 5ff9a7bb24624dc4783e1203339d5cde, type: 3}
+  abilityCooldown: {fileID: 1605341350}
   mainCamera: {fileID: 330585545}
-  cooldown: 0.5
+  cooldown: 1
 --- !u!1 &1544343890
 GameObject:
   m_ObjectHideFlags: 0
@@ -6607,8 +6608,9 @@ GameObject:
   - component: {fileID: 1605341347}
   - component: {fileID: 1605341349}
   - component: {fileID: 1605341348}
+  - component: {fileID: 1605341350}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Ability Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6621,16 +6623,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605341346}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.025, y: 0.025, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 404365268}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -956.82, y: -527.31}
+  m_AnchoredPosition: {x: -769, y: -235}
   m_SizeDelta: {x: 256, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1605341348
@@ -6646,7 +6648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6671,6 +6673,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605341346}
   m_CullTransparentMesh: 1
+--- !u!114 &1605341350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605341346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ce34d6c8bced9e4ea7088b73708ff0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ability: {fileID: 1505092148}
+  fillImage: {fileID: 1605341348}
 --- !u!1 &1657336594
 GameObject:
   m_ObjectHideFlags: 0
@@ -8815,10 +8831,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 2119655190}
-  minBounceVelocity: 5
-  enemySlowFactor: 0.9
+  minBounceVelocity: 4
+  enemySlowFactor: 2
   floorSlowFactor: 0.7
-  backwardsThreshold: -0.05
 --- !u!114 &2119655194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8834,7 +8849,6 @@ MonoBehaviour:
   playerBase: {fileID: 2119655193}
   player: {fileID: 2119655188}
   playerRb: {fileID: 2119655190}
-  angularDamping: 1
   speedToStopAt: 3
   flyingHeightThreshold: 15
   playerState: 0

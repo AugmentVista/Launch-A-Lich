@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerAbility : MonoBehaviour
 {
     public GameObject prefabToSpawn;
+    [SerializeField] AbilityCooldownBar abilityCooldown;
 
     public Camera mainCamera;
     public float cooldown = 1f;
@@ -15,6 +16,11 @@ public class PlayerAbility : MonoBehaviour
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
+        }
+
+        if (abilityCooldown == null)
+        {
+            Debug.LogError("Dependency between PlayerAbility and AbilityCooldownBar is broken. Assign it in the inspector.");
         }
 
         PlayerStateMachine.OnRolling += EnableAbility;
@@ -37,17 +43,22 @@ public class PlayerAbility : MonoBehaviour
     {
         if (!abilityEnabled) return;
 
-        // Check cooldown
         if (Input.GetMouseButtonDown(0) && prefabToSpawn != null)
         {
             if (Time.time >= lastUseTime + cooldown)
             {
                 SpawnAbility();
                 lastUseTime = Time.time;
+
+                // Start cooldown bar
+                if (abilityCooldown != null)
+                {
+                    abilityCooldown.StartCooldown();
+                }
             }
             else
             {
-                Debug.Log("Ability on cooldown");
+                Debug.Log("Ability is still on cooldown.");
             }
         }
     }
@@ -55,8 +66,6 @@ public class PlayerAbility : MonoBehaviour
     private void SpawnAbility()
     {
         Vector3 mousePos = Input.mousePosition;
-
-        // Convert screen point to world point
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
         worldPos.z = 0f;
 

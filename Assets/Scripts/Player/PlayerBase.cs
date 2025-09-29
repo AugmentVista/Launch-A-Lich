@@ -9,7 +9,6 @@ public class PlayerBase : MonoBehaviour
     public float minBounceVelocity = 5f; // Minimum Y velocity when bouncing on enemies
     public float enemySlowFactor = 0.95f; // Horizontal slowdown when hitting enemy
     public float floorSlowFactor = 0.7f; // Horizontal slowdown when hitting floor
-    public float backwardsThreshold = -0.05f; // Prevent moving slightly backwards
 
     private PlayerStateMachine stateMachine;
 
@@ -76,8 +75,8 @@ public class PlayerBase : MonoBehaviour
                 enemyComponent.isDead = true;
             }
 
-            vel.x *= enemySlowFactor; // Reduce horizontal speed slightly
-            vel.y = Mathf.Max(vel.y, minBounceVelocity); // Apply vertical bounce
+            vel.x = Mathf.Min(vel.x - enemySlowFactor, 3.1f);
+            vel.y = Mathf.Max(vel.y, minBounceVelocity);
         }
 
         if (collision.collider.CompareTag("Floor"))
@@ -94,8 +93,12 @@ public class PlayerBase : MonoBehaviour
     private void CounterBackwardsMovement()
     {
         Vector2 vel = playerRb.linearVelocity;
-        if (vel.x < backwardsThreshold)
+
+        // If velocity is negative (moving left), clamp to zero
+        if (vel.x < 0f)
+        {
             vel.x = 0f;
+        }
 
         playerRb.linearVelocity = vel;
     }
