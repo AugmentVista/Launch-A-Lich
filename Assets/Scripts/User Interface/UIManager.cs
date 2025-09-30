@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ScreenChangingButtons : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     [Header("UI Screens")]
     public GameObject Menu;

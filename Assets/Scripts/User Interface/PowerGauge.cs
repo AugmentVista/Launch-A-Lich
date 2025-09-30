@@ -6,7 +6,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] Image gauge;
     [SerializeField] Rigidbody2D playerRb;
-    [SerializeField] ScreenChangingButtons UIManager;
+    [SerializeField] UIManager UIManager;
 
     [SerializeField] float chargeSpeed;
     [SerializeField]float launchForceMultiplier;

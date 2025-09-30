@@ -9,7 +9,7 @@ public class PlayerResultsManager : MonoBehaviour
     public GameObject ground;
     public GameObject respawnPoint;
     public Vector2 startPosition;
-    public ScreenChangingButtons UIManager;
+    public UIManager UIManager;
 
     public GameObject highScoreBanner;
     public GameObject distanceBanner;
