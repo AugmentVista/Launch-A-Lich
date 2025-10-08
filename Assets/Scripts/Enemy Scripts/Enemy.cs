@@ -5,6 +5,10 @@ public class Enemy : MonoBehaviour
     public float moveSpeed = 10f;
     public bool isDead = false;
 
+    public int damageValue;
+    public enum Type {Flying, Grounded };
+    public Type type;
+
     public GameObject deathPrefab;
 
     void Update()

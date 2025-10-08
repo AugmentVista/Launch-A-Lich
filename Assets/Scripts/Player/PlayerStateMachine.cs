@@ -27,11 +27,11 @@ public class PlayerStateMachine : MonoBehaviour
     public static event PlayerStateChange OnStopped;
     public static event PlayerStateChange OnReadyToLaunch;
 
-
     private void Start()
     {
         playerState = PlayerState.ReadyToLaunch;
     }
+
     public void ChangePlayerState(PlayerState state)
     {
         if (playerState == state)
