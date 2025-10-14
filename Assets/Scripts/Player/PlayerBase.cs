@@ -2,18 +2,14 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
-    public virtual int Health { get; set; } = 5000;
-    public virtual int MaxHealth { get; set; } = 5000;
+    public virtual int Health { get; set; } = 500;
+    public virtual int MaxHealth { get; set; } = 500;
 
     public Rigidbody2D playerRb;
 
     public float minBounceVelocity = 4f;
 
     [SerializeField] private PlayerStateMachine stateMachine;
-
-    private GameObject lastCollidedObject = null;
-    private float lastCollisionTime = 0f;
-    private float collisionIgnoreTime = 0.25f;
 
     private void Awake()
     {
@@ -39,40 +35,18 @@ public class PlayerBase : MonoBehaviour
         PlayerStateMachine.OnReadyToLaunch -= ReadyToLaunch;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (stateMachine.playerState == PlayerStateMachine.PlayerState.Stopped ||
-            stateMachine.playerState == PlayerStateMachine.PlayerState.ReadyToLaunch)
-            return;
-
-        // Prevent multiple triggers from same object
-        if (collision.gameObject == lastCollidedObject && Time.time - lastCollisionTime < collisionIgnoreTime)
-            return;
-
-        lastCollidedObject = collision.gameObject;
-        lastCollisionTime = Time.time;
-
-        //Vector2 vel = playerRb.linearVelocity;
-
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            //vel.y = Mathf.Max(vel.y, minBounceVelocity);
-        }
-
-        //playerRb.linearVelocity = vel;
-    }
-
     void Inactive() { }
     void Rolling() {  }
     void Flying() { }
     void Stopped() { }
-    void ReadyToLaunch() { }
+    void ReadyToLaunch() { ResetHealth(); }
 
     public virtual void ResetHealth()
     {
         Health = MaxHealth;
     }
 
+#region AngleMath
     private float DirectionToCustomPolarAngle(Vector2 direction)
     {
         float unityAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -158,6 +132,7 @@ public class PlayerBase : MonoBehaviour
         float angle = DirectionToCustomPolarAngle(direction);
         Debug.LogWarning($"Forward Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
     }
+    #endregion
 
     public virtual void Stop() { playerRb.linearVelocity = Vector2.zero; playerRb.angularVelocity = 0f; }
 
@@ -166,13 +141,16 @@ public class PlayerBase : MonoBehaviour
         float currentVelocity = playerRb.linearVelocityX;
 
         int newHealth = Health -= damage;
-        float newVelocity = currentVelocity - damage;
+        float speedReduction = damage / 10f;
+        float newVelocity = currentVelocity - Mathf.Max(currentVelocity * 0.9f, speedReduction);
 
         if (newHealth <= 0f) { Health = 0; }
         else if (newHealth > 0) { Health = newHealth; }
 
         if (newVelocity <= 3.0f) { Stop(); }
         else if (newVelocity > 3.0f) { playerRb.linearVelocityX = newVelocity; }
+
+        if (Health == 0f) { Stop(); }
             
     }
 

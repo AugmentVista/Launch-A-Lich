@@ -2631,7 +2631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 4302006093261710066, guid: 22a46fd4d8643be49991541ee05470fa, type: 3}
-  spawnInterval: 0.2
+  spawnInterval: 0.5
   spawnY: 1
   spawnOffset: 2
 --- !u!1 &562789418
@@ -5442,7 +5442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b75692208c051848aaa3990f6240bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageValue: 100000
+  damageValue: 100
 --- !u!1 &1042811318
 GameObject:
   m_ObjectHideFlags: 0
@@ -11153,7 +11153,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0.15
-  m_AngularDamping: 9
+  m_AngularDamping: 5000
   m_GravityScale: 4
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -11235,8 +11235,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRb: {fileID: 2119655190}
   minBounceVelocity: 4
-  enemySlowFactor: 0.95
-  floorSlowFactor: 0.7
   stateMachine: {fileID: 2119655194}
 --- !u!114 &2119655194
 MonoBehaviour:
@@ -11255,6 +11253,7 @@ MonoBehaviour:
   playerRb: {fileID: 2119655190}
   speedToStopAt: 3
   flyingHeightThreshold: 15
+  playerLinearX: 0
   playerState: 4
 --- !u!82 &2119655195
 AudioSource:
@@ -11416,8 +11415,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRb: {fileID: 2119655190}
   minBounceVelocity: 4
-  enemySlowFactor: 0.95
-  floorSlowFactor: 0.7
   stateMachine: {fileID: 2119655194}
   health: 0
 --- !u!1660057539 &9223372036854775807

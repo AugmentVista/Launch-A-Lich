@@ -25,7 +25,15 @@ public class PlayerInteractionHandler : PlayerBase
             {
                 XBiasPositive(enemy.damageValue);
             }
-            else if (Health > MaxHealth * 0.8f) { XBiasPositive(enemy.damageValue); }
+            if (Health > MaxHealth * 0.8f && enemy.type == Enemy.Type.Grounded) 
+            { 
+                XBiasPositive(enemy.damageValue); 
+            }
+            if (Health > MaxHealth * 0.8f && enemy.type == Enemy.Type.Flying)
+            {
+                XBiasPositive(enemy.damageValue);
+            }
+
             Debug.LogWarning("Player hit an enemy");
             TakeDamage(enemy.damageValue); health = Health;
 
