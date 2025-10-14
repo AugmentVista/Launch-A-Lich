@@ -7,7 +7,7 @@ public class PlayerStateMachine : MonoBehaviour
     public GameObject player;
     public Rigidbody2D playerRb;
 
-    public float speedToStopAt = 3f;
+    public float speedToStopAt = 5f;
     public float flyingHeightThreshold = 15f;
     public float playerLinearX;
 
@@ -103,7 +103,7 @@ public class PlayerStateMachine : MonoBehaviour
         if (playerState == PlayerState.Flying || playerState == PlayerState.Rolling)
         {
             // check that the player is moving at less than the speed limit and more than 0 to set it to 0 and that the player is on the ground.
-            if (Mathf.Abs(playerRb.linearVelocityX) <= speedToStopAt && Mathf.Abs(playerRb.linearVelocityX) >= 0 && player.transform.position.y < 5f) 
+            if (Mathf.Abs(playerRb.linearVelocityX) <= speedToStopAt && Mathf.Abs(playerRb.linearVelocityX) >= 0 && player.transform.position.y < 10f) 
             {
                 ChangePlayerState(PlayerState.Stopped);
 
@@ -134,7 +134,7 @@ public class PlayerStateMachine : MonoBehaviour
         player.transform.rotation = Quaternion.identity;
 
         yield return new WaitForSeconds(0.05f);
-
+        Debug.LogWarning("FREEZE ROUTINE CALLED");
         Vector3 pos = player.transform.position;
         pos.y = 0.51f;
         player.transform.position = pos;

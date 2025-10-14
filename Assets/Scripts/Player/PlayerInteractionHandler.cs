@@ -21,18 +21,23 @@ public class PlayerInteractionHandler : PlayerBase
             {
                 XBiasPositive(enemy.damageValue);
             }
+            if (Health >= MaxHealth * 0.8f && enemy.type == Enemy.Type.Flying)
+            {
+                XBiasPositive(enemy.damageValue);
+            }
             if (Health < MaxHealth * 0.8f && enemy.type == Enemy.Type.Grounded)
             {
-                XBiasPositive(enemy.damageValue);
+                //XBiasPositive(enemy.damageValue);
+                //LogarithmicBounce(25f, enemy.damageValue);
+                ApplyLog2Force(10f, enemy.damageValue);
             }
-            if (Health > MaxHealth * 0.8f && enemy.type == Enemy.Type.Grounded) 
-            { 
-                XBiasPositive(enemy.damageValue); 
-            }
-            if (Health > MaxHealth * 0.8f && enemy.type == Enemy.Type.Flying)
+            if (Health >= MaxHealth * 0.8f && enemy.type == Enemy.Type.Grounded) 
             {
-                XBiasPositive(enemy.damageValue);
+                //XBiasPositive(enemy.damageValue);
+                //LogarithmicBounce(25f, enemy.damageValue);
+                ApplyExp2Force(10f, enemy.damageValue);
             }
+            
 
             Debug.LogWarning("Player hit an enemy");
             TakeDamage(enemy.damageValue); health = Health;

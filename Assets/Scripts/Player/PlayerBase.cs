@@ -132,23 +132,67 @@ public class PlayerBase : MonoBehaviour
         float angle = DirectionToCustomPolarAngle(direction);
         Debug.LogWarning($"Forward Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
     }
+
+    public virtual void LogarithmicBounce(float inputX, float magnitude)
+    {
+        // Prevent domain errors (log of zero or negative)
+        if (inputX <= -2f)
+        {
+            Debug.LogWarning("Input too small for logarithmic force, must be > -2.");
+            return;
+        }
+
+        float y = 5f * Mathf.Log(inputX + 2f);  // Your logarithmic function
+        Vector2 direction = new Vector2(inputX, y).normalized;  // Normalize to get direction
+
+        Vector2 force = direction * magnitude;
+        playerRb.AddForce(force, ForceMode2D.Impulse);
+
+        Debug.LogWarning($"LogarithmicBounce: InputX: {inputX}, Y: {y:F2}, Force: {force}");
+    }
+
+    public virtual void ApplyLog2Force(float inputX, float magnitude) // forward curve
+    {
+        if (inputX <= 0f)
+        {
+            Debug.LogWarning("ApplyLog2Force: inputX must be > 0 for log2(x)");
+            return;
+        }
+
+        float y = Mathf.Log(inputX) / Mathf.Log(2f); // log base 2
+        Vector2 direction = new Vector2(inputX, y).normalized;
+
+        Vector2 force = direction * magnitude;
+        playerRb.AddForce(force, ForceMode2D.Impulse);
+
+        Debug.Log($"[Log2] inputX: {inputX}, y: {y}, direction: {direction}, force: {force}");
+    }
+
+    public virtual void ApplyExp2Force(float inputX, float magnitude) // upward curve
+    {
+        float y = Mathf.Pow(2f, inputX); // 2^x
+        Vector2 direction = new Vector2(inputX, y).normalized;
+
+        Vector2 force = direction * magnitude;
+        playerRb.AddForce(force, ForceMode2D.Impulse);
+
+        Debug.Log($"[Exp2] inputX: {inputX}, y: {y}, direction: {direction}, force: {force}");
+    }
+
+
     #endregion
 
-    public virtual void Stop() { playerRb.linearVelocity = Vector2.zero; playerRb.angularVelocity = 0f; }
+    public virtual void Stop() { playerRb.linearVelocity = Vector2.zero; playerRb.angularVelocity = 0f; Debug.LogError("STOP CALLED"); }
 
     public virtual void TakeDamage(int damage)
     {
         float currentVelocity = playerRb.linearVelocityX;
 
         int newHealth = Health -= damage;
-        float speedReduction = damage / 10f;
-        float newVelocity = currentVelocity - Mathf.Max(currentVelocity * 0.9f, speedReduction);
 
         if (newHealth <= 0f) { Health = 0; }
         else if (newHealth > 0) { Health = newHealth; }
 
-        if (newVelocity <= 3.0f) { Stop(); }
-        else if (newVelocity > 3.0f) { playerRb.linearVelocityX = newVelocity; }
 
         if (Health == 0f) { Stop(); }
             
