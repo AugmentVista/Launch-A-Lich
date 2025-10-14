@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
         {
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         }
-        else if (isDead)
+        if (isDead)
         {
             Die();
         }
@@ -29,7 +29,6 @@ public class Enemy : MonoBehaviour
         {
             Instantiate(deathPrefab, transform.position, Quaternion.identity);
         }
-
         Destroy(gameObject);
     }
 }

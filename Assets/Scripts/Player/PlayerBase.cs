@@ -2,20 +2,18 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
-    public virtual int Health { get; set; } = 100;
+    public virtual int Health { get; set; } = 5000;
     public virtual int MaxHealth { get; set; } = 5000;
 
     public Rigidbody2D playerRb;
 
     public float minBounceVelocity = 4f;
-    public float enemySlowFactor = 0.95f;
-    public float floorSlowFactor = 0.7f;
 
     [SerializeField] private PlayerStateMachine stateMachine;
 
     private GameObject lastCollidedObject = null;
     private float lastCollisionTime = 0f;
-    private float collisionIgnoreTime = 0.1f;
+    private float collisionIgnoreTime = 0.25f;
 
     private void Awake()
     {
@@ -54,31 +52,15 @@ public class PlayerBase : MonoBehaviour
         lastCollidedObject = collision.gameObject;
         lastCollisionTime = Time.time;
 
-        Vector2 vel = playerRb.linearVelocity;
+        //Vector2 vel = playerRb.linearVelocity;
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            var enemy = collision.gameObject.GetComponent<Enemy>();
-            if (enemy != null)
-                enemy.isDead = true;
-
-            vel.x = Mathf.Max(vel.x * enemySlowFactor);
-            vel.y = Mathf.Max(vel.y, minBounceVelocity);
+            //vel.y = Mathf.Max(vel.y, minBounceVelocity);
         }
 
-        //if (collision.collider.CompareTag("Ground"))
-        //{
-
-        //}
-
-        playerRb.linearVelocity = vel;
+        //playerRb.linearVelocity = vel;
     }
-
-    //private void FixedUpdate()
-    //{
-    //    float currentVelocity = playerRb.linearVelocityX;
-    //    if (currentVelocity < -0.1f) { playerRb.linearVelocityX = playerRb.linearVelocityX /-2; }
-    //}
 
     void Inactive() { }
     void Rolling() {  }
@@ -189,8 +171,8 @@ public class PlayerBase : MonoBehaviour
         if (newHealth <= 0f) { Health = 0; }
         else if (newHealth > 0) { Health = newHealth; }
 
-        if (newVelocity <= 5.0f) { Stop(); }
-        else if (newVelocity > 5.0f) { playerRb.linearVelocityX = newVelocity; }
+        if (newVelocity <= 3.0f) { Stop(); }
+        else if (newVelocity > 3.0f) { playerRb.linearVelocityX = newVelocity; }
             
     }
 

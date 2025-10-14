@@ -9,6 +9,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public float speedToStopAt = 3f;
     public float flyingHeightThreshold = 15f;
+    public float playerLinearX;
 
     public enum PlayerState
     {
@@ -65,6 +66,7 @@ public class PlayerStateMachine : MonoBehaviour
     }
     private void Update()
     {
+        playerLinearX = playerRb.linearVelocityX;
         DetermineState();
     }
 
@@ -101,7 +103,7 @@ public class PlayerStateMachine : MonoBehaviour
         if (playerState == PlayerState.Flying || playerState == PlayerState.Rolling)
         {
             // check that the player is moving at less than the speed limit and more than 0 to set it to 0 and that the player is on the ground.
-            if (Mathf.Abs(playerRb.linearVelocityX) <= speedToStopAt && Mathf.Abs(playerRb.linearVelocityX) > 0 && player.transform.position.y < 5f) 
+            if (Mathf.Abs(playerRb.linearVelocityX) <= speedToStopAt && Mathf.Abs(playerRb.linearVelocityX) >= 0 && player.transform.position.y < 5f) 
             {
                 ChangePlayerState(PlayerState.Stopped);
 
@@ -136,6 +138,5 @@ public class PlayerStateMachine : MonoBehaviour
         Vector3 pos = player.transform.position;
         pos.y = 0.51f;
         player.transform.position = pos;
-        //playerRb.bodyType = RigidbodyType2D.Dynamic;
     }
 }
