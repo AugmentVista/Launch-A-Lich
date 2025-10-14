@@ -136,6 +136,6 @@ public class PlayerStateMachine : MonoBehaviour
         Vector3 pos = player.transform.position;
         pos.y = 0.51f;
         player.transform.position = pos;
-        playerRb.bodyType = RigidbodyType2D.Dynamic;
+        //playerRb.bodyType = RigidbodyType2D.Dynamic;
     }
 }

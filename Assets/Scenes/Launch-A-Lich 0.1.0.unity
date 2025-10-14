@@ -2631,7 +2631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 4302006093261710066, guid: 22a46fd4d8643be49991541ee05470fa, type: 3}
-  spawnInterval: 0.5
+  spawnInterval: 0.2
   spawnY: 1
   spawnOffset: 2
 --- !u!1 &562789418
@@ -5279,9 +5279,10 @@ GameObject:
   - component: {fileID: 1042105325}
   - component: {fileID: 1042105324}
   - component: {fileID: 1042105326}
+  - component: {fileID: 1042105327}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Floor
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5429,6 +5430,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &1042105327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042105322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b75692208c051848aaa3990f6240bf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageValue: 100000
 --- !u!1 &1042811318
 GameObject:
   m_ObjectHideFlags: 0
@@ -8910,7 +8924,6 @@ Transform:
   - {fileID: 76444329}
   - {fileID: 1107986810}
   - {fileID: 410087041}
-  - {fileID: 1902506031}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1693488480
@@ -9945,11 +9958,11 @@ Transform:
   m_GameObject: {fileID: 1902506028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 10.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.6, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1693488479}
+  m_Father: {fileID: 2086947475}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1902506032
 MonoBehaviour:
@@ -10981,7 +10994,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 4.5, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1902506031}
   m_Father: {fileID: 1107986810}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2086947476
@@ -11101,6 +11115,7 @@ GameObject:
   - component: {fileID: 2119655194}
   - component: {fileID: 2119655195}
   - component: {fileID: 2119655196}
+  - component: {fileID: 2119655198}
   m_Layer: 0
   m_Name: PLAYER
   m_TagString: Player
@@ -11137,8 +11152,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0.25
-  m_AngularDamping: 0.4
+  m_LinearDamping: 0.15
+  m_AngularDamping: 9
   m_GravityScale: 4
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -11147,7 +11162,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
@@ -11222,6 +11237,7 @@ MonoBehaviour:
   minBounceVelocity: 4
   enemySlowFactor: 0.95
   floorSlowFactor: 0.7
+  stateMachine: {fileID: 2119655194}
 --- !u!114 &2119655194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11239,7 +11255,7 @@ MonoBehaviour:
   playerRb: {fileID: 2119655190}
   speedToStopAt: 3
   flyingHeightThreshold: 15
-  playerState: 0
+  playerState: 4
 --- !u!82 &2119655195
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11383,9 +11399,27 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.25}
-  m_Size: {x: 1.5, y: 2.5}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1.5, y: 2}
   m_Direction: 0
+--- !u!114 &2119655198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119655188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34b2c5e7b1c422b4f95448f56485e1a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRb: {fileID: 2119655190}
+  minBounceVelocity: 4
+  enemySlowFactor: 0.95
+  floorSlowFactor: 0.7
+  stateMachine: {fileID: 2119655194}
+  health: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

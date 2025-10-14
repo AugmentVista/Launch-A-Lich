@@ -1,10 +1,9 @@
 using UnityEngine;
-using System.Collections;
 
 public class PlayerBase : MonoBehaviour
 {
     public virtual int Health { get; set; } = 100;
-    public virtual int MaxHealth { get; set; } = 100;
+    public virtual int MaxHealth { get; set; } = 5000;
 
     public Rigidbody2D playerRb;
 
@@ -12,8 +11,7 @@ public class PlayerBase : MonoBehaviour
     public float enemySlowFactor = 0.95f;
     public float floorSlowFactor = 0.7f;
 
-
-    private PlayerStateMachine stateMachine;
+    [SerializeField] private PlayerStateMachine stateMachine;
 
     private GameObject lastCollidedObject = null;
     private float lastCollisionTime = 0f;
@@ -21,7 +19,6 @@ public class PlayerBase : MonoBehaviour
 
     private void Awake()
     {
-        stateMachine = GetComponent<PlayerStateMachine>();
         if (stateMachine == null)
             Debug.LogError("PlayerBase requires a PlayerStateMachine component.");
     }
@@ -42,23 +39,6 @@ public class PlayerBase : MonoBehaviour
         PlayerStateMachine.OnFlying -= Flying;
         PlayerStateMachine.OnStopped -= Stopped;
         PlayerStateMachine.OnReadyToLaunch -= ReadyToLaunch;
-    }
-
-    private void FixedUpdate()
-    {
-        CounterBackwardsMovement();
-        StopPlayerIfNecessary();
-    }
-
-    private void StopPlayerIfNecessary()
-    {
-        if (stateMachine.playerState == PlayerStateMachine.PlayerState.Stopped ||
-            stateMachine.playerState == PlayerStateMachine.PlayerState.ReadyToLaunch)
-        {
-            playerRb.linearVelocity = Vector2.zero;
-            playerRb.angularVelocity = 0f;
-            playerRb.rotation = 0f;
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -82,28 +62,26 @@ public class PlayerBase : MonoBehaviour
             if (enemy != null)
                 enemy.isDead = true;
 
-            vel.x = Mathf.Max(vel.x * enemySlowFactor, 0f);
+            vel.x = Mathf.Max(vel.x * enemySlowFactor);
             vel.y = Mathf.Max(vel.y, minBounceVelocity);
         }
 
-        if (collision.collider.CompareTag("Floor"))
-        {
-            vel.x = Mathf.Max(vel.x * floorSlowFactor, 0f); // Clamp to prevent going left
-        }
+        //if (collision.collider.CompareTag("Ground"))
+        //{
+
+        //}
 
         playerRb.linearVelocity = vel;
     }
 
-    private void CounterBackwardsMovement()
-    {
-        Vector2 vel = playerRb.linearVelocity;
-        if (vel.x < 0f)
-            vel.x = 0f;
+    //private void FixedUpdate()
+    //{
+    //    float currentVelocity = playerRb.linearVelocityX;
+    //    if (currentVelocity < -0.1f) { playerRb.linearVelocityX = playerRb.linearVelocityX /-2; }
+    //}
 
-        playerRb.linearVelocity = vel;
-    }
     void Inactive() { }
-    void Rolling() { }
+    void Rolling() {  }
     void Flying() { }
     void Stopped() { }
     void ReadyToLaunch() { }
@@ -113,60 +91,90 @@ public class PlayerBase : MonoBehaviour
         Health = MaxHealth;
     }
 
+    private float DirectionToCustomPolarAngle(Vector2 direction)
+    {
+        float unityAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float customPolarAngle = (90f - unityAngle + 360f) % 360f;
+        return customPolarAngle;
+    }
+
     public virtual void XBiasNegative(float magnitude)
     {
-        float radians = (120f - 90f) * Mathf.Deg2Rad;
+        float radians = (90f - 120f) * Mathf.Deg2Rad; // Intended angle: 120°
         Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
         Vector2 force = direction * magnitude;
         playerRb.AddForce(force, ForceMode2D.Impulse);
+
+        float angle = DirectionToCustomPolarAngle(direction);
+        Debug.LogWarning($"XBiasNegative Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
     }
 
     public virtual void XBiasPositive(float magnitude)
     {
-        float radians = (60f - 90f) * Mathf.Deg2Rad;
+        float radians = (90f - 60f) * Mathf.Deg2Rad; // Intended angle: 60°
         Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
         Vector2 force = direction * magnitude;
         playerRb.AddForce(force, ForceMode2D.Impulse);
+
+        float angle = DirectionToCustomPolarAngle(direction);
+        Debug.LogWarning($"XBiasPositive Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
     }
 
     public virtual void YBiasNegative(float magnitude)
     {
-        float radians = (150f - 90f) * Mathf.Deg2Rad;
+        float radians = (90f - 150f) * Mathf.Deg2Rad; // Intended angle: 150°
         Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
         Vector2 force = direction * magnitude;
         playerRb.AddForce(force, ForceMode2D.Impulse);
+
+        float angle = DirectionToCustomPolarAngle(direction);
+        Debug.LogWarning($"YBiasNegative Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
     }
 
     public virtual void YBiasPositive(float magnitude)
     {
-        float radians = (60f - 90f) * Mathf.Deg2Rad;
+        float radians = (90f - 30f) * Mathf.Deg2Rad; // Intended angle: 30°
         Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
         Vector2 force = direction * magnitude;
         playerRb.AddForce(force, ForceMode2D.Impulse);
+
+        float angle = DirectionToCustomPolarAngle(direction);
+        Debug.LogWarning($"YBiasPositive Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
     }
 
     public virtual void RandBiasNegative(float magnitude)
     {
-        float radians = Random.Range(95f - 90f, 150f - 90f) * Mathf.Deg2Rad;
+        float angleDeg = Random.Range(95f, 150f); // Custom polar angle range: 95°–150°
+        float radians = (90f - angleDeg) * Mathf.Deg2Rad;
         Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
         Vector2 force = direction * magnitude;
         playerRb.AddForce(force, ForceMode2D.Impulse);
+
+        float angle = DirectionToCustomPolarAngle(direction);
+        Debug.LogWarning($"RandBiasNegative Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
     }
 
     public virtual void RandBiasPositive(float magnitude)
     {
-        float radians = Random.Range(30f - 90f, 85f - 90f) * Mathf.Deg2Rad;
+        float angleDeg = Random.Range(30f, 85f); // Custom polar angle range: 30°–85°
+        float radians = (90f - angleDeg) * Mathf.Deg2Rad;
         Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
         Vector2 force = direction * magnitude;
         playerRb.AddForce(force, ForceMode2D.Impulse);
+
+        float angle = DirectionToCustomPolarAngle(direction);
+        Debug.LogWarning($"RandBiasPositive Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
     }
 
     public virtual void Forward(float magnitude)
     {
-        float radians = (90f - 90f) * Mathf.Deg2Rad; // which is 0 radians
+        float radians = (90f - 90f) * Mathf.Deg2Rad; // Intended angle: 90°
         Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
         Vector2 force = direction * magnitude;
         playerRb.AddForce(force, ForceMode2D.Impulse);
+
+        float angle = DirectionToCustomPolarAngle(direction);
+        Debug.LogWarning($"Forward Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
     }
 
     public virtual void Stop() { playerRb.linearVelocity = Vector2.zero; playerRb.angularVelocity = 0f; }
@@ -181,8 +189,8 @@ public class PlayerBase : MonoBehaviour
         if (newHealth <= 0f) { Health = 0; }
         else if (newHealth > 0) { Health = newHealth; }
 
-        if (newVelocity <= 8.0f) { Stop(); }
-        else if (newVelocity > 8.0f) { playerRb.linearVelocityX = newVelocity; }
+        if (newVelocity <= 5.0f) { Stop(); }
+        else if (newVelocity > 5.0f) { playerRb.linearVelocityX = newVelocity; }
             
     }
 

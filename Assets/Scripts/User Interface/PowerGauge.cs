@@ -39,14 +39,23 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         isCharging = false;
         launchForceMultiplier = chargeAmount;
         gauge.fillAmount = 0;
+        playerRb.bodyType = RigidbodyType2D.Dynamic;
         Launch();
     }
 
     private void Launch()
     {
         launchForceMultiplier = Mathf.Clamp(launchForceMultiplier, 0.2f, 1f);
+        float appliedForce = force * launchForceMultiplier;
 
-        playerRb.AddForce(transform.up * force * launchForceMultiplier, ForceMode2D.Impulse);
-        playerRb.AddForce(transform.right * force * launchForceMultiplier, ForceMode2D.Impulse);
+        //playerRb.AddForce(transform.up * appliedForce, ForceMode2D.Impulse);
+        //playerRb.AddForce(transform.right * appliedForce, ForceMode2D.Impulse);
+
+
+        float radians = (45f) * Mathf.Deg2Rad;
+        Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
+        Vector2 launchVector = direction * appliedForce;
+        playerRb.AddForce(launchVector, ForceMode2D.Impulse);
+
     }
 }

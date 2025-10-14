@@ -2,13 +2,21 @@ using UnityEngine;
 
 public class PlayerInteractionHandler : PlayerBase
 {
+    public int health;
+
+    private void Awake()
+    {
+        if (!playerRb) { playerRb = GetComponent<Rigidbody2D>(); }
+        Health = MaxHealth;
+        health = MaxHealth;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-
+            
             if (Health < MaxHealth * 0.8f && enemy.type == Enemy.Type.Flying)
             {
                 YBiasNegative(enemy.damageValue);
@@ -18,8 +26,8 @@ public class PlayerInteractionHandler : PlayerBase
                 XBiasNegative(enemy.damageValue);
             }
             else if (Health > MaxHealth * 0.8f) { Forward(enemy.damageValue); }
-
-            TakeDamage(enemy.damageValue);
+            Debug.LogWarning("Player hit an enemy");
+            TakeDamage(enemy.damageValue); health = Health;
         }
 
         if (collision.gameObject.CompareTag("Ground"))
@@ -58,8 +66,8 @@ public class PlayerInteractionHandler : PlayerBase
                     }
                     break;
             }
-
-            TakeDamage(ground.damageValue);
+            Debug.LogWarning("Player hit the ground");
+            TakeDamage(ground.damageValue); health = Health;
         }
 
     }
