@@ -29,13 +29,13 @@ public class PlayerInteractionHandler : PlayerBase
             {
                 //XBiasPositive(enemy.damageValue);
                 //LogarithmicBounce(25f, enemy.damageValue);
-                ApplyLog2Force(10f, enemy.damageValue);
+                ApplyExp2Force(4f, enemy.damageValue);
             }
             if (Health >= MaxHealth * 0.8f && enemy.type == Enemy.Type.Grounded) 
             {
                 //XBiasPositive(enemy.damageValue);
                 //LogarithmicBounce(25f, enemy.damageValue);
-                ApplyExp2Force(10f, enemy.damageValue);
+                ApplyLog2Force(4f, enemy.damageValue);
             }
             
 
@@ -50,38 +50,38 @@ public class PlayerInteractionHandler : PlayerBase
         {
             Ground ground = collision.gameObject.GetComponent<Ground>();
             YBiasPositive(ground.damageValue);
-            //switch (Health)
-            //{
-            //    case int i when (i == MaxHealth):
-            //        {
-            //            YBiasPositive(ground.damageValue); // A large amount of upward force, small amount of forward force
-            //                                               // No penalty, first one is free
-            //        }
-            //        break;
-            //    case int i when (i < MaxHealth && Mathf.Round(i) >= MaxHealth * 0.75f):
-            //        {
-            //            XBiasPositive(ground.damageValue / 2); // Small amount of upward force, medium amount of forward force
-            //                                                   // half penalty
-            //            Forward(-ground.damageValue);                                        
+            switch (Health)
+            {
+                case int i when (i == MaxHealth):
+                    {
+                        YBiasPositive(ground.damageValue); // A large amount of upward force, small amount of forward force
+                                                           // No penalty, first one is free
+                    }
+                    break;
+                case int i when (i < MaxHealth && Mathf.Round(i) >= MaxHealth * 0.75f):
+                    {
+                        XBiasPositive(ground.damageValue / 2); // Small amount of upward force, medium amount of forward force
+                                                               // half penalty
+                        Forward(-ground.damageValue);
 
-            //        }
-            //        break;
-            //    case int i when (Mathf.Round(i) < MaxHealth * 0.75f && Mathf.Round(i) >= MaxHealth * 0.5f):
-            //        {
-            //            YBiasPositive(ground.damageValue / 2); // Small amount of upward force, very small amount of forward force
-            //                                                   // Major Penalty
-            //            Forward(-ground.damageValue * 1.25f);
+                    }
+                    break;
+                case int i when (Mathf.Round(i) < MaxHealth * 0.75f && Mathf.Round(i) >= MaxHealth * 0.5f):
+                    {
+                        YBiasPositive(ground.damageValue / 2); // Small amount of upward force, very small amount of forward force
+                                                               // Major Penalty
+                        Forward(-ground.damageValue * 1.25f);
 
-            //        }
-            //        break;
-            //    case int i when (Mathf.Round(i) < MaxHealth * 0.5f):
-            //        {
-            //            YBiasPositive(ground.damageValue / 2); // Small amount of upward force, very small amount of forward force
-            //                                                   // Maximum Penalty
-            //            Forward(-ground.damageValue * 1.5f);
-            //        }
-            //        break;
-            //}
+                    }
+                    break;
+                case int i when (Mathf.Round(i) < MaxHealth * 0.5f):
+                    {
+                        YBiasPositive(ground.damageValue / 2); // Small amount of upward force, very small amount of forward force
+                                                               // Maximum Penalty
+                        Forward(-ground.damageValue * 1.5f);
+                    }
+                    break;
+            }
             Debug.LogWarning("Player hit the ground");
             TakeDamage(ground.damageValue); health = Health;
         }

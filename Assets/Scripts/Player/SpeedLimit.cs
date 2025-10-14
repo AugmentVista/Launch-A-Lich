@@ -1,0 +1,66 @@
+using UnityEngine;
+
+public class SpeedLimit : MonoBehaviour
+{
+    [SerializeField] Rigidbody2D playerRb;
+
+    public float maxSpeed;
+
+    [SerializeField] float baseLinearDampeningValue = 0.15f;
+
+    [SerializeField] HudSpeedDisplay hudDisplay;
+
+    void Start()
+    {
+        if (playerRb == null)
+            playerRb = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        float currentSpeedX = Mathf.Abs(playerRb.linearVelocityX);
+        float currentSpeedY = Mathf.Abs(playerRb.linearVelocityY);
+
+        float dampX = CalculateDamping(currentSpeedX);
+        float dampY = CalculateDamping(currentSpeedY);
+
+        // Choose the higher damping value
+        float finalDamping = Mathf.Max(dampX, dampY);
+
+        playerRb.linearDamping = Mathf.Lerp(playerRb.linearDamping, finalDamping, Time.deltaTime * 5f);
+
+        UpdateSpeedTextColor(playerRb.linearDamping);
+    }
+
+    private float CalculateDamping(float velocity)
+    {
+        if (velocity <= maxSpeed)
+            return baseLinearDampeningValue;
+
+        float excessRatio = (velocity - maxSpeed) / maxSpeed;
+        float addedDamping = excessRatio * (0.05f / 0.1f); 
+        return baseLinearDampeningValue + addedDamping;
+    }
+
+    private void UpdateSpeedTextColor(float currentDamping)
+    {
+        if (currentDamping >= 0.3f)
+        {
+            hudDisplay.speedText.color = new Color32(255, 0, 0, 255);
+        }
+        else
+        {
+            float excess = currentDamping - baseLinearDampeningValue;
+
+            // Normalize the excess to 0–1 for the range between base and 0.3
+            float t = Mathf.InverseLerp(0f, 0.3f - baseLinearDampeningValue, excess);
+
+            // Lerp from white to red
+            Color targetColor = Color.Lerp(Color.black, Color.red, t);
+
+            Color currentColor = hudDisplay.speedText.color;
+            hudDisplay.speedText.color = Color.Lerp(currentColor, targetColor, Time.deltaTime * 8f);
+        }
+    }
+
+}

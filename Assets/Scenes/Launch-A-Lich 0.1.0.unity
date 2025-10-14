@@ -5735,7 +5735,7 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 25.9
-  m_fontSizeBase: 36
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 10
@@ -11116,6 +11116,7 @@ GameObject:
   - component: {fileID: 2119655195}
   - component: {fileID: 2119655196}
   - component: {fileID: 2119655198}
+  - component: {fileID: 2119655199}
   m_Layer: 0
   m_Name: PLAYER
   m_TagString: Player
@@ -11417,6 +11418,22 @@ MonoBehaviour:
   minBounceVelocity: 4
   stateMachine: {fileID: 2119655194}
   health: 0
+--- !u!114 &2119655199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119655188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69fc107b1292fc418ce3c09ff6e2194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRb: {fileID: 2119655190}
+  maxSpeed: 50
+  baseLinearDampeningValue: 0.15
+  hudDisplay: {fileID: 2021085382}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
