@@ -10,9 +10,17 @@ public class HudSpeedDisplay : MonoBehaviour
 
     public float groundHeight = -0.51f;
 
+    //public void HighScoreTextColor()
+    //{
+    //    if (playerResults != null)
+    //    { 
+        
+    //    }
+    //}
+
     public void measurePlayerSpeed()
     {
-        speedText.text = $"Speed: {playerRb.linearVelocityX:F2}";
+        speedText.text = $"Speed: {playerRb.linearVelocityX:F2} meters";
     }
 
     public void measurePlayerHeight()

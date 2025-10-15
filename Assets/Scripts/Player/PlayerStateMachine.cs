@@ -7,7 +7,7 @@ public class PlayerStateMachine : MonoBehaviour
     public GameObject player;
     public Rigidbody2D playerRb;
 
-    public float speedToStopAt = 5f;
+    public float speedToStopAt = 4f;
     public float flyingHeightThreshold = 15f;
     public float playerLinearX;
 

@@ -10,6 +10,8 @@ public class SpeedLimit : MonoBehaviour
 
     [SerializeField] HudSpeedDisplay hudDisplay;
 
+    private float fullColorThreshold = 0.4f;
+
     void Start()
     {
         if (playerRb == null)
@@ -19,15 +21,10 @@ public class SpeedLimit : MonoBehaviour
     void Update()
     {
         float currentSpeedX = Mathf.Abs(playerRb.linearVelocityX);
-        float currentSpeedY = Mathf.Abs(playerRb.linearVelocityY);
 
         float dampX = CalculateDamping(currentSpeedX);
-        float dampY = CalculateDamping(currentSpeedY);
 
-        // Choose the higher damping value
-        float finalDamping = Mathf.Max(dampX, dampY);
-
-        playerRb.linearDamping = Mathf.Lerp(playerRb.linearDamping, finalDamping, Time.deltaTime * 5f);
+        playerRb.linearDamping = Mathf.Lerp(playerRb.linearDamping, dampX, Time.deltaTime * 5f);
 
         UpdateSpeedTextColor(playerRb.linearDamping);
     }
@@ -53,7 +50,7 @@ public class SpeedLimit : MonoBehaviour
             float excess = currentDamping - baseLinearDampeningValue;
 
             // Normalize the excess to 0–1 for the range between base and 0.3
-            float t = Mathf.InverseLerp(0f, 0.3f - baseLinearDampeningValue, excess);
+            float t = Mathf.InverseLerp(0f, fullColorThreshold - baseLinearDampeningValue, excess);
 
             // Lerp from white to red
             Color targetColor = Color.Lerp(Color.black, Color.red, t);

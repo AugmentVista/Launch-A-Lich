@@ -19,26 +19,21 @@ public class PlayerInteractionHandler : PlayerBase
 
             if (Health < MaxHealth * 0.8f && enemy.type == Enemy.Type.Flying)
             {
-                XBiasPositive(enemy.damageValue);
+                ApplyLog2Force(4f, enemy.damageValue);
             }
             if (Health >= MaxHealth * 0.8f && enemy.type == Enemy.Type.Flying)
             {
-                XBiasPositive(enemy.damageValue);
+                ApplyLog2Force(4f, enemy.damageValue);
             }
             if (Health < MaxHealth * 0.8f && enemy.type == Enemy.Type.Grounded)
             {
-                //XBiasPositive(enemy.damageValue);
-                //LogarithmicBounce(25f, enemy.damageValue);
                 ApplyExp2Force(4f, enemy.damageValue);
             }
             if (Health >= MaxHealth * 0.8f && enemy.type == Enemy.Type.Grounded) 
             {
-                //XBiasPositive(enemy.damageValue);
-                //LogarithmicBounce(25f, enemy.damageValue);
-                ApplyLog2Force(4f, enemy.damageValue);
+                ApplyExp2Force(4f, enemy.damageValue);
             }
             
-
             Debug.LogWarning("Player hit an enemy");
             TakeDamage(enemy.damageValue); health = Health;
 
@@ -49,36 +44,26 @@ public class PlayerInteractionHandler : PlayerBase
         if (collision.gameObject.CompareTag("Ground"))
         {
             Ground ground = collision.gameObject.GetComponent<Ground>();
-            YBiasPositive(ground.damageValue);
             switch (Health)
             {
                 case int i when (i == MaxHealth):
                     {
-                        YBiasPositive(ground.damageValue); // A large amount of upward force, small amount of forward force
-                                                           // No penalty, first one is free
+                        ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.95f);
                     }
                     break;
                 case int i when (i < MaxHealth && Mathf.Round(i) >= MaxHealth * 0.75f):
                     {
-                        XBiasPositive(ground.damageValue / 2); // Small amount of upward force, medium amount of forward force
-                                                               // half penalty
-                        Forward(-ground.damageValue);
-
+                        ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.9f);
                     }
                     break;
                 case int i when (Mathf.Round(i) < MaxHealth * 0.75f && Mathf.Round(i) >= MaxHealth * 0.5f):
                     {
-                        YBiasPositive(ground.damageValue / 2); // Small amount of upward force, very small amount of forward force
-                                                               // Major Penalty
-                        Forward(-ground.damageValue * 1.25f);
-
+                        ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.85f);
                     }
                     break;
                 case int i when (Mathf.Round(i) < MaxHealth * 0.5f):
                     {
-                        YBiasPositive(ground.damageValue / 2); // Small amount of upward force, very small amount of forward force
-                                                               // Maximum Penalty
-                        Forward(-ground.damageValue * 1.5f);
+                        ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.75f);
                     }
                     break;
             }

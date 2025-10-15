@@ -45,7 +45,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void Launch()
     {
-        launchForceMultiplier = Mathf.Clamp(launchForceMultiplier, 0.2f, 1f);
+        launchForceMultiplier = Mathf.Clamp(launchForceMultiplier, 0.25f, 1f);
         float appliedForce = force * launchForceMultiplier;
 
         //playerRb.AddForce(transform.up * appliedForce, ForceMode2D.Impulse);
