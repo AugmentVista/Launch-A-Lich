@@ -7,8 +7,6 @@ public class PlayerBase : MonoBehaviour
 
     public Rigidbody2D playerRb;
 
-    public float minBounceVelocity = 4f;
-
     [SerializeField] private PlayerStateMachine stateMachine;
 
     private void Awake()
@@ -170,7 +168,7 @@ public class PlayerBase : MonoBehaviour
 
     public virtual void ApplyExp2Force(float inputX, float magnitude) // upward curve
     {
-        float y = Mathf.Pow(2f, inputX); // 2^x
+        float y = Mathf.Pow(2f, inputX);
         Vector2 direction = new Vector2(inputX, y).normalized;
 
         Vector2 force = direction * magnitude;
