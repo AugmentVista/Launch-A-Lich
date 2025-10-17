@@ -213,8 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9a3be55128d9b4b95bab6f7d126b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
   isDead: 0
-  damageValue: 50
+  damageValue: 5
   type: 1
   deathPrefab: {fileID: 0}

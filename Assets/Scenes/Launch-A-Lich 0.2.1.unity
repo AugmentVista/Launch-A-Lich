@@ -2602,7 +2602,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &541541011
 Transform:
   m_ObjectHideFlags: 0
@@ -5618,7 +5618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b75692208c051848aaa3990f6240bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageValue: 100
+  damageValue: 30
 --- !u!1 &1042811318
 GameObject:
   m_ObjectHideFlags: 0
@@ -11296,10 +11296,10 @@ GameObject:
   - component: {fileID: 2119655190}
   - component: {fileID: 2119655193}
   - component: {fileID: 2119655194}
-  - component: {fileID: 2119655195}
   - component: {fileID: 2119655196}
   - component: {fileID: 2119655198}
   - component: {fileID: 2119655199}
+  - component: {fileID: 2119655195}
   m_Layer: 0
   m_Name: PLAYER
   m_TagString: Player
@@ -11418,7 +11418,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 2119655190}
-  minBounceVelocity: 4
   stateMachine: {fileID: 2119655194}
 --- !u!114 &2119655194
 MonoBehaviour:
@@ -11598,9 +11597,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 2119655190}
-  minBounceVelocity: 4
   stateMachine: {fileID: 2119655194}
   health: 0
+  enemyForceMult: 4
 --- !u!114 &2119655199
 MonoBehaviour:
   m_ObjectHideFlags: 0

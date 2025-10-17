@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
-    public virtual int Health { get; set; } = 398;
-    public virtual int MaxHealth { get; set; } = 398;
+    public virtual int Health { get; set; } = 100;
+    public virtual int MaxHealth { get; set; } = 100;
 
     public Rigidbody2D playerRb;
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float moveSpeed = 10f;
+    private float moveSpeed;
     public bool isDead = false;
 
     public int damageValue;
@@ -11,10 +11,16 @@ public class Enemy : MonoBehaviour
 
     public GameObject deathPrefab;
 
+    private void Start()
+    {
+        moveSpeed = Random.Range(5f, 15f);
+    }
+
     void Update()
     {
         if (!isDead)
         {
+            
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         }
         if (isDead)

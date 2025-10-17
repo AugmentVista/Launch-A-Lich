@@ -4,6 +4,8 @@ public class PlayerInteractionHandler : PlayerBase
 {
     public int health;
 
+    public int enemyForceMult;
+
     private void Awake()
     {
         if (!playerRb) { playerRb = GetComponent<Rigidbody2D>(); }
@@ -19,19 +21,19 @@ public class PlayerInteractionHandler : PlayerBase
 
             if (Health < MaxHealth * 0.8f && enemy.type == Enemy.Type.Flying)
             {
-                ApplyLog2Force(4f, enemy.damageValue);
+                ApplyLog2Force(4f, enemy.damageValue * enemyForceMult);
             }
             if (Health >= MaxHealth * 0.8f && enemy.type == Enemy.Type.Flying)
             {
-                ApplyLog2Force(4f, enemy.damageValue);
+                ApplyLog2Force(4f, enemy.damageValue * enemyForceMult);
             }
             if (Health < MaxHealth * 0.8f && enemy.type == Enemy.Type.Grounded)
             {
-                ApplyExp2Force(4f, enemy.damageValue);
+                ApplyExp2Force(4f, enemy.damageValue * enemyForceMult);
             }
             if (Health >= MaxHealth * 0.8f && enemy.type == Enemy.Type.Grounded) 
             {
-                ApplyExp2Force(4f, enemy.damageValue);
+                ApplyExp2Force(4f, enemy.damageValue * enemyForceMult);
             }
             
             Debug.LogWarning("Player hit an enemy");

@@ -27,8 +27,6 @@ public class PlayerResultsManager : MonoBehaviour
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI distanceTraveledThisRunText;
 
-    Vector2 finalPosition;
-
     private void Start()
     {
         startPosition = new Vector2(respawnPoint.transform.position.x, respawnPoint.transform.position.y);
@@ -101,7 +99,7 @@ public class PlayerResultsManager : MonoBehaviour
         else
         {
             distanceBanner.SetActive(true);
-            distanceBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 2f, basePosition.z);
+            distanceBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 3f, basePosition.z);
             distanceTraveledThisRunText.text = $"Distance traveled {distanceThisRun:F1} meters\nHeight reached {heightThisRun:F1} meters";
         }
 
