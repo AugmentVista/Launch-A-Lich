@@ -19,7 +19,8 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private void Update()
     {
         if (!UIManager.Gameplay.activeSelf) { return; }
-        if (isCharging)
+        if (!Respawner.hasPlayerReturnedToLaunchpad) { return; }
+        if (isCharging && Respawner.hasPlayerReturnedToLaunchpad)
         {
             chargeAmount += chargeSpeed * Time.deltaTime;
             chargeAmount = Mathf.Clamp01(chargeAmount);
@@ -45,6 +46,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void Launch()
     {
+        if (!Respawner.hasPlayerReturnedToLaunchpad) { return; }
         launchForceMultiplier = Mathf.Clamp(launchForceMultiplier, 0.25f, 1f);
         float appliedForce = force * launchForceMultiplier;
 

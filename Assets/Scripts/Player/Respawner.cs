@@ -29,6 +29,7 @@ public class Respawner : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            player = collision.gameObject;
             hasPlayerReturnedToLaunchpad = false;
             Debug.Log("Player has left the launchpad.");
         }

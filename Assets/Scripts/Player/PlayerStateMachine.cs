@@ -5,6 +5,7 @@ public class PlayerStateMachine : MonoBehaviour
 {
     public PlayerBase playerBase;
     public GameObject player;
+    public GameObject Ground;
     public Rigidbody2D playerRb;
 
     public float speedToStopAt = 4f;
@@ -136,7 +137,7 @@ public class PlayerStateMachine : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         Debug.LogWarning("FREEZE ROUTINE CALLED");
         Vector3 pos = player.transform.position;
-        pos.y = 0.51f;
+        pos.y = Ground.transform.position.y - Ground.transform.position.y + 1f;
         player.transform.position = pos;
     }
 }
