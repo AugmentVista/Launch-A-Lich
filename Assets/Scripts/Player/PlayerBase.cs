@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerBase : MonoBehaviour
 {
     public virtual int Health { get; set; } = 100;
-    public virtual int MaxHealth { get; set; } = 1000;
+    public virtual int MaxHealth { get; set; } = 500;
 
     public Rigidbody2D playerRb;
 
@@ -44,7 +44,23 @@ public class PlayerBase : MonoBehaviour
         Health = MaxHealth;
     }
 
-#region AngleMath
+    private void FixedUpdate()
+    {
+        float zRotation = transform.eulerAngles.z;
+
+        // Convert 0–360 to -180 to 180
+        if (zRotation > 180)
+            zRotation -= 360;
+
+        // Clamp between -10 and 10 degrees
+        zRotation = Mathf.Clamp(zRotation, -10f, 10f);
+
+        transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
+    }
+
+
+
+    #region AngleMath
     private float DirectionToCustomPolarAngle(Vector2 direction)
     {
         float unityAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

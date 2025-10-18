@@ -1,12 +1,13 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
 
-    private float spawnInterval = 2f;
+    [SerializeField] GameObject GroundEnemy;
+    [SerializeField] GameObject FlyingEnemy;
+
+    private float spawnInterval = 0.25f;
     public float spawnY = 0f;
     public float spawnOffset = 2f;  // how far past right edge to spawn
 
@@ -26,8 +27,6 @@ public class EnemySpawner : MonoBehaviour
         PlayerStateMachine.OnGrounded += EnableSpawning;
         PlayerStateMachine.OnFlying += EnableSpawning;
 
-        PlayerStateMachine.OnFlying += SpawnFlyingEnemies;
-
         PlayerStateMachine.OnInactive += DisableSpawning;
         PlayerStateMachine.OnStopped += DisableSpawning;
 
@@ -39,8 +38,6 @@ public class EnemySpawner : MonoBehaviour
         PlayerStateMachine.OnGrounded -= EnableSpawning;
         PlayerStateMachine.OnFlying -= EnableSpawning;
 
-        PlayerStateMachine.OnFlying -= SpawnFlyingEnemies;
-
         PlayerStateMachine.OnInactive -= DisableSpawning;
         PlayerStateMachine.OnStopped -= DisableSpawning;
 
@@ -51,7 +48,14 @@ public class EnemySpawner : MonoBehaviour
     {
         if (canSpawn)
         {
+            if (cam.transform.position.y < -520f)
+            {
+                SpawnFlyingEnemies();
+            }
+            else { SpawnGroundedEnemies(); }
+
             timer += Time.deltaTime;
+
             if (timer >= spawnInterval)
             {
                 SpawnEnemy();
@@ -60,7 +64,20 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    void SpawnFlyingEnemies() { }
+    void SpawnFlyingEnemies() 
+    {
+        enemyPrefab = FlyingEnemy;
+        spawnY = Random.Range(cam.transform.position.y - 5f, cam.transform.position.y + 5f);
+        spawnInterval = 0.35f;
+    }
+
+    void SpawnGroundedEnemies()
+    {
+        enemyPrefab = GroundEnemy;
+        spawnY = 0f;
+        spawnInterval = 0.25f;
+    }
+
 
     void SpawnEnemy()
     {
