@@ -15,7 +15,7 @@ public class EnemyClear : MonoBehaviour
         PlayerStateMachine.OnStopped += ClearEnemies;
 
         PlayerStateMachine.OnReadyToLaunch += DisableCollider;
-        PlayerStateMachine.OnRolling += DisableCollider;
+        PlayerStateMachine.OnGrounded += DisableCollider;
         PlayerStateMachine.OnFlying += DisableCollider;
         PlayerStateMachine.OnInactive += DisableCollider;
     }
@@ -25,7 +25,7 @@ public class EnemyClear : MonoBehaviour
         PlayerStateMachine.OnStopped -= ClearEnemies;
 
         PlayerStateMachine.OnReadyToLaunch -= DisableCollider;
-        PlayerStateMachine.OnRolling -= DisableCollider;
+        PlayerStateMachine.OnGrounded -= DisableCollider;
         PlayerStateMachine.OnFlying -= DisableCollider;
         PlayerStateMachine.OnInactive -= DisableCollider;
     }

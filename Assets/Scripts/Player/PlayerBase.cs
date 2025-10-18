@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerBase : MonoBehaviour
 {
     public virtual int Health { get; set; } = 100;
-    public virtual int MaxHealth { get; set; } = 100;
+    public virtual int MaxHealth { get; set; } = 1000;
 
     public Rigidbody2D playerRb;
 
@@ -18,7 +18,7 @@ public class PlayerBase : MonoBehaviour
     private void Start()
     {
         PlayerStateMachine.OnInactive += Inactive;
-        PlayerStateMachine.OnRolling += Rolling;
+        PlayerStateMachine.OnGrounded += Grounded;
         PlayerStateMachine.OnFlying += Flying;
         PlayerStateMachine.OnStopped += Stopped;
         PlayerStateMachine.OnReadyToLaunch += ReadyToLaunch;
@@ -27,14 +27,14 @@ public class PlayerBase : MonoBehaviour
     private void OnDestroy()
     {
         PlayerStateMachine.OnInactive -= Inactive;
-        PlayerStateMachine.OnRolling -= Rolling;
+        PlayerStateMachine.OnGrounded -= Grounded;
         PlayerStateMachine.OnFlying -= Flying;
         PlayerStateMachine.OnStopped -= Stopped;
         PlayerStateMachine.OnReadyToLaunch -= ReadyToLaunch;
     }
 
     void Inactive() { }
-    void Rolling() {  }
+    void Grounded() {  }
     void Flying() { }
     void Stopped() { }
     void ReadyToLaunch() { ResetHealth(); }

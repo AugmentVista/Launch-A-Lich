@@ -23,7 +23,7 @@ public class PlayerAbility : MonoBehaviour
             Debug.LogError("Dependency between PlayerAbility and AbilityCooldownBar is broken. Assign it in the inspector.");
         }
 
-        PlayerStateMachine.OnRolling += EnableAbility;
+        PlayerStateMachine.OnGrounded += EnableAbility;
         PlayerStateMachine.OnFlying += EnableAbility;
         PlayerStateMachine.OnStopped += DisableAbility;
         PlayerStateMachine.OnInactive += DisableAbility;
@@ -32,7 +32,7 @@ public class PlayerAbility : MonoBehaviour
 
     private void OnDestroy()
     {
-        PlayerStateMachine.OnRolling -= EnableAbility;
+        PlayerStateMachine.OnGrounded -= EnableAbility;
         PlayerStateMachine.OnFlying -= EnableAbility;
         PlayerStateMachine.OnStopped -= DisableAbility;
         PlayerStateMachine.OnInactive -= DisableAbility;

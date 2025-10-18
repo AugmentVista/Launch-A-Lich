@@ -35,12 +35,12 @@ public class PlayerInteractionHandler : PlayerBase
             {
                 ApplyExp2Force(4f, enemy.damageValue * enemyForceMult);
             }
-            
+
+            if (Health - enemy.damageValue > 0) { GetComponent<Player_Anim_Manager>()?.PlayRolling(); }
             Debug.LogWarning("Player hit an enemy");
             TakeDamage(enemy.damageValue); health = Health;
 
-            if (enemy != null)
-                enemy.isDead = true;
+            if (enemy != null) { enemy.isDead = true; }
         }
 
         if (collision.gameObject.CompareTag("Ground"))
@@ -69,6 +69,7 @@ public class PlayerInteractionHandler : PlayerBase
                     }
                     break;
             }
+            if (Health - ground.damageValue > 0) { GetComponent<Player_Anim_Manager>()?.PlayTakeHit(); }
             Debug.LogWarning("Player hit the ground");
             TakeDamage(ground.damageValue); health = Health;
         }

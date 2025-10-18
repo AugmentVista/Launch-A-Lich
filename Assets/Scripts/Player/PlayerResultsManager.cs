@@ -7,8 +7,8 @@ public class PlayerResultsManager : MonoBehaviour
 
     [SerializeField] Rigidbody2D playerRb;
     public Vector2 globalPlayerSpeedV2;
-    public float globalPlayerSpeedX;
-    public float globalPlayerSpeedY;
+    public static float globalPlayerSpeedX;
+    public static float globalPlayerSpeedY;
 
     public GameObject player;
     public GameObject ground;

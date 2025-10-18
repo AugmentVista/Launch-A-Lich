@@ -1,9 +1,12 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    public float spawnInterval = 2f;
+
+    private float spawnInterval = 2f;
     public float spawnY = 0f;
     public float spawnOffset = 2f;  // how far past right edge to spawn
 
@@ -11,7 +14,6 @@ public class EnemySpawner : MonoBehaviour
     private LevelManager levelManager;
     private bool canSpawn = false;
     private float timer = 0f;
-
 
     void Awake()
     {
@@ -21,8 +23,10 @@ public class EnemySpawner : MonoBehaviour
 
     void OnEnable()
     {
-        PlayerStateMachine.OnRolling += EnableSpawning;
+        PlayerStateMachine.OnGrounded += EnableSpawning;
         PlayerStateMachine.OnFlying += EnableSpawning;
+
+        PlayerStateMachine.OnFlying += SpawnFlyingEnemies;
 
         PlayerStateMachine.OnInactive += DisableSpawning;
         PlayerStateMachine.OnStopped += DisableSpawning;
@@ -32,8 +36,10 @@ public class EnemySpawner : MonoBehaviour
 
     void OnDisable()
     {
-        PlayerStateMachine.OnRolling -= EnableSpawning;
+        PlayerStateMachine.OnGrounded -= EnableSpawning;
         PlayerStateMachine.OnFlying -= EnableSpawning;
+
+        PlayerStateMachine.OnFlying -= SpawnFlyingEnemies;
 
         PlayerStateMachine.OnInactive -= DisableSpawning;
         PlayerStateMachine.OnStopped -= DisableSpawning;
@@ -53,6 +59,8 @@ public class EnemySpawner : MonoBehaviour
             }
         }
     }
+
+    void SpawnFlyingEnemies() { }
 
     void SpawnEnemy()
     {
