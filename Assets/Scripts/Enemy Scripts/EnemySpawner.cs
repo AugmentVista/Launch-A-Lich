@@ -48,7 +48,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (canSpawn)
         {
-            if (cam.transform.position.y < -520f)
+            if (PlayerResultsManager.globalPlayerSpeedY > 5 || PlayerResultsManager.globalPlayerSpeedY < -5f)
             {
                 SpawnFlyingEnemies();
             }
@@ -64,18 +64,26 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    void SpawnFlyingEnemies() 
+    void SpawnFlyingEnemies()
     {
         enemyPrefab = FlyingEnemy;
-        spawnY = Random.Range(cam.transform.position.y - 5f, cam.transform.position.y + 5f);
-        spawnInterval = 0.35f;
+
+        // Generate a random Y near the camera
+        float randomY = Random.Range(cam.transform.position.y, cam.transform.position.y + 5f);
+
+        // Clamp it so flying enemies never spawn below -525
+        spawnY = Mathf.Clamp(randomY, -525f, float.MaxValue);
+
+        spawnInterval = 0.2f;
     }
 
     void SpawnGroundedEnemies()
     {
         enemyPrefab = GroundEnemy;
+
         spawnY = 0f;
-        spawnInterval = 0.25f;
+
+        spawnInterval = 0.3f;
     }
 
 

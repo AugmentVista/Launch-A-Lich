@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        moveSpeed = Random.Range(10, PlayerResultsManager.globalPlayerSpeedX);
+        moveSpeed = Random.Range(10, PlayerResultsManager.globalPlayerSpeedX * 0.8f);
     }
 
     void Update()
