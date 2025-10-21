@@ -13,6 +13,11 @@ public class PlayerInteractionHandler : PlayerBase
         health = MaxHealth;
     }
 
+    private void Update()
+    {
+        health = Health;
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
