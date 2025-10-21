@@ -6,7 +6,7 @@ public class SpeedLimit : MonoBehaviour
 
     public float maxSpeed;
 
-    [SerializeField] float baseLinearDampeningValue = 0.15f;
+    [SerializeField] float baseLinearDampeningValue;
 
     [SerializeField] HudSpeedDisplay hudDisplay;
 
@@ -16,6 +16,7 @@ public class SpeedLimit : MonoBehaviour
     {
         if (playerRb == null)
             playerRb = GetComponent<Rigidbody2D>();
+        baseLinearDampeningValue = playerRb.linearDamping;
     }
 
     void Update()

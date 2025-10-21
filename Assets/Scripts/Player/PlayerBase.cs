@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerBase : MonoBehaviour
 {
     public virtual int Health { get; set; } = 100;
-    public virtual int MaxHealth { get; set; } = 500;
+    public virtual int MaxHealth { get; set; } = 100;
 
     public Rigidbody2D playerRb;
 
@@ -52,8 +52,7 @@ public class PlayerBase : MonoBehaviour
         if (zRotation > 180)
             zRotation -= 360;
 
-        // Clamp between -10 and 10 degrees
-        zRotation = Mathf.Clamp(zRotation, -10f, 10f);
+        zRotation = Mathf.Clamp(zRotation, -5f, 5f);
 
         transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
     }
@@ -68,49 +67,6 @@ public class PlayerBase : MonoBehaviour
         return customPolarAngle;
     }
 
-    public virtual void XBiasNegative(float magnitude)
-    {
-        float radians = (90f - 120f) * Mathf.Deg2Rad; // Intended angle: 120°
-        Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
-        Vector2 force = direction * magnitude;
-        playerRb.AddForce(force, ForceMode2D.Impulse);
-
-        float angle = DirectionToCustomPolarAngle(direction);
-        Debug.LogWarning($"XBiasNegative Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
-    }
-
-    public virtual void XBiasPositive(float magnitude)
-    {
-        float radians = (90f - 60f) * Mathf.Deg2Rad; // Intended angle: 60°
-        Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
-        Vector2 force = direction * magnitude;
-        playerRb.AddForce(force, ForceMode2D.Impulse);
-
-        float angle = DirectionToCustomPolarAngle(direction);
-        Debug.LogWarning($"XBiasPositive Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
-    }
-
-    public virtual void YBiasNegative(float magnitude)
-    {
-        float radians = (90f - 150f) * Mathf.Deg2Rad; // Intended angle: 150°
-        Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
-        Vector2 force = direction * magnitude;
-        playerRb.AddForce(force, ForceMode2D.Impulse);
-
-        float angle = DirectionToCustomPolarAngle(direction);
-        Debug.LogWarning($"YBiasNegative Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
-    }
-
-    public virtual void YBiasPositive(float magnitude)
-    {
-        float radians = (90f - 30f) * Mathf.Deg2Rad; // Intended angle: 30°
-        Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
-        Vector2 force = direction * magnitude;
-        playerRb.AddForce(force, ForceMode2D.Impulse);
-
-        float angle = DirectionToCustomPolarAngle(direction);
-        Debug.LogWarning($"YBiasPositive Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
-    }
 
     public virtual void RandBiasNegative(float magnitude)
     {
@@ -196,7 +152,7 @@ public class PlayerBase : MonoBehaviour
 
     #endregion
 
-    public virtual void Stop() { playerRb.linearVelocity = Vector2.zero; playerRb.angularVelocity = 0f; Debug.LogError("STOP CALLED"); }
+    public virtual void Stop() { playerRb.linearVelocity = Vector2.zero; playerRb.angularVelocity = 0f; /*Debug.LogError("STOP CALLED");*/ }
 
     public virtual void TakeDamage(int damage)
     {

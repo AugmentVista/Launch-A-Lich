@@ -13,11 +13,24 @@ public class PlayerInteractionHandler : PlayerBase
         health = MaxHealth;
     }
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.CompareTag("Respawn"))
+        {
+            health = MaxHealth;
+        }
+
+
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+
+            //GameObject enemyGameObject = collision.gameObject;
+
+            //BoxCollider2D enemyReboundCollider = enemyGameObject.GetComponent<BoxCollider2D>();
+
+            TakeDamage(enemy.damageValue); health = Health;
 
             if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
             {
@@ -38,7 +51,7 @@ public class PlayerInteractionHandler : PlayerBase
 
             if (Health - enemy.damageValue > 0) { GetComponent<Player_Anim_Manager>()?.PlayRolling(); }
             Debug.LogWarning("Player hit an enemy");
-            TakeDamage(enemy.damageValue); health = Health;
+            
 
             if (enemy != null) { enemy.isDead = true; }
         }
@@ -46,21 +59,24 @@ public class PlayerInteractionHandler : PlayerBase
         if (collision.gameObject.CompareTag("Ground"))
         {
             Ground ground = collision.gameObject.GetComponent<Ground>();
+
+            TakeDamage(ground.damageValue); health = Health;
+
             switch (Health)
             {
-                case int i when (i == MaxHealth):
+                case int i when (i < MaxHealth && Mathf.Round(i) >= MaxHealth * 0.75f):
                     {
                         ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.95f);
                     }
                     break;
-                case int i when (i < MaxHealth && Mathf.Round(i) >= MaxHealth * 0.75f):
+                case int i when (i < MaxHealth && Mathf.Round(i) >= MaxHealth * 0.5f):
                     {
                         ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.9f);
                     }
                     break;
-                case int i when (Mathf.Round(i) < MaxHealth * 0.75f && Mathf.Round(i) >= MaxHealth * 0.25f):
+                case int i when (Mathf.Round(i) < MaxHealth * 0.5f && Mathf.Round(i) >= MaxHealth * 0.25f):
                     {
-                        ApplyLog2Force(4f, ground.damageValue);
+                        ApplyExp2Force(4f, Mathf.Abs(ground.damageValue));
                     }
                     break;
                 case int i when (Mathf.Round(i) < MaxHealth * 0.25f):
@@ -71,7 +87,7 @@ public class PlayerInteractionHandler : PlayerBase
             }
             if (Health - ground.damageValue > 0) { GetComponent<Player_Anim_Manager>()?.PlayTakeHit(); }
             Debug.LogWarning("Player hit the ground");
-            TakeDamage(ground.damageValue); health = Health;
+            
         }
 
     }

@@ -1,12 +1,5 @@
 fileFormatVersion: 2
-guid: 1d5c2b524d7734240a82bc6b06f841c8
-AssetOrigin:
-  serializedVersion: 1
-  productId: 120509
-  packageName: GothicVania Cemetery
-  packageVersion: 1.0
-  assetPath: Assets/Gothicvania Cemetery Artwork/Sprites/ghost/ghost-1.png
-  uploadId: 250459
+guid: a7c1aae419c769b408ce0a32b22137fa
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -55,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ghost-1_0
+      name: ghost-4_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 5
-        width: 27
-        height: 46
+        x: 3
+        y: 7
+        width: 29
+        height: 45
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,8 +125,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 601c26a421176f4459d6eee07e032a28
-      internalID: -1311810430
+      spriteID: 23edbc796831f7544bbac13b28804023
+      internalID: 1461103498
       vertices: []
       indices: 
       edges: []
@@ -152,7 +145,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ghost-1_0: -1311810430
+      ghost-4_0: 1461103498
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
