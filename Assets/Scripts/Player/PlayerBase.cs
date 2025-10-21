@@ -58,9 +58,6 @@ public class PlayerBase : MonoBehaviour
     }
 
 
-
-    #region AngleMath
-
     /// <summary>
     /// if inputX = 2, Angle Above X-Axis = 73.8°
     /// if inputX = 3, Angle Above X-Axis = 69.2°
@@ -164,8 +161,6 @@ public class PlayerBase : MonoBehaviour
 
         Debug.Log($"[Exp2] inputX: {inputX}, y: {y}, direction: {direction}, force: {force}");
     }
-
-    #endregion
 
     public virtual void Stop() { playerRb.linearVelocity = Vector2.zero; playerRb.angularVelocity = 0f; /*Debug.LogError("STOP CALLED");*/ }
 

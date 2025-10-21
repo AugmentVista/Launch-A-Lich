@@ -5,6 +5,8 @@ public class PlayerAbility : MonoBehaviour
     public GameObject prefabToSpawn;
     [SerializeField] AbilityCooldownBar abilityCooldown;
 
+    [SerializeField] private Rigidbody2D playerRb;
+
     public Camera mainCamera;
     public float cooldown = 1f;
 
@@ -50,7 +52,6 @@ public class PlayerAbility : MonoBehaviour
                 SpawnAbility();
                 lastUseTime = Time.time;
 
-                // Start cooldown bar
                 if (abilityCooldown != null)
                 {
                     abilityCooldown.StartCooldown();
@@ -69,7 +70,11 @@ public class PlayerAbility : MonoBehaviour
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
         worldPos.z = 0f;
 
-        Instantiate(prefabToSpawn, worldPos, Quaternion.identity);
+        GameObject instance = Instantiate(prefabToSpawn, worldPos, Quaternion.identity);
+        AbilityEffect ability = instance.GetComponent<AbilityEffect>();
+
+        if (ability != null) { ability.SetPlayerRb(playerRb); }
+        
     }
 
     private void EnableAbility() => abilityEnabled = true;

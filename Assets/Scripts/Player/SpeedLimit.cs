@@ -10,7 +10,7 @@ public class SpeedLimit : MonoBehaviour
 
     [SerializeField] HudSpeedDisplay hudDisplay;
 
-    private float fullColorThreshold = 0.4f;
+    private float fullColorThreshold = 0.5f;
 
     void Start()
     {
@@ -36,7 +36,7 @@ public class SpeedLimit : MonoBehaviour
             return baseLinearDampeningValue;
 
         float excessRatio = (velocity - maxSpeed) / maxSpeed;
-        float addedDamping = excessRatio * (0.05f / 0.1f); 
+        float addedDamping = excessRatio * (0.05f / 0.05f); 
         return baseLinearDampeningValue + addedDamping;
     }
 

@@ -2638,7 +2638,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -953.59, y: -526.2645}
+  m_AnchoredPosition: {x: -1042.1, y: -511.13}
   m_SizeDelta: {x: 271.4636, y: 175.3204}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &528833279
@@ -7941,7 +7941,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -960.71106, y: -526.2645}
+  m_AnchoredPosition: {x: -1042.11, y: -517.81}
   m_SizeDelta: {x: 400.1047, y: 174.6766}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1439050363
@@ -8239,6 +8239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabToSpawn: {fileID: 5276539905045720938, guid: 5ff9a7bb24624dc4783e1203339d5cde, type: 3}
   abilityCooldown: {fileID: 1605341350}
+  playerRb: {fileID: 2119655190}
   mainCamera: {fileID: 330585545}
   cooldown: 1
 --- !u!1 &1544343890
