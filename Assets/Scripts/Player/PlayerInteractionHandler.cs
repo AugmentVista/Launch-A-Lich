@@ -6,6 +6,12 @@ public class PlayerInteractionHandler : PlayerBase
 
     public int enemyForceMult;
 
+    private float groundedTimer = 0f;
+
+    [SerializeField] private bool grounded = false;
+
+    private Ground ground;
+
     private void Awake()
     {
         if (!playerRb) { playerRb = GetComponent<Rigidbody2D>(); }
@@ -16,6 +22,7 @@ public class PlayerInteractionHandler : PlayerBase
     private void Update()
     {
         health = Health;
+        ApplyTouchingGroundDamage();
     }
 
 
@@ -26,7 +33,6 @@ public class PlayerInteractionHandler : PlayerBase
             health = MaxHealth;
         }
 
-
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
@@ -35,7 +41,7 @@ public class PlayerInteractionHandler : PlayerBase
 
             //BoxCollider2D enemyReboundCollider = enemyGameObject.GetComponent<BoxCollider2D>();
 
-            TakeDamage(enemy.damageValue); health = Health;
+            TakeDamage(enemy.damageValue);
 
             if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
             {
@@ -63,9 +69,9 @@ public class PlayerInteractionHandler : PlayerBase
 
         if (collision.gameObject.CompareTag("Ground"))
         {
-            Ground ground = collision.gameObject.GetComponent<Ground>();
+            ground = collision.gameObject.GetComponent<Ground>();
 
-            TakeDamage(ground.damageValue); health = Health;
+            TakeDamage(ground.damageValue);
 
             switch (Health)
             {
@@ -95,6 +101,42 @@ public class PlayerInteractionHandler : PlayerBase
             
         }
 
+    }
+
+    private void ApplyTouchingGroundDamage()
+    {
+        if (grounded && PlayerResultsManager.globalPlayerSpeedX > 4f)
+        {
+            groundedTimer += Time.deltaTime;
+
+            if (groundedTimer > 0.5f)
+            {
+                groundedTimer = 0f;
+                TakeDamage(ground.damageValue);
+                if (Health - ground.damageValue > 0) { GetComponent<Player_Anim_Manager>()?.PlayTakeHit(); }
+                ApplyExp2Force(7f, ground.damageValue * 2);
+            }
+        }
+    }
+
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            ground = collision.gameObject.GetComponent<Ground>();
+
+            grounded = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            ground = collision.gameObject.GetComponent<Ground>();
+            grounded = false;
+        }
     }
 
 }

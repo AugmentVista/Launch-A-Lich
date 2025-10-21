@@ -36,7 +36,7 @@ public class PlayerBase : MonoBehaviour
     void Inactive() { }
     void Grounded() {  }
     void Flying() { }
-    void Stopped() { }
+    void Stopped() { TakeDamage(MaxHealth); }
     void ReadyToLaunch() { ResetHealth(); }
 
     public virtual void ResetHealth()

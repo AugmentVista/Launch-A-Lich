@@ -214,6 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDead: 0
+  baseSpeed: 5
   damageValue: 5
   type: 1
   deathPrefab: {fileID: 0}

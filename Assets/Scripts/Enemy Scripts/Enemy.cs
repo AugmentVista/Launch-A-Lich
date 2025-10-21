@@ -4,6 +4,7 @@ public class Enemy : MonoBehaviour
 {
     private float moveSpeed;
     public bool isDead = false;
+    public float baseSpeed;
 
     public int damageValue;
     public enum Type {Flying, Grounded };
@@ -13,7 +14,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        moveSpeed = Random.Range(10, PlayerResultsManager.globalPlayerSpeedX * 0.8f);
+        moveSpeed = Random.Range(baseSpeed, PlayerResultsManager.globalPlayerSpeedX * 0.8f);
     }
 
     void Update()

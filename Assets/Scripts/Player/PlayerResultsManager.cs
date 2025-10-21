@@ -55,24 +55,21 @@ public class PlayerResultsManager : MonoBehaviour
         float heightThisRun = heightReached;
         Vector3 basePosition = new Vector3(player.transform.position.x, ground.transform.position.y + 5.5f, 0f );
 
-        bool brokeX = distanceThisRun > highScoreX;
-        bool brokeY = heightThisRun > highScoreY;
-
-        if (brokeX) highScoreX = distanceThisRun;
-        if (brokeY) highScoreY = heightThisRun;
+        bool brokeX = distanceThisRun >= highScoreX;
+        bool brokeY = heightThisRun >= highScoreY;
 
         Vector3 highScorePosition = basePosition + new Vector3(0f, 9f, 0f);
         if (brokeX && brokeY)
         {
-            highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nNew Height High Score!\n {heightThisRun:F1} meters";
             highScoreBanner.SetActive(true);
-            highScoreBanner.GetComponent<RectTransform>().position = highScorePosition;
+            highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
+            highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nNew Height High Score!\n {heightThisRun:F1} meters";
         }
         else if (brokeX)
         {
-            highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nHeight reached\n {heightThisRun:F1} meters";
             highScoreBanner.SetActive(true);
-            highScoreBanner.GetComponent<RectTransform>().position = highScorePosition;
+            highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
+            highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nHeight reached\n {heightThisRun:F1} meters";
         }
         else if (brokeY)
         {
@@ -86,7 +83,7 @@ public class PlayerResultsManager : MonoBehaviour
             distanceBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
             distanceTraveledThisRunText.text = $"Distance traveled\n {distanceThisRun:F1} meters\nHeight reached\n {heightThisRun:F1} meters";
         }
-        ResetResults();
+        
         nextButton.SetActive(true);
     }
 
@@ -97,6 +94,7 @@ public class PlayerResultsManager : MonoBehaviour
 
     void ResultsMenu()
     {
+        ResetResults();
         nextButton.SetActive(false);
         UIManager.B_Results();
 
