@@ -24,7 +24,7 @@ public class PlayerInteractionHandler : PlayerBase
     /// <summary>
     /// A delegate event that other classes can subcribe to
     /// </summary>
-    public delegate void EnemyDefeated(float goldValue);
+    public delegate void EnemyDefeated(int goldValue);
 
     public static event EnemyDefeated OnFlyingEnemyDefeated;
     public static event EnemyDefeated OnGroundEnemyDefeated;
@@ -132,7 +132,7 @@ public class PlayerInteractionHandler : PlayerBase
             {
                 groundedTimer = 0f;
                 GetComponent<Player_Anim_Manager>()?.PlayTakeHit();
-                TakeDamage(ground.damageValue);
+                TakeDamage(ground.damageValue / 2);
                 ApplyExp2Force(2f, ground.damageValue * 2);
             }
         }

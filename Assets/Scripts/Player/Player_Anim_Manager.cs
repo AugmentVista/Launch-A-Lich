@@ -38,7 +38,7 @@ public class Player_Anim_Manager : MonoBehaviour
     {
         if (PlayerResultsManager.globalPlayerSpeedY > 0)
             animator.Play("Player_Rising");
-        else if (PlayerResultsManager.globalPlayerSpeedY > 0)
+        else if (PlayerResultsManager.globalPlayerSpeedY < 0)
             animator.Play("Player_Falling");
     }
 

@@ -8,13 +8,13 @@ public class GoldTallyThisRun : MonoBehaviour
 
     public float totalGoldEarned;
 
-
     public TextMeshProUGUI goldText;
 
-    void Start()
+    private void Update()
     {
-        
+        goldText.text = $"Total Gold: {CentralBank.totalBalance}";
     }
+
 
     private void OnEnable()
     {
@@ -28,10 +28,10 @@ public class GoldTallyThisRun : MonoBehaviour
         PlayerInteractionHandler.OnGroundEnemyDefeated -= AddGold;
     }
 
-    private void AddGold(float amount)
+    private void AddGold(int amount)
     {
         totalGoldEarned += amount;
-        Debug.Log($"[Gold] +{amount} | Total Gold: {totalGoldEarned}");
+        CentralBank.totalBalance += amount;
     }
 
 }
