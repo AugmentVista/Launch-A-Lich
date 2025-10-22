@@ -7,31 +7,29 @@ public class PlayerResultsManager : MonoBehaviour
 
     [SerializeField] Rigidbody2D playerRb;
     public Vector2 globalPlayerSpeedV2;
-    public float globalPlayerSpeedX;
-    public float globalPlayerSpeedY;
+    public static float globalPlayerSpeedX;
+    public static float globalPlayerSpeedY;
 
     public GameObject player;
     public GameObject ground;
-    public GameObject respawnPoint;
-    public Vector2 startPosition;
     public UIManager UIManager;
 
     public GameObject highScoreBanner;
     public GameObject distanceBanner;
+    public GameObject goldIcon;
     public GameObject nextButton;
 
     public float highScoreX = 0f;
     public float highScoreY = 0f;
     private float heightReached;
+    private float distanceReached;
 
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI distanceTraveledThisRunText;
-
-    Vector2 finalPosition;
+    public TextMeshProUGUI goldText;
 
     private void Start()
     {
-        startPosition = new Vector2(respawnPoint.transform.position.x, respawnPoint.transform.position.y);
         PlayerStateMachine.OnStopped += ShowDistanceTraveled;
         PlayerStateMachine.OnReadyToLaunch += ResetResults;
 
@@ -47,67 +45,57 @@ public class PlayerResultsManager : MonoBehaviour
         globalPlayerSpeedY = playerRb.linearVelocityY;
 
         float currentHeight = player.transform.position.y;
-        if (heightReached < currentHeight) { heightReached = currentHeight; }
-    }
-
-    float RecordedFinalDistanceX()
-    {
-        Vector2 finalPosition = new Vector2(player.transform.position.x, player.transform.position.y);
-        float distanceCovered = finalPosition.x - startPosition.x;
-        return distanceCovered;
-    }
-
-    float RecordedFinalDistanceY()
-    {
-        Vector2 finalPosition = new Vector2(player.transform.position.x, heightReached);
-        float distanceCovered = finalPosition.y - player.transform.position.y;
-        return distanceCovered;
+        float currentDistance = player.transform.position.x;
+        if (heightReached < currentHeight) { heightReached = currentHeight; if(heightReached > highScoreY) highScoreY = heightReached; }
+        if (distanceReached < currentDistance) { distanceReached = currentDistance; if (distanceReached > highScoreX) highScoreX = distanceReached; }
     }
 
 
     void ShowDistanceTraveled()
     {
-        float distanceThisRun = RecordedFinalDistanceX();
-        float heightThisRun = RecordedFinalDistanceY();
-        Vector3 basePosition = new Vector3(player.transform.position.x, player.transform.position.y, 0f );
+        float distanceThisRun = distanceReached;
+        float heightThisRun = heightReached;
+        Vector3 basePosition = new Vector3(player.transform.position.x, ground.transform.position.y + 5.5f, 0f );
 
-        // Determine if this run broke any records
-        bool brokeX = distanceThisRun > highScoreX;
-        bool brokeY = heightThisRun > highScoreY;
-
-        if (brokeX) highScoreX = distanceThisRun;
-        if (brokeY) highScoreY = heightThisRun;
+        bool brokeX = distanceThisRun >= highScoreX;
+        bool brokeY = heightThisRun >= highScoreY;
 
         Vector3 highScorePosition = basePosition + new Vector3(0f, 9f, 0f);
-        // Build the high score message based on what was broken
         if (brokeX && brokeY)
         {
-            highScoreText.text = $"New Distance High Score! {distanceThisRun:F1} meters\nNew Height High Score! {heightThisRun:F1} meters";
             highScoreBanner.SetActive(true);
-            highScoreBanner.GetComponent<RectTransform>().position = highScorePosition;
+            highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
+            highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nNew Height High Score!\n {heightThisRun:F1} meters";
         }
         else if (brokeX)
         {
-            highScoreText.text = $"New Distance High Score! {distanceThisRun:F1} meters\nHeight reached {heightThisRun:F1} meters";
             highScoreBanner.SetActive(true);
-            highScoreBanner.GetComponent<RectTransform>().position = highScorePosition;
+            highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
+            highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nHeight reached\n {heightThisRun:F1} meters";
         }
         else if (brokeY)
         {
             highScoreBanner.SetActive(true);
             highScoreBanner.GetComponent<RectTransform>().position = highScorePosition;
-            highScoreText.text = $"Distance traveled {distanceThisRun:F1} meters\nNew Height High Score! {heightThisRun:F1} meters";
+            highScoreText.text = $"Distance traveled\n {distanceThisRun:F1} meters\nNew Height High Score!\n {heightThisRun:F1} meters";
         }
         else
         {
             distanceBanner.SetActive(true);
-            distanceBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 2f, basePosition.z);
-            distanceTraveledThisRunText.text = $"Distance traveled {distanceThisRun:F1} meters\nHeight reached {heightThisRun:F1} meters";
+            distanceBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
+            distanceTraveledThisRunText.text = $"Distance traveled\n {distanceThisRun:F1} meters\nHeight reached\n {heightThisRun:F1} meters";
         }
-
+        
         nextButton.SetActive(true);
-        Vector3 confirmButtonPosition = basePosition + new Vector3(15.1f, -4f, 0f);
-        nextButton.GetComponent<RectTransform>().position = confirmButtonPosition;
+    }
+
+
+    private void CalcuateGoldEarned(float distance, float height)
+    {
+        float travelMoneyEarned;
+        travelMoneyEarned = (distance / 2) + height;
+
+        goldText.text = $"Gold earned from travel this run:\n {travelMoneyEarned:F0}\n Gold earned from enemies this run:\n 0\n Gold earned from drops this run:\n 0\n Total gold earned this run:\n {travelMoneyEarned:F0}";
     }
 
     public void NextButton()
@@ -119,12 +107,14 @@ public class PlayerResultsManager : MonoBehaviour
     {
         nextButton.SetActive(false);
         UIManager.B_Results();
+        CalcuateGoldEarned(distanceReached, heightReached);
 
         if (respawner != null)
         {
             respawner.RespawnPlayer();
         }
 
+        ResetResults();
         PlayerStateMachine playerState = player.GetComponent<PlayerStateMachine>();
         if (playerState != null) { playerState.StoppedToLaunchReady(); }
     }
@@ -133,6 +123,8 @@ public class PlayerResultsManager : MonoBehaviour
     {
         distanceBanner.SetActive(false);
         distanceTraveledThisRunText.text = "";
+        heightReached = 0f;
+        distanceReached = 0f;
     }
 
     private void OnDestroy()

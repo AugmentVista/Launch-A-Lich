@@ -4,6 +4,16 @@ public class PlayerInteractionHandler : PlayerBase
 {
     public int health;
 
+    public int forceMult;
+
+    public int enemyImpactVelocityGain;
+
+    private float groundedTimer = 0f;
+
+    [SerializeField] private bool grounded = false;
+
+    private Ground ground;
+
     private void Awake()
     {
         if (!playerRb) { playerRb = GetComponent<Rigidbody2D>(); }
@@ -11,66 +21,141 @@ public class PlayerInteractionHandler : PlayerBase
         health = MaxHealth;
     }
 
+    /// <summary>
+    /// A delegate event that other classes can subcribe to
+    /// </summary>
+    public delegate void EnemyDefeated(float goldValue);
+
+    public static event EnemyDefeated OnFlyingEnemyDefeated;
+    public static event EnemyDefeated OnGroundEnemyDefeated;
+
+
+    private void Update()
+    {
+        health = Health;
+        ApplyTouchingGroundDamage();
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.CompareTag("Respawn"))
+        {
+            health = MaxHealth;
+        }
+
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
 
-            if (Health < MaxHealth * 0.8f && enemy.type == Enemy.Type.Flying)
-            {
-                ApplyLog2Force(4f, enemy.damageValue);
-            }
-            if (Health >= MaxHealth * 0.8f && enemy.type == Enemy.Type.Flying)
-            {
-                ApplyLog2Force(4f, enemy.damageValue);
-            }
-            if (Health < MaxHealth * 0.8f && enemy.type == Enemy.Type.Grounded)
-            {
-                ApplyExp2Force(4f, enemy.damageValue);
-            }
-            if (Health >= MaxHealth * 0.8f && enemy.type == Enemy.Type.Grounded) 
-            {
-                ApplyExp2Force(4f, enemy.damageValue);
-            }
-            
-            Debug.LogWarning("Player hit an enemy");
-            TakeDamage(enemy.damageValue); health = Health;
+            TakeDamage(enemy.damageValue);
 
-            if (enemy != null)
-                enemy.isDead = true;
+            if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
+            {
+                ApplyLog2Force(2f, enemyImpactVelocityGain * forceMult);
+                OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
+            }
+            if (Health >= MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
+            {
+                ApplyLog2Force(8f, enemyImpactVelocityGain * (forceMult -1));
+                OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
+            }
+            if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Grounded)
+            {
+                LogarithmicBounce(8f, enemyImpactVelocityGain * forceMult);
+                OnGroundEnemyDefeated?.Invoke(enemy.moneyValue);
+            }
+            if (Health >= MaxHealth * 0.5f && enemy.type == Enemy.Type.Grounded) 
+            {
+                LogarithmicBounce(4f, enemyImpactVelocityGain * forceMult);
+                OnGroundEnemyDefeated?.Invoke(enemy.moneyValue);
+            }
+            if (Health >= 0)
+            {
+                LogarithmicBounce(1f, enemyImpactVelocityGain * 0f);
+            }
+            if (Health - enemy.damageValue > 0) { GetComponent<Player_Anim_Manager>()?.PlayRolling(); }
+            Debug.LogWarning("Player hit an enemy");
+            
+
+            if (enemy != null) { enemy.isDead = true; }
         }
 
         if (collision.gameObject.CompareTag("Ground"))
         {
-            Ground ground = collision.gameObject.GetComponent<Ground>();
+            ground = collision.gameObject.GetComponent<Ground>();
+
+            TakeDamage(ground.damageValue);
+
             switch (Health)
             {
-                case int i when (i == MaxHealth):
+                case int i when (i < MaxHealth && Mathf.Round(i) >= MaxHealth * 0.75f):
                     {
                         ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.95f);
                     }
                     break;
-                case int i when (i < MaxHealth && Mathf.Round(i) >= MaxHealth * 0.75f):
+                case int i when (i < MaxHealth && Mathf.Round(i) >= MaxHealth * 0.5f):
                     {
                         ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.9f);
                     }
                     break;
-                case int i when (Mathf.Round(i) < MaxHealth * 0.75f && Mathf.Round(i) >= MaxHealth * 0.5f):
+                case int i when (Mathf.Round(i) < MaxHealth * 0.5f && Mathf.Round(i) >= MaxHealth * 0.25f):
                     {
-                        ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.85f);
+                        LogarithmicBounce(15f, Mathf.Abs(ground.damageValue));
                     }
                     break;
-                case int i when (Mathf.Round(i) < MaxHealth * 0.5f):
+                case int i when (Mathf.Round(i) < MaxHealth * 0.25f && Mathf.Round(i) >= 0f):
                     {
-                        ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.75f);
+                        ApplyExp2Force(2f, Mathf.Abs(playerRb.linearVelocityY) * 0.8f);
+                    }
+                    break;
+                case int i when (Mathf.Round(i) >= 0):
+                    {
+                    
                     }
                     break;
             }
+            if (Health - ground.damageValue > 0) { GetComponent<Player_Anim_Manager>()?.PlayTakeHit(); }
             Debug.LogWarning("Player hit the ground");
-            TakeDamage(ground.damageValue); health = Health;
+            
         }
 
+    }
+
+    private void ApplyTouchingGroundDamage()
+    {
+        if (grounded && PlayerResultsManager.globalPlayerSpeedX > 4f)
+        {
+            groundedTimer += Time.deltaTime;
+
+            if (groundedTimer > 0.5f)
+            {
+                groundedTimer = 0f;
+                GetComponent<Player_Anim_Manager>()?.PlayTakeHit();
+                TakeDamage(ground.damageValue);
+                ApplyExp2Force(2f, ground.damageValue * 2);
+            }
+        }
+    }
+
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            ground = collision.gameObject.GetComponent<Ground>();
+
+            grounded = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            ground = collision.gameObject.GetComponent<Ground>();
+            grounded = false;
+        }
     }
 
 }

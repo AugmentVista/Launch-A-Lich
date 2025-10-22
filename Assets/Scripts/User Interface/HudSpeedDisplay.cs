@@ -8,7 +8,7 @@ public class HudSpeedDisplay : MonoBehaviour
 
     public TextMeshProUGUI heightText;
 
-    public float groundHeight = -0.51f;
+    public float groundHeight;
 
     //public void HighScoreTextColor()
     //{

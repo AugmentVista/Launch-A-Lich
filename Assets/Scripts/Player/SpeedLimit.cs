@@ -4,38 +4,58 @@ public class SpeedLimit : MonoBehaviour
 {
     [SerializeField] Rigidbody2D playerRb;
 
-    public float maxSpeed;
+    public float maxSpeedX;
 
-    [SerializeField] float baseLinearDampeningValue = 0.15f;
+    public float maxSpeedY;
+
+    [SerializeField] float baseLinearDampeningValue;
+
+    [SerializeField] float baseGravityScale;
 
     [SerializeField] HudSpeedDisplay hudDisplay;
 
-    private float fullColorThreshold = 0.4f;
+    private float fullColorThreshold = 0.5f;
 
     void Start()
     {
         if (playerRb == null)
             playerRb = GetComponent<Rigidbody2D>();
+        baseLinearDampeningValue = playerRb.linearDamping;
+        baseGravityScale = playerRb.gravityScale;
     }
 
     void Update()
     {
+        float currentSpeedY = Mathf.Abs(playerRb.linearVelocityY);
         float currentSpeedX = Mathf.Abs(playerRb.linearVelocityX);
 
         float dampX = CalculateDamping(currentSpeedX);
+        float gravY = CalculateGravityDrag(currentSpeedY);
 
         playerRb.linearDamping = Mathf.Lerp(playerRb.linearDamping, dampX, Time.deltaTime * 5f);
+
+        playerRb.gravityScale = Mathf.Lerp(playerRb.gravityScale, gravY, Time.deltaTime * 5f);
 
         UpdateSpeedTextColor(playerRb.linearDamping);
     }
 
+    private float CalculateGravityDrag(float velocity)
+    {
+        if (velocity <= maxSpeedY)
+            return baseGravityScale;
+
+        float excessRatio = (velocity - maxSpeedY) / maxSpeedY;
+        float addedGravity = excessRatio * (0.50f / 0.10f);// add 0.5 gravity scale every 10% over maxSpeedY
+        return baseGravityScale + addedGravity;
+    }
+
     private float CalculateDamping(float velocity)
     {
-        if (velocity <= maxSpeed)
+        if (velocity <= maxSpeedX)
             return baseLinearDampeningValue;
 
-        float excessRatio = (velocity - maxSpeed) / maxSpeed;
-        float addedDamping = excessRatio * (0.05f / 0.1f); 
+        float excessRatio = (velocity - maxSpeedX) / maxSpeedX;
+        float addedDamping = excessRatio * (0.05f / 0.10f); // Add 0.05 linear dampening every 10% over maxSpeedX
         return baseLinearDampeningValue + addedDamping;
     }
 

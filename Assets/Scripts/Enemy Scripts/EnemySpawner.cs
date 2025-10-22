@@ -1,28 +1,32 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    public float spawnInterval = 2f;
-    public float spawnY = 0f;
+
+    [SerializeField] GameObject GroundEnemy;
+    [SerializeField] GameObject FlyingEnemy;
+
+    private float spawnInterval = 0.25f;
+    public float spawnY;
     public float spawnOffset = 2f;  // how far past right edge to spawn
 
     private Camera cam;
-    private LevelManager levelManager;
     private bool canSpawn = false;
     private float timer = 0f;
-
 
     void Awake()
     {
         cam = Camera.main;
-        levelManager = GetComponentInParent<LevelManager>();
     }
 
     void OnEnable()
     {
-        PlayerStateMachine.OnRolling += EnableSpawning;
+        PlayerStateMachine.OnGrounded += EnableSpawning;
         PlayerStateMachine.OnFlying += EnableSpawning;
+        PlayerStateMachine.OnGrounded += SpawnGroundedEnemies;
+        PlayerStateMachine.OnFlying += SpawnFlyingEnemies;
+
 
         PlayerStateMachine.OnInactive += DisableSpawning;
         PlayerStateMachine.OnStopped += DisableSpawning;
@@ -32,8 +36,10 @@ public class EnemySpawner : MonoBehaviour
 
     void OnDisable()
     {
-        PlayerStateMachine.OnRolling -= EnableSpawning;
+        PlayerStateMachine.OnGrounded -= EnableSpawning;
         PlayerStateMachine.OnFlying -= EnableSpawning;
+        PlayerStateMachine.OnGrounded -= SpawnGroundedEnemies;
+        PlayerStateMachine.OnFlying -= SpawnFlyingEnemies;
 
         PlayerStateMachine.OnInactive -= DisableSpawning;
         PlayerStateMachine.OnStopped -= DisableSpawning;
@@ -45,7 +51,23 @@ public class EnemySpawner : MonoBehaviour
     {
         if (canSpawn)
         {
+            float speed = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
+
+            // Map speed (10 → 50) to interval (0.1 → 1.0)
+            float speedDeterminedSpawnRange = Mathf.InverseLerp(10f, 100f, speed);
+            float scaledInterval = Mathf.Lerp(0.1f, 1.0f, speedDeterminedSpawnRange);
+
+            // Clamp and round to two decimals
+            spawnInterval = Mathf.Clamp((float)Mathf.Round(scaledInterval * 10f) / 10f, 0.15f, 0.5f);
+
+            if (PlayerResultsManager.globalPlayerSpeedY > 10 || PlayerResultsManager.globalPlayerSpeedY < -10f)
+            {
+                SpawnFlyingEnemies();
+            }
+            else { SpawnGroundedEnemies(); }
+
             timer += Time.deltaTime;
+
             if (timer >= spawnInterval)
             {
                 SpawnEnemy();
@@ -54,7 +76,29 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    void SpawnEnemy()
+    void SpawnFlyingEnemies()
+    {
+        enemyPrefab = FlyingEnemy;
+
+        Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
+        Vector3 topEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, cam.nearClipPlane));
+
+        // Pick a random Y between a bit above bottom and a bit below top
+        float randomY = Random.Range(bottomEdge.y + 10f, topEdge.y - 1f);
+
+        // Clamp it if you still want to enforce a minimum
+        spawnY = Mathf.Clamp(randomY, 10f, float.MaxValue);
+    }
+
+    void SpawnGroundedEnemies()
+    {
+        enemyPrefab = GroundEnemy;
+
+        spawnY = 0f;
+    }
+
+
+    private void SpawnEnemy()
     {
         if (enemyPrefab == null) return;
 
@@ -81,7 +125,14 @@ public class EnemySpawner : MonoBehaviour
 
             if (hit == null || !hit.CompareTag("Enemy"))
             {
-                Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+                GameObject instance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+
+                if (enemyPrefab == GroundEnemy)
+                {
+                    Vector3 scale = instance.transform.localScale;
+                    scale.x *= -1;
+                    instance.transform.localScale = scale;
+                }
                 return;
             }
         }

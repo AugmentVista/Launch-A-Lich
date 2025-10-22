@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
-    public virtual int Health { get; set; } = 398;
-    public virtual int MaxHealth { get; set; } = 398;
+    public virtual int Health { get; set; } = 100;
+    public virtual int MaxHealth { get; set; } = 100;
 
     public Rigidbody2D playerRb;
 
@@ -18,7 +18,7 @@ public class PlayerBase : MonoBehaviour
     private void Start()
     {
         PlayerStateMachine.OnInactive += Inactive;
-        PlayerStateMachine.OnRolling += Rolling;
+        PlayerStateMachine.OnGrounded += Grounded;
         PlayerStateMachine.OnFlying += Flying;
         PlayerStateMachine.OnStopped += Stopped;
         PlayerStateMachine.OnReadyToLaunch += ReadyToLaunch;
@@ -27,16 +27,16 @@ public class PlayerBase : MonoBehaviour
     private void OnDestroy()
     {
         PlayerStateMachine.OnInactive -= Inactive;
-        PlayerStateMachine.OnRolling -= Rolling;
+        PlayerStateMachine.OnGrounded -= Grounded;
         PlayerStateMachine.OnFlying -= Flying;
         PlayerStateMachine.OnStopped -= Stopped;
         PlayerStateMachine.OnReadyToLaunch -= ReadyToLaunch;
     }
 
     void Inactive() { }
-    void Rolling() {  }
+    void Grounded() {  }
     void Flying() { }
-    void Stopped() { }
+    void Stopped() { TakeDamage(MaxHealth); }
     void ReadyToLaunch() { ResetHealth(); }
 
     public virtual void ResetHealth()
@@ -44,93 +44,53 @@ public class PlayerBase : MonoBehaviour
         Health = MaxHealth;
     }
 
-#region AngleMath
-    private float DirectionToCustomPolarAngle(Vector2 direction)
+    private void FixedUpdate()
     {
-        float unityAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        float customPolarAngle = (90f - unityAngle + 360f) % 360f;
-        return customPolarAngle;
+        float zRotation = transform.eulerAngles.z;
+
+        // Convert 0–360 to -180 to 180
+        if (zRotation > 180)
+            zRotation -= 360;
+
+        zRotation = Mathf.Clamp(zRotation, -5f, 5f);
+
+        transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
     }
 
-    public virtual void XBiasNegative(float magnitude)
-    {
-        float radians = (90f - 120f) * Mathf.Deg2Rad; // Intended angle: 120°
-        Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
-        Vector2 force = direction * magnitude;
-        playerRb.AddForce(force, ForceMode2D.Impulse);
 
-        float angle = DirectionToCustomPolarAngle(direction);
-        Debug.LogWarning($"XBiasNegative Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
-    }
-
-    public virtual void XBiasPositive(float magnitude)
-    {
-        float radians = (90f - 60f) * Mathf.Deg2Rad; // Intended angle: 60°
-        Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
-        Vector2 force = direction * magnitude;
-        playerRb.AddForce(force, ForceMode2D.Impulse);
-
-        float angle = DirectionToCustomPolarAngle(direction);
-        Debug.LogWarning($"XBiasPositive Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
-    }
-
-    public virtual void YBiasNegative(float magnitude)
-    {
-        float radians = (90f - 150f) * Mathf.Deg2Rad; // Intended angle: 150°
-        Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
-        Vector2 force = direction * magnitude;
-        playerRb.AddForce(force, ForceMode2D.Impulse);
-
-        float angle = DirectionToCustomPolarAngle(direction);
-        Debug.LogWarning($"YBiasNegative Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
-    }
-
-    public virtual void YBiasPositive(float magnitude)
-    {
-        float radians = (90f - 30f) * Mathf.Deg2Rad; // Intended angle: 30°
-        Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
-        Vector2 force = direction * magnitude;
-        playerRb.AddForce(force, ForceMode2D.Impulse);
-
-        float angle = DirectionToCustomPolarAngle(direction);
-        Debug.LogWarning($"YBiasPositive Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
-    }
-
-    public virtual void RandBiasNegative(float magnitude)
-    {
-        float angleDeg = Random.Range(95f, 150f); // Custom polar angle range: 95°–150°
-        float radians = (90f - angleDeg) * Mathf.Deg2Rad;
-        Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
-        Vector2 force = direction * magnitude;
-        playerRb.AddForce(force, ForceMode2D.Impulse);
-
-        float angle = DirectionToCustomPolarAngle(direction);
-        Debug.LogWarning($"RandBiasNegative Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
-    }
-
-    public virtual void RandBiasPositive(float magnitude)
-    {
-        float angleDeg = Random.Range(30f, 85f); // Custom polar angle range: 30°–85°
-        float radians = (90f - angleDeg) * Mathf.Deg2Rad;
-        Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
-        Vector2 force = direction * magnitude;
-        playerRb.AddForce(force, ForceMode2D.Impulse);
-
-        float angle = DirectionToCustomPolarAngle(direction);
-        Debug.LogWarning($"RandBiasPositive Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
-    }
-
-    public virtual void Forward(float magnitude)
-    {
-        float radians = (90f - 90f) * Mathf.Deg2Rad; // Intended angle: 90°
-        Vector2 direction = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
-        Vector2 force = direction * magnitude;
-        playerRb.AddForce(force, ForceMode2D.Impulse);
-
-        float angle = DirectionToCustomPolarAngle(direction);
-        Debug.LogWarning($"Forward Angle: {angle:F1}°, Magnitude: {magnitude}, Direction: {direction}");
-    }
-
+    /// <summary>
+    /// if inputX = 2, Angle Above X-Axis = 73.8°
+    /// if inputX = 3, Angle Above X-Axis = 69.2°
+    /// if inputX = 4, Angle Above X-Axis = 66.1°
+    /// if inputX = 5, Angle Above X-Axis = 62.7°
+    /// if inputX = 6, Angle Above X-Axis = 60.1°
+    /// if inputX = 7, Angle Above X-Axis = 57.6°
+    /// if inputX = 8, Angle Above X-Axis = 55.0°
+    /// if inputX = 9, Angle Above X-Axis = 53.1°
+    /// if inputX = 10, Angle Above X-Axis = 51.4°
+    /// if inputX = 11, Angle Above X-Axis = 49.8°
+    /// if inputX = 12, Angle Above X-Axis = 48.3°
+    /// if inputX = 13, Angle Above X-Axis = 47.0°
+    /// if inputX = 14, Angle Above X-Axis = 45.8°
+    /// if inputX = 15, Angle Above X-Axis = 44.7°
+    /// if inputX = 16, Angle Above X-Axis = 42.1°
+    /// if inputX = 17, Angle Above X-Axis = 40.1°
+    /// if inputX = 18, Angle Above X-Axis = 39.8°
+    /// if inputX = 19, Angle Above X-Axis = 38.7°
+    /// if inputX = 20, Angle Above X-Axis = 37.8°
+    /// if inputX = 21, Angle Above X-Axis = 36.7°
+    /// if inputX = 22, Angle Above X-Axis = 35.8°
+    /// if inputX = 23, Angle Above X-Axis = 35.0°
+    /// if inputX = 24, Angle Above X-Axis = 34.2°
+    /// if inputX = 25, Angle Above X-Axis = 33.4°
+    /// if inputX = 26, Angle Above X-Axis = 32.6°
+    /// if inputX = 27, Angle Above X-Axis = 32.0°
+    /// if inputX = 28, Angle Above X-Axis = 31.3°
+    /// if inputX = 29, Angle Above X-Axis = 30.6°
+    /// if inputX = 30, Angle Above X-Axis = 30.0°
+    /// </summary>
+    /// <param name="inputX"></param>
+    /// <param name="magnitude"></param>
     public virtual void LogarithmicBounce(float inputX, float magnitude)
     {
         // Prevent domain errors (log of zero or negative)
@@ -149,7 +109,20 @@ public class PlayerBase : MonoBehaviour
         Debug.LogWarning($"LogarithmicBounce: InputX: {inputX}, Y: {y:F2}, Force: {force}");
     }
 
-    public virtual void ApplyLog2Force(float inputX, float magnitude) // forward curve
+    /// <summary>
+    /// if inputX = 2, Angle Above X-Axis = 26.6°
+    /// if inputX = 3, Angle Above X-Axis = 27.8°
+    /// if inputX = 4, Angle Above X-Axis = 26.6°
+    /// if inputX = 5, Angle Above X-Axis = 24.9°
+    /// if inputX = 6, Angle Above X-Axis = 23.4°
+    /// if inputX = 7, Angle Above X-Axis = 21.8°
+    /// if inputX = 8, Angle Above X-Axis = 20.5°
+    /// if inputX = 9, Angle Above X-Axis = 19.4°
+    /// if inputX = 10, Angle Above X-Axis = 18.7°
+    /// </summary>
+    /// <param name="inputX"></param>
+    /// <param name="magnitude"></param>
+    public virtual void ApplyLog2Force(float inputX, float magnitude)
     {
         if (inputX <= 0f)
         {
@@ -166,7 +139,19 @@ public class PlayerBase : MonoBehaviour
         Debug.Log($"[Log2] inputX: {inputX}, y: {y}, direction: {direction}, force: {force}");
     }
 
-    public virtual void ApplyExp2Force(float inputX, float magnitude) // upward curve
+    /// <summary>
+    ///  if inputX = 2, Angle Above X-Axis = 63.4°
+    /// if inputX = 3, Angle Above X-Axis = 69.4°
+    /// if inputX = 4, Angle Above X-Axis = 76°
+    /// if inputX = 5, Angle Above X-Axis = 81.1°
+    /// if inputX = 6, Angle Above X-Axis = 84.6°
+    /// if inputX = 7, Angle Above X-Axis = 86.9°
+    /// if inputX = 8, Angle Above X-Axis = 88.2°
+    /// if inputX = 9, Angle Above X-Axis = 88.9°
+    /// </summary>
+    /// <param name="inputX"></param>
+    /// <param name="magnitude"></param>
+    public virtual void ApplyExp2Force(float inputX, float magnitude) 
     {
         float y = Mathf.Pow(2f, inputX);
         Vector2 direction = new Vector2(inputX, y).normalized;
@@ -177,15 +162,10 @@ public class PlayerBase : MonoBehaviour
         Debug.Log($"[Exp2] inputX: {inputX}, y: {y}, direction: {direction}, force: {force}");
     }
 
-
-    #endregion
-
-    public virtual void Stop() { playerRb.linearVelocity = Vector2.zero; playerRb.angularVelocity = 0f; Debug.LogError("STOP CALLED"); }
+    public virtual void Stop() { playerRb.linearVelocity = Vector2.zero; playerRb.angularVelocity = 0f; /*Debug.LogError("STOP CALLED");*/ }
 
     public virtual void TakeDamage(int damage)
     {
-        float currentVelocity = playerRb.linearVelocityX;
-
         int newHealth = Health -= damage;
 
         if (newHealth <= 0f) { Health = 0; }

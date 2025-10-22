@@ -5,15 +5,16 @@ public class PlayerStateMachine : MonoBehaviour
 {
     public PlayerBase playerBase;
     public GameObject player;
+    public GameObject ground;
     public Rigidbody2D playerRb;
 
-    public float speedToStopAt = 4f;
-    public float flyingHeightThreshold = 15f;
+    private float speedToStopAt = 4f;
+    private float flyingHeightThreshold = 20f;
     public float playerLinearX;
 
     public enum PlayerState
     {
-        Inactive, Rolling, Flying, Stopped, ReadyToLaunch
+        Inactive, Grounded, Flying, Stopped, ReadyToLaunch
     }
     public PlayerState playerState;
 
@@ -23,7 +24,7 @@ public class PlayerStateMachine : MonoBehaviour
     public delegate void PlayerStateChange();
 
     public static event PlayerStateChange OnInactive;
-    public static event PlayerStateChange OnRolling;
+    public static event PlayerStateChange OnGrounded;
     public static event PlayerStateChange OnFlying;
     public static event PlayerStateChange OnStopped;
     public static event PlayerStateChange OnReadyToLaunch;
@@ -46,9 +47,9 @@ public class PlayerStateMachine : MonoBehaviour
                 OnInactive?.Invoke();
                 Debug.Log("Player is Inactive");
                 break;
-            case PlayerState.Rolling:
-                OnRolling?.Invoke();
-                Debug.Log("Player is rolling");
+            case PlayerState.Grounded:
+                OnGrounded?.Invoke();
+                Debug.Log("Player is Grounded");
                 break;
             case PlayerState.Flying:
                 OnFlying?.Invoke();
@@ -82,32 +83,32 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void LaunchToMoving()
     {
-        if (playerState == PlayerState.ReadyToLaunch || playerState == PlayerState.Rolling || playerState == PlayerState.Flying)
+        if (playerState == PlayerState.ReadyToLaunch || playerState == PlayerState.Grounded || playerState == PlayerState.Flying)
         {
-            if (Mathf.Abs(playerRb.linearVelocityY) > 1 && player.gameObject.transform.position.y > flyingHeightThreshold)
+            if (Mathf.Abs(playerRb.linearVelocityY) > 0 && player.gameObject.transform.position.y > flyingHeightThreshold)
             {
-                if (playerState != PlayerState.Flying) { Debug.Log("Player has begun Flying"); }
+                if (playerState != PlayerState.Flying)
                 ChangePlayerState(PlayerState.Flying);
 
             }
             else if (Mathf.Abs(playerRb.linearVelocityX) > 1 && player.transform.position.y <= flyingHeightThreshold)
             {
-                if (playerState != PlayerState.Rolling) { Debug.Log("Player has begun "); }
-                ChangePlayerState(PlayerState.Rolling);
+                if (playerState != PlayerState.Grounded)
+                ChangePlayerState(PlayerState.Grounded);
             }
         }
     }
 
     private void MovingToStopped()
     {
-        if (playerState == PlayerState.Flying || playerState == PlayerState.Rolling)
+        if (playerState == PlayerState.Flying || playerState == PlayerState.Grounded)
         {
             // check that the player is moving at less than the speed limit and more than 0 to set it to 0 and that the player is on the ground.
-            if (Mathf.Abs(playerRb.linearVelocityX) <= speedToStopAt && Mathf.Abs(playerRb.linearVelocityX) >= 0 && player.transform.position.y < 10f) 
+            if (Mathf.Abs(playerRb.linearVelocityX) <= speedToStopAt && Mathf.Abs(playerRb.linearVelocityX) >= 0 && player.transform.position.y < flyingHeightThreshold) 
             {
-                ChangePlayerState(PlayerState.Stopped);
-
                 FreezePlayerMovement();
+
+                ChangePlayerState(PlayerState.Stopped);
             }
         }
     }
@@ -136,7 +137,7 @@ public class PlayerStateMachine : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         Debug.LogWarning("FREEZE ROUTINE CALLED");
         Vector3 pos = player.transform.position;
-        pos.y = 0.51f;
+        pos.y = ground.transform.position.y - ground.transform.position.y;
         player.transform.position = pos;
     }
 }
