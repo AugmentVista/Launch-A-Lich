@@ -16,6 +16,7 @@ public class PlayerResultsManager : MonoBehaviour
 
     public GameObject highScoreBanner;
     public GameObject distanceBanner;
+    public GameObject goldIcon;
     public GameObject nextButton;
 
     public float highScoreX = 0f;
@@ -25,6 +26,7 @@ public class PlayerResultsManager : MonoBehaviour
 
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI distanceTraveledThisRunText;
+    public TextMeshProUGUI goldText;
 
     private void Start()
     {
@@ -87,6 +89,15 @@ public class PlayerResultsManager : MonoBehaviour
         nextButton.SetActive(true);
     }
 
+
+    private void CalcuateGoldEarned(float distance, float height)
+    {
+        float travelMoneyEarned;
+        travelMoneyEarned = (distance / 2) + height;
+
+        goldText.text = $"Gold earned from travel this run:\n {travelMoneyEarned:F0}\n Gold earned from enemies this run:\n 0\n Gold earned from drops this run:\n 0\n Total gold earned this run:\n {travelMoneyEarned:F0}";
+    }
+
     public void NextButton()
     {
         ResultsMenu();
@@ -94,15 +105,16 @@ public class PlayerResultsManager : MonoBehaviour
 
     void ResultsMenu()
     {
-        ResetResults();
         nextButton.SetActive(false);
         UIManager.B_Results();
+        CalcuateGoldEarned(distanceReached, heightReached);
 
         if (respawner != null)
         {
             respawner.RespawnPlayer();
         }
 
+        ResetResults();
         PlayerStateMachine playerState = player.GetComponent<PlayerStateMachine>();
         if (playerState != null) { playerState.StoppedToLaunchReady(); }
     }

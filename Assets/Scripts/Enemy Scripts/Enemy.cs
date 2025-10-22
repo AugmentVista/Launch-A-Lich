@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     public float baseSpeed;
 
     public int damageValue;
+    public int moneyValue;
     public enum Type {Flying, Grounded };
     public Type type;
 

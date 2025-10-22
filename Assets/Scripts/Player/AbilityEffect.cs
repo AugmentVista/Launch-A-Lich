@@ -27,7 +27,7 @@ public class AbilityEffect : MonoBehaviour
         {
             if (playerRb != null)
             {
-                ApplyExp2Force(3f, abilityStrength);
+                ApplyExp2Force(2f, abilityStrength);
                 Debug.LogWarning("ABILITY HIT THE PLAYER");
             }
         }

@@ -5,7 +5,7 @@ public class AbilityCooldownBar : MonoBehaviour
 {
     [SerializeField] PlayerAbility ability;
 
-    float cooldownDuration;
+    private float cooldownDuration;
     private float cooldownTimer;
 
     public Image fillImage;

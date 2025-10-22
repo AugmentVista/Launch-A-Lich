@@ -4,7 +4,9 @@ public class PlayerInteractionHandler : PlayerBase
 {
     public int health;
 
-    public int enemyForceMult;
+    public int forceMult;
+
+    public int enemyImpactVelocityGain;
 
     private float groundedTimer = 0f;
 
@@ -18,6 +20,15 @@ public class PlayerInteractionHandler : PlayerBase
         Health = MaxHealth;
         health = MaxHealth;
     }
+
+    /// <summary>
+    /// A delegate event that other classes can subcribe to
+    /// </summary>
+    public delegate void EnemyDefeated(float goldValue);
+
+    public static event EnemyDefeated OnFlyingEnemyDefeated;
+    public static event EnemyDefeated OnGroundEnemyDefeated;
+
 
     private void Update()
     {
@@ -37,29 +48,32 @@ public class PlayerInteractionHandler : PlayerBase
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
 
-            //GameObject enemyGameObject = collision.gameObject;
-
-            //BoxCollider2D enemyReboundCollider = enemyGameObject.GetComponent<BoxCollider2D>();
-
             TakeDamage(enemy.damageValue);
 
             if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
             {
-                ApplyLog2Force(8f, enemy.damageValue * enemyForceMult);
+                ApplyLog2Force(2f, enemyImpactVelocityGain * forceMult);
+                OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
             }
             if (Health >= MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
             {
-                ApplyLog2Force(2f, enemy.damageValue * enemyForceMult -1);
+                ApplyLog2Force(8f, enemyImpactVelocityGain * (forceMult -1));
+                OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
             }
             if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Grounded)
             {
-                ApplyExp2Force(4f, enemy.damageValue * enemyForceMult);
+                LogarithmicBounce(8f, enemyImpactVelocityGain * forceMult);
+                OnGroundEnemyDefeated?.Invoke(enemy.moneyValue);
             }
             if (Health >= MaxHealth * 0.5f && enemy.type == Enemy.Type.Grounded) 
             {
-                ApplyExp2Force(4f, enemy.damageValue * enemyForceMult -1);
+                LogarithmicBounce(4f, enemyImpactVelocityGain * forceMult);
+                OnGroundEnemyDefeated?.Invoke(enemy.moneyValue);
             }
-
+            if (Health >= 0)
+            {
+                LogarithmicBounce(1f, enemyImpactVelocityGain * 0f);
+            }
             if (Health - enemy.damageValue > 0) { GetComponent<Player_Anim_Manager>()?.PlayRolling(); }
             Debug.LogWarning("Player hit an enemy");
             
@@ -87,12 +101,17 @@ public class PlayerInteractionHandler : PlayerBase
                     break;
                 case int i when (Mathf.Round(i) < MaxHealth * 0.5f && Mathf.Round(i) >= MaxHealth * 0.25f):
                     {
-                        ApplyExp2Force(4f, Mathf.Abs(ground.damageValue));
+                        LogarithmicBounce(15f, Mathf.Abs(ground.damageValue));
                     }
                     break;
-                case int i when (Mathf.Round(i) < MaxHealth * 0.25f):
+                case int i when (Mathf.Round(i) < MaxHealth * 0.25f && Mathf.Round(i) >= 0f):
                     {
-                        ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.8f);
+                        ApplyExp2Force(2f, Mathf.Abs(playerRb.linearVelocityY) * 0.8f);
+                    }
+                    break;
+                case int i when (Mathf.Round(i) >= 0):
+                    {
+                    
                     }
                     break;
             }
@@ -112,9 +131,9 @@ public class PlayerInteractionHandler : PlayerBase
             if (groundedTimer > 0.5f)
             {
                 groundedTimer = 0f;
+                GetComponent<Player_Anim_Manager>()?.PlayTakeHit();
                 TakeDamage(ground.damageValue);
-                if (Health - ground.damageValue > 0) { GetComponent<Player_Anim_Manager>()?.PlayTakeHit(); }
-                ApplyExp2Force(7f, ground.damageValue * 2);
+                ApplyExp2Force(2f, ground.damageValue * 2);
             }
         }
     }

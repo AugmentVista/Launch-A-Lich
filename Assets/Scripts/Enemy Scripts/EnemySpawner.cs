@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -8,24 +8,25 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject FlyingEnemy;
 
     private float spawnInterval = 0.25f;
-    public float spawnY = 0f;
+    public float spawnY;
     public float spawnOffset = 2f;  // how far past right edge to spawn
 
     private Camera cam;
-    private LevelManager levelManager;
     private bool canSpawn = false;
     private float timer = 0f;
 
     void Awake()
     {
         cam = Camera.main;
-        levelManager = GetComponentInParent<LevelManager>();
     }
 
     void OnEnable()
     {
         PlayerStateMachine.OnGrounded += EnableSpawning;
         PlayerStateMachine.OnFlying += EnableSpawning;
+        PlayerStateMachine.OnGrounded += SpawnGroundedEnemies;
+        PlayerStateMachine.OnFlying += SpawnFlyingEnemies;
+
 
         PlayerStateMachine.OnInactive += DisableSpawning;
         PlayerStateMachine.OnStopped += DisableSpawning;
@@ -37,6 +38,8 @@ public class EnemySpawner : MonoBehaviour
     {
         PlayerStateMachine.OnGrounded -= EnableSpawning;
         PlayerStateMachine.OnFlying -= EnableSpawning;
+        PlayerStateMachine.OnGrounded -= SpawnGroundedEnemies;
+        PlayerStateMachine.OnFlying -= SpawnFlyingEnemies;
 
         PlayerStateMachine.OnInactive -= DisableSpawning;
         PlayerStateMachine.OnStopped -= DisableSpawning;
@@ -48,7 +51,16 @@ public class EnemySpawner : MonoBehaviour
     {
         if (canSpawn)
         {
-            if (PlayerResultsManager.globalPlayerSpeedY > 5 || PlayerResultsManager.globalPlayerSpeedY < -5f)
+            float speed = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
+
+            // Map speed (10 → 50) to interval (0.1 → 1.0)
+            float speedDeterminedSpawnRange = Mathf.InverseLerp(10f, 100f, speed);
+            float scaledInterval = Mathf.Lerp(0.1f, 1.0f, speedDeterminedSpawnRange);
+
+            // Clamp and round to two decimals
+            spawnInterval = Mathf.Clamp((float)Mathf.Round(scaledInterval * 10f) / 10f, 0.15f, 0.5f);
+
+            if (PlayerResultsManager.globalPlayerSpeedY > 10 || PlayerResultsManager.globalPlayerSpeedY < -10f)
             {
                 SpawnFlyingEnemies();
             }
@@ -68,13 +80,14 @@ public class EnemySpawner : MonoBehaviour
     {
         enemyPrefab = FlyingEnemy;
 
-        // Generate a random Y near the camera
-        float randomY = Random.Range(cam.transform.position.y, cam.transform.position.y + 5f);
+        Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
+        Vector3 topEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, cam.nearClipPlane));
 
-        // Clamp it so flying enemies never spawn below -525
-        spawnY = Mathf.Clamp(randomY, -525f, float.MaxValue);
+        // Pick a random Y between a bit above bottom and a bit below top
+        float randomY = Random.Range(bottomEdge.y + 10f, topEdge.y - 1f);
 
-        spawnInterval = 0.2f;
+        // Clamp it if you still want to enforce a minimum
+        spawnY = Mathf.Clamp(randomY, 10f, float.MaxValue);
     }
 
     void SpawnGroundedEnemies()
@@ -82,12 +95,10 @@ public class EnemySpawner : MonoBehaviour
         enemyPrefab = GroundEnemy;
 
         spawnY = 0f;
-
-        spawnInterval = 0.3f;
     }
 
 
-    void SpawnEnemy()
+    private void SpawnEnemy()
     {
         if (enemyPrefab == null) return;
 
@@ -114,7 +125,14 @@ public class EnemySpawner : MonoBehaviour
 
             if (hit == null || !hit.CompareTag("Enemy"))
             {
-                Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+                GameObject instance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+
+                if (enemyPrefab == GroundEnemy)
+                {
+                    Vector3 scale = instance.transform.localScale;
+                    scale.x *= -1;
+                    instance.transform.localScale = scale;
+                }
                 return;
             }
         }

@@ -5,11 +5,11 @@ public class PlayerStateMachine : MonoBehaviour
 {
     public PlayerBase playerBase;
     public GameObject player;
-    public GameObject Ground;
+    public GameObject ground;
     public Rigidbody2D playerRb;
 
-    public float speedToStopAt = 4f;
-    public float flyingHeightThreshold = 15f;
+    private float speedToStopAt = 4f;
+    private float flyingHeightThreshold = 20f;
     public float playerLinearX;
 
     public enum PlayerState
@@ -137,7 +137,7 @@ public class PlayerStateMachine : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         Debug.LogWarning("FREEZE ROUTINE CALLED");
         Vector3 pos = player.transform.position;
-        pos.y = Ground.transform.position.y - Ground.transform.position.y;
+        pos.y = ground.transform.position.y - ground.transform.position.y;
         player.transform.position = pos;
     }
 }
