@@ -100,12 +100,12 @@ TextureImporter:
       name: death_8_0
       rect:
         serializedVersion: 2
-        x: 134
-        y: 1
-        width: 37
-        height: 33
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 133
+        y: 0
+        width: 39
+        height: 35
+      alignment: 9
+      pivot: {x: 0.5, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
