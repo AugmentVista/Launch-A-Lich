@@ -15,7 +15,6 @@ public class GoldTallyThisRun : MonoBehaviour
         goldText.text = $"Total Gold: {CentralBank.totalBalance}";
     }
 
-
     private void OnEnable()
     {
         PlayerInteractionHandler.OnFlyingEnemyDefeated += AddGold;
