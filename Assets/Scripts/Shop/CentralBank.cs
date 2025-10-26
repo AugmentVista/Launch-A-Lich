@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CentralBank : MonoBehaviour
 {
-    public static int totalBalance;
+    public int totalBalance;
     void Start()
     {
         

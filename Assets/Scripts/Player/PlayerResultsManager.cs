@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerResultsManager : MonoBehaviour
 {
     public Respawner respawner;
+    public CentralBank bank;
 
     [SerializeField] Rigidbody2D playerRb;
     public Vector2 globalPlayerSpeedV2;
@@ -124,8 +125,8 @@ public class PlayerResultsManager : MonoBehaviour
     {
         float travelMoneyEarned;
         travelMoneyEarned = (distance / 2) + height;
-        CentralBank.totalBalance += ((int)travelMoneyEarned);
-        goldText.text = $"Gold earned from travel this run:\n {travelMoneyEarned:F0}\n Gold earned from enemies this run: {enemyGoldThisRun}\n 0\n Gold earned from treats this run: {itemGoldThisRun}\n 0\n Total gold earned this run:\n {itemGoldThisRun + enemyGoldThisRun + travelMoneyEarned:F0}";
+        bank.totalBalance += ((int)travelMoneyEarned + itemGoldThisRun);
+        goldText.text = $"Gold earned from travel this run:\n {travelMoneyEarned:F0}\n Gold earned from enemies this run: {enemyGoldThisRun}\n Gold earned from treats this run: {itemGoldThisRun}\n Total gold earned this run:\n {itemGoldThisRun + enemyGoldThisRun + travelMoneyEarned:F0}";
     }
 
     public void NextButton()
