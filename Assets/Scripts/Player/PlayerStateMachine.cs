@@ -45,23 +45,23 @@ public class PlayerStateMachine : MonoBehaviour
         {
             case PlayerState.Inactive:
                 OnInactive?.Invoke();
-                Debug.Log("Player is Inactive");
+                //Debug.Log("Player is Inactive");
                 break;
             case PlayerState.Grounded:
                 OnGrounded?.Invoke();
-                Debug.Log("Player is Grounded");
+                //Debug.Log("Player is Grounded");
                 break;
             case PlayerState.Flying:
                 OnFlying?.Invoke();
-                Debug.Log("Player is flying");
+                //Debug.Log("Player is flying");
                 break;
             case PlayerState.Stopped:
                 OnStopped?.Invoke();
-                Debug.Log("Player has stopped");
+                //Debug.Log("Player has stopped");
                 break;
             case PlayerState.ReadyToLaunch:
                 OnReadyToLaunch?.Invoke();
-                Debug.Log("Player is Ready To Launch");
+                //Debug.Log("Player is Ready To Launch");
                 break;
         }
     }
@@ -135,7 +135,7 @@ public class PlayerStateMachine : MonoBehaviour
         player.transform.rotation = Quaternion.identity;
 
         yield return new WaitForSeconds(0.05f);
-        Debug.LogWarning("FREEZE ROUTINE CALLED");
+        //Debug.LogWarning("FREEZE ROUTINE CALLED");
         Vector3 pos = player.transform.position;
         pos.y = ground.transform.position.y - ground.transform.position.y;
         player.transform.position = pos;
