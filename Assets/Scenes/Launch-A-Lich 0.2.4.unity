@@ -321,6 +321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc42c785eb751994b85a4d0c5863569a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBackground: 0
+  playerIsDead: 0
   target: {fileID: 2119655189}
   offset: {x: 50, y: 0, z: -10}
 --- !u!61 &76444332
@@ -69321,6 +69323,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc42c785eb751994b85a4d0c5863569a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBackground: 0
+  playerIsDead: 0
   target: {fileID: 2119655189}
   offset: {x: 0, y: 4, z: -10}
 --- !u!1 &341105107
@@ -69516,18 +69520,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 388133066}
-  m_LocalRotation: {x: -0, y: -0, z: -0.6397602, w: 0.76857466}
+  m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.03703704, y: 0.07407408, z: 0.03703704}
+  m_LocalScale: {x: 0.04, y: 0.075, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1286207693}
   - {fileID: 699164293}
   m_Father: {fileID: 1242848838}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -79.548}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -960.73, y: -526.92}
+  m_AnchoredPosition: {x: -961.14, y: -523.65}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &388133068
@@ -70568,13 +70572,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 580035848}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.85, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 253011155}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1107986810}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &592919252
 GameObject:
@@ -74210,6 +74214,7 @@ Transform:
   - {fileID: 1683373601}
   - {fileID: 2086947475}
   - {fileID: 410087041}
+  - {fileID: 580035850}
   m_Father: {fileID: 1693488479}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1123219060
@@ -74540,6 +74545,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 330585546}
+    - target: {fileID: 9124281169014931103, guid: 14dcb22ba84f19545abc756cd5d53f55, type: 3}
+      propertyPath: isBackground
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8354973897483915425, guid: 14dcb22ba84f19545abc756cd5d53f55, type: 3}
@@ -76273,7 +76282,7 @@ MonoBehaviour:
   abilityCooldown: {fileID: 1605341350}
   playerRb: {fileID: 2119655190}
   mainCamera: {fileID: 330585545}
-  cooldown: 4
+  cooldown: 2
 --- !u!1 &1544343890
 GameObject:
   m_ObjectHideFlags: 0
@@ -78768,6 +78777,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc42c785eb751994b85a4d0c5863569a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBackground: 0
+  playerIsDead: 0
   target: {fileID: 2119655189}
   offset: {x: -25, y: 0, z: -10}
 --- !u!61 &1971226984
@@ -80210,8 +80221,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc42c785eb751994b85a4d0c5863569a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBackground: 1
+  playerIsDead: 0
   target: {fileID: 330585546}
-  offset: {x: 0, y: 0, z: -10}
+  offset: {x: 0, y: 2, z: -10}
 --- !u!114 &3824998456794202391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80640,7 +80653,6 @@ SceneRoots:
   - {fileID: 49484076}
   - {fileID: 1998686132}
   - {fileID: 595240229}
-  - {fileID: 1693488479}
   - {fileID: 1044183632}
+  - {fileID: 1693488479}
   - {fileID: 2119655189}
-  - {fileID: 580035850}
