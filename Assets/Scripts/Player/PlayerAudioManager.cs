@@ -6,6 +6,7 @@ public class PlayerAudioManager : MonoBehaviour
 
     [SerializeField] private AudioClip groundHitSound;
     [SerializeField] private AudioClip enemyHitSound;
+    [SerializeField] private AudioClip abilityHitSound;
 
 
     [Header("Volume Control")]
@@ -27,6 +28,10 @@ public class PlayerAudioManager : MonoBehaviour
         else if (collision.gameObject.CompareTag("Enemy"))
         {
             PlaySFX(enemyHitSound);
+        }
+        else if (collision.gameObject.CompareTag("P_Ability"))
+        {
+            PlaySFX(abilityHitSound);
         }
     }
 

@@ -260,7 +260,7 @@ Transform:
   m_GameObject: {fileID: 76444328}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 50, y: 10, z: 0}
+  m_LocalPosition: {x: 74.6, y: 10, z: 0}
   m_LocalScale: {x: 2, y: 2000, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -294,6 +294,17 @@ MonoBehaviour:
   playerIsDead: 0
   target: {fileID: 2119655189}
   offset: {x: 50, y: 0, z: -10}
+  baseFollowSpeed: 5
+  maxFollowLag: 1.5
+  speedThreshold: 40
+  maxPlayerSpeed: 100
+  maxCameraLagX: 0.3
+  verticalLerpSpeed: 2
+  riseThreshold: 25
+  fallThreshold: -25
+  maxUpOffset: 6
+  maxDownOffset: 2
+  neutralOffsetY: 4
 --- !u!61 &76444332
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -347,7 +358,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 76444328}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -69230,7 +69241,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -960, y: -535.22, z: -10}
+  m_LocalPosition: {x: -960, y: -526.0005, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -69296,6 +69307,17 @@ MonoBehaviour:
   playerIsDead: 0
   target: {fileID: 2119655189}
   offset: {x: 0, y: 4, z: -10}
+  baseFollowSpeed: 50
+  maxFollowLag: 1.5
+  speedThreshold: 51
+  maxPlayerSpeed: 100
+  maxCameraLagX: 0.3
+  verticalLerpSpeed: 2
+  riseThreshold: 25
+  fallThreshold: -25
+  maxUpOffset: 8
+  maxDownOffset: -4
+  neutralOffsetY: 4
 --- !u!1 &341105107
 GameObject:
   m_ObjectHideFlags: 0
@@ -70275,7 +70297,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1042.1, y: -511.13}
+  m_AnchoredPosition: {x: -1445.59, y: -755.42}
   m_SizeDelta: {x: 271.4636, y: 175.3204}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &528833279
@@ -73409,7 +73431,7 @@ Transform:
   m_GameObject: {fileID: 1042811318}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.5, y: 0, z: 0}
+  m_LocalPosition: {x: 25.66, y: 0, z: 0}
   m_LocalScale: {x: 50, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75814,7 +75836,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1042.11, y: -517.81}
+  m_AnchoredPosition: {x: -1445.6, y: -762.1}
   m_SizeDelta: {x: 400.1047, y: 174.6766}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1439050363
@@ -78671,7 +78693,7 @@ Transform:
   m_GameObject: {fileID: 1971226980}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25, y: 10, z: 0}
+  m_LocalPosition: {x: -28.1, y: 10, z: 0}
   m_LocalScale: {x: 2, y: 2000, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -78685,7 +78707,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1971226980}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -78749,6 +78771,17 @@ MonoBehaviour:
   playerIsDead: 0
   target: {fileID: 2119655189}
   offset: {x: -25, y: 0, z: -10}
+  baseFollowSpeed: 5
+  maxFollowLag: 1.5
+  speedThreshold: 40
+  maxPlayerSpeed: 100
+  maxCameraLagX: 0.3
+  verticalLerpSpeed: 2
+  riseThreshold: 25
+  fallThreshold: -25
+  maxUpOffset: 6
+  maxDownOffset: 2
+  neutralOffsetY: 4
 --- !u!61 &1971226984
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -78926,6 +78959,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1986269354}
+  - component: {fileID: 1986269355}
   m_Layer: 0
   m_Name: SOUND MANAGER
   m_TagString: Untagged
@@ -78950,6 +78984,23 @@ Transform:
   - {fileID: 606368659}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1986269355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986269353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e5a24a5619d5ea4a8ed58c9a7095f37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAudio: {fileID: 2119655196}
+  playerAudioSource: {fileID: 2119655195}
+  backgroundAudioSource: {fileID: 606368658}
+  playerVolume: 0.8
+  backgroundVolume: 0.4
 --- !u!1 &1998686131
 GameObject:
   m_ObjectHideFlags: 0
@@ -79785,6 +79836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 2119655190}
+  maxFallSpeed: -100
   stateMachine: {fileID: 2119655194}
 --- !u!114 &2119655194
 MonoBehaviour:
@@ -79915,6 +79967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundHitSound: {fileID: 8300000, guid: 23e7e9215ba03114e834529ec05490c4, type: 3}
   enemyHitSound: {fileID: 8300000, guid: 5e74c248e731844409fc010514522f51, type: 3}
+  abilityHitSound: {fileID: 8300000, guid: 88a260e80614f5648aaa00c60a40dbe1, type: 3}
   volume: 1
 --- !u!70 &2119655197
 CapsuleCollider2D:
@@ -79966,6 +80019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 2119655190}
+  maxFallSpeed: -100
   stateMachine: {fileID: 2119655194}
   health: 0
   forceMult: 4
@@ -80080,10 +80134,18 @@ PrefabInstance:
       propertyPath: speedLimit
       value: 
       objectReference: {fileID: 2119655199}
+    - target: {fileID: 2098054945850877509, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: layerSpeedModifier
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 2562445529883121993, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
       propertyPath: speedLimit
       value: 
       objectReference: {fileID: 2119655199}
+    - target: {fileID: 2562445529883121993, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: layerSpeedModifier
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 3131527502846894270, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
       propertyPath: speedLimit
       value: 
@@ -80096,10 +80158,18 @@ PrefabInstance:
       propertyPath: speedLimit
       value: 
       objectReference: {fileID: 2119655199}
+    - target: {fileID: 4169575692271713210, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: layerSpeedModifier
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 6841333626043545683, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 330585546}
+    - target: {fileID: 6841333626043545683, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8333431924867856381, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
       propertyPath: speedLimit
       value: 

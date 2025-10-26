@@ -7,6 +7,7 @@ TagManager:
   - Floor
   - Enemy
   - Ground
+  - P_Ability
   layers:
   - Default
   - TransparentFX

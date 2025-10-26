@@ -26,15 +26,15 @@ public class SpeedLimit : MonoBehaviour
 
     void Update()
     {
-        float currentSpeedY = Mathf.Abs(playerRb.linearVelocityY);
         float currentSpeedX = Mathf.Abs(playerRb.linearVelocityX);
+        float currentSpeedY = (playerRb.linearVelocityY);
 
         float dampX = CalculateDamping(currentSpeedX);
-        float gravY = CalculateGravityDrag(currentSpeedY);
+        float gravityY = CalculateGravityDrag(currentSpeedY);
 
         playerRb.linearDamping = Mathf.Lerp(playerRb.linearDamping, dampX, Time.deltaTime * 5f);
 
-        playerRb.gravityScale = Mathf.Lerp(playerRb.gravityScale, gravY, Time.deltaTime * 5f);
+        playerRb.gravityScale = Mathf.Lerp(playerRb.gravityScale, gravityY, Time.deltaTime * 5f);
 
         UpdateSpeedTextColor(playerRb.linearDamping);
     }

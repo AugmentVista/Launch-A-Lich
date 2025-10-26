@@ -26,29 +26,18 @@ public class Parallax : MonoBehaviour
             speedLimit = FindFirstObjectByType<SpeedLimit>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         float playerSpeed = PlayerResultsManager.globalPlayerSpeedX;
-        float baseline = speedLimit != null ? speedLimit.maxSpeedX : 100f;
+        float baseline = speedLimit != null ? speedLimit.maxSpeedX : maxPlayerSpeed;
 
-        float normalizedSpeed;
-        if (playerSpeed <= baseline)
-        {
-            normalizedSpeed = Mathf.InverseLerp(0f, baseline, playerSpeed);
-        }
-        else
-        {
-            // Smooth compression for excess speeds
-            normalizedSpeed = 1f - Mathf.Exp(-((playerSpeed - baseline) / baseline));
-            normalizedSpeed = Mathf.Clamp01(normalizedSpeed);
-        }
+        float normalizedSpeed = Mathf.InverseLerp(minPlayerSpeed, baseline, playerSpeed);
+        normalizedSpeed = Mathf.Clamp01(normalizedSpeed);
 
         float targetSpeed = normalizedSpeed * layerSpeedModifier;
         speed = Mathf.Lerp(speed, targetSpeed, Time.deltaTime * 5f);
 
         if (playerSpeed < 0.001f) { speed = 0f; }
-            
 
         distance += Time.deltaTime * speed;
         mat.SetTextureOffset("_MainTex", Vector2.right * distance);
