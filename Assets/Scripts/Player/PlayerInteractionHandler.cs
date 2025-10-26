@@ -29,6 +29,11 @@ public class PlayerInteractionHandler : PlayerBase
     public static event EnemyDefeated OnFlyingEnemyDefeated;
     public static event EnemyDefeated OnGroundEnemyDefeated;
 
+    public delegate void ItemCollected(int goldValue);
+
+    public static event ItemCollected OnFlyingItemCollected;
+    public static event ItemCollected OnGroundItemCollected;
+
 
     private void Update()
     {
@@ -42,6 +47,25 @@ public class PlayerInteractionHandler : PlayerBase
         if (collision.gameObject.CompareTag("Respawn"))
         {
             health = MaxHealth;
+        }
+
+        if (collision.gameObject.CompareTag("Item"))
+        {
+            Item_World item = collision.gameObject.GetComponent<Item_World>();
+
+            if (Health < MaxHealth) { TakeDamage(-item.healValue); }
+            LogarithmicBounce(4, item.healValue);
+
+            if (item.type == Item_World.Type.Flying)
+            {
+                OnFlyingItemCollected?.Invoke(item.moneyValue);
+            }
+            if (item.type == Item_World.Type.Grounded)
+            {
+                OnGroundItemCollected?.Invoke(item.moneyValue);
+            }
+
+            if (item != null) { item.isDead = true; }
         }
 
         if (collision.gameObject.CompareTag("Enemy"))

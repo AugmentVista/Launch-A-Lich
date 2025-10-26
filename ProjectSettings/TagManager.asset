@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Ground
   - P_Ability
+  - Item
   layers:
   - Default
   - TransparentFX

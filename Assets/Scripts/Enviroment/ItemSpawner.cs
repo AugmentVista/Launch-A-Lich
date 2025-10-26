@@ -1,24 +1,25 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class ItemSpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    public GameObject itemPrefab;
 
-    [SerializeField] GameObject GroundEnemy;
-    [SerializeField] GameObject FlyingEnemy;
+    [SerializeField] GameObject groundItem;
+    [SerializeField] GameObject flyingItem;
 
     [SerializeField] SpeedLimit speedLimit;
     private float speedLimitX;
     private float spawnInterval = 0.25f;
     public float spawnY;
     public float spawnOffset = 2f;  // how far past right edge to spawn
-
-    [SerializeField] private float minSpawnRate = 0.5f;
-    [SerializeField] private float maxSpawnRate = 0.15f;
+    [SerializeField] private float minSpawnRate = 1.5f;
+    [SerializeField] private float maxSpawnRate = 0.5f;
 
     private Camera cam;
     private bool canSpawn = false;
     private float timer = 0f;
+
+    
 
     void Awake()
     {
@@ -29,8 +30,8 @@ public class EnemySpawner : MonoBehaviour
     {
         PlayerStateMachine.OnGrounded += EnableSpawning;
         PlayerStateMachine.OnFlying += EnableSpawning;
-        PlayerStateMachine.OnGrounded += SpawnGroundedEnemies;
-        PlayerStateMachine.OnFlying += SpawnFlyingEnemies;
+        PlayerStateMachine.OnGrounded += SpawnGroundedItems;
+        PlayerStateMachine.OnFlying += SpawnFlyingItems;
 
 
         PlayerStateMachine.OnInactive += DisableSpawning;
@@ -43,8 +44,8 @@ public class EnemySpawner : MonoBehaviour
     {
         PlayerStateMachine.OnGrounded -= EnableSpawning;
         PlayerStateMachine.OnFlying -= EnableSpawning;
-        PlayerStateMachine.OnGrounded -= SpawnGroundedEnemies;
-        PlayerStateMachine.OnFlying -= SpawnFlyingEnemies;
+        PlayerStateMachine.OnGrounded -= SpawnGroundedItems;
+        PlayerStateMachine.OnFlying -= SpawnFlyingItems;
 
         PlayerStateMachine.OnInactive -= DisableSpawning;
         PlayerStateMachine.OnStopped -= DisableSpawning;
@@ -66,23 +67,23 @@ public class EnemySpawner : MonoBehaviour
 
             if (PlayerResultsManager.globalPlayerSpeedY > 10 || PlayerResultsManager.globalPlayerSpeedY < -10f)
             {
-                SpawnFlyingEnemies();
+                SpawnFlyingItems();
             }
-            else { SpawnGroundedEnemies(); }
+            else { SpawnGroundedItems(); }
 
             timer += Time.deltaTime;
 
             if (timer >= spawnInterval)
             {
-                SpawnEnemy();
+                SpawnItem();
                 timer = 0f;
             }
         }
     }
 
-    void SpawnFlyingEnemies()
+    void SpawnFlyingItems()
     {
-        enemyPrefab = FlyingEnemy;
+        itemPrefab = flyingItem;
 
         Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
         Vector3 topEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, cam.nearClipPlane));
@@ -92,27 +93,26 @@ public class EnemySpawner : MonoBehaviour
         spawnY = Mathf.Clamp(randomY, 10f, float.MaxValue);
     }
 
-    void SpawnGroundedEnemies()
+    void SpawnGroundedItems()
     {
-        enemyPrefab = GroundEnemy;
+        itemPrefab = groundItem;
 
         spawnY = 0f;
     }
 
 
-    private void SpawnEnemy()
+    private void SpawnItem()
     {
-        if (enemyPrefab == null) return;
+        if (itemPrefab == null) return;
 
-        CapsuleCollider2D prefabCollider = enemyPrefab.GetComponent<CapsuleCollider2D>();
+        CapsuleCollider2D prefabCollider = itemPrefab.GetComponent<CapsuleCollider2D>();
         if (prefabCollider == null)
         {
-            Debug.LogError("Enemy prefab does not have a BoxCollider2D attached.");
             return;
         }
 
         Vector2 colliderSize = prefabCollider.size;
-        Vector2 overlapBoxSize = colliderSize * 2f; // Double the size for spacing
+        Vector2 overlapBoxSize = colliderSize * 3f; // Double the size for spacing
 
         Vector2 rightEdge = cam.ViewportToWorldPoint(new Vector3(1, 0.5f, 0));
 
@@ -126,9 +126,9 @@ public class EnemySpawner : MonoBehaviour
 
             if (hit == null || !hit.CompareTag("Enemy") && !hit.CompareTag("Item"))
             {
-                GameObject instance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+                GameObject instance = Instantiate(itemPrefab, spawnPos, Quaternion.identity);
 
-                if (enemyPrefab == GroundEnemy)
+                if (itemPrefab == groundItem)
                 {
                     Vector3 scale = instance.transform.localScale;
                     scale.x *= -1;
@@ -138,7 +138,6 @@ public class EnemySpawner : MonoBehaviour
             }
         }
 
-        Debug.LogWarning("EnemySpawner: Could not find valid spawn position after multiple attempts.");
     }
 
 

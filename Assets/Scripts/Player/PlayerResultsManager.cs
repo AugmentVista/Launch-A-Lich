@@ -25,6 +25,7 @@ public class PlayerResultsManager : MonoBehaviour
     private float distanceReached;
 
     private int enemyGoldThisRun = 0;
+    private int itemGoldThisRun = 0;
 
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI distanceTraveledThisRunText;
@@ -95,12 +96,16 @@ public class PlayerResultsManager : MonoBehaviour
     {
         PlayerInteractionHandler.OnFlyingEnemyDefeated += TrackEnemyMoneyGain;
         PlayerInteractionHandler.OnGroundEnemyDefeated += TrackEnemyMoneyGain;
+        PlayerInteractionHandler.OnGroundItemCollected += TrackItemMoneyGain;
+        PlayerInteractionHandler.OnFlyingItemCollected += TrackItemMoneyGain;
     }
 
     private void OnDisable()
     {
         PlayerInteractionHandler.OnFlyingEnemyDefeated -= TrackEnemyMoneyGain;
         PlayerInteractionHandler.OnGroundEnemyDefeated -= TrackEnemyMoneyGain;
+        PlayerInteractionHandler.OnGroundItemCollected -= TrackItemMoneyGain;
+        PlayerInteractionHandler.OnFlyingItemCollected -= TrackItemMoneyGain;
     }
 
     private void TrackEnemyMoneyGain(int amount)
@@ -108,12 +113,19 @@ public class PlayerResultsManager : MonoBehaviour
         enemyGoldThisRun += amount;
     }
 
+    private void TrackItemMoneyGain(int amount)
+    {
+        itemGoldThisRun += amount;
+    }
+
+
+
     private void CalcuateGoldEarned(float distance, float height)
     {
         float travelMoneyEarned;
         travelMoneyEarned = (distance / 2) + height;
         CentralBank.totalBalance += ((int)travelMoneyEarned);
-        goldText.text = $"Gold earned from travel this run:\n {travelMoneyEarned:F0}\n Gold earned from enemies this run: {enemyGoldThisRun}\n 0\n Gold earned from drops this run:\n 0\n Total gold earned this run:\n {enemyGoldThisRun + travelMoneyEarned:F0}";
+        goldText.text = $"Gold earned from travel this run:\n {travelMoneyEarned:F0}\n Gold earned from enemies this run: {enemyGoldThisRun}\n 0\n Gold earned from treats this run: {itemGoldThisRun}\n 0\n Total gold earned this run:\n {itemGoldThisRun + enemyGoldThisRun + travelMoneyEarned:F0}";
     }
 
     public void NextButton()
@@ -144,6 +156,7 @@ public class PlayerResultsManager : MonoBehaviour
         heightReached = 0f;
         distanceReached = 0f;
         enemyGoldThisRun = 0;
+        itemGoldThisRun = 0;
     }
 
     private void OnDestroy()
