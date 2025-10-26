@@ -242,8 +242,8 @@ GameObject:
   - component: {fileID: 76444329}
   - component: {fileID: 76444333}
   - component: {fileID: 76444332}
-  - component: {fileID: 76444331}
   - component: {fileID: 76444330}
+  - component: {fileID: 76444334}
   m_Layer: 0
   m_Name: Despawn Pillar Right
   m_TagString: Untagged
@@ -259,12 +259,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 76444328}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 100.97, y: 10, z: 0}
-  m_LocalScale: {x: 50, y: 2000, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 100.97003, y: 10, z: 0}
+  m_LocalScale: {x: 2, y: 2000, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1693488479}
+  m_Father: {fileID: 1107986810}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &76444330
 MonoBehaviour:
@@ -278,33 +278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fbf1d076b74ed2498ffb155ec9af7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &76444331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 76444328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc42c785eb751994b85a4d0c5863569a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isBackground: 1
-  playerIsDead: 0
-  target: {fileID: 2119655189}
-  offset: {x: 50, y: 0, z: -10}
-  baseFollowSpeed: 5
-  maxFollowLag: 1.5
-  speedThreshold: 40
-  maxPlayerSpeed: 100
-  maxCameraLagX: 0.3
-  verticalLerpSpeed: 2
-  riseThreshold: 25
-  fallThreshold: -25
-  maxUpOffset: 6
-  maxDownOffset: 2
-  neutralOffsetY: 4
 --- !u!61 &76444332
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -396,7 +369,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -406,6 +379,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &76444334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76444328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4d39d9fb26bb547b6b4d00c44ab965, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 330585546}
+  offset: {x: 50, y: 0, z: 0}
+  CenterPillar: {fileID: 0}
+  playerIsDead: 0
 --- !u!1 &79793414
 GameObject:
   m_ObjectHideFlags: 0
@@ -73294,6 +73283,7 @@ GameObject:
   - component: {fileID: 1042811322}
   - component: {fileID: 1042811321}
   - component: {fileID: 1042811320}
+  - component: {fileID: 1042811323}
   m_Layer: 0
   m_Name: EnemyClear Pillar
   m_TagString: Untagged
@@ -73429,6 +73419,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1042811323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042811318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbf1d076b74ed2498ffb155ec9af7e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1044183631
 GameObject:
   m_ObjectHideFlags: 0
@@ -74081,6 +74083,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1971226981}
+  - {fileID: 76444329}
   - {fileID: 1042105323}
   - {fileID: 635227599}
   - {fileID: 1902506031}
@@ -78039,8 +78043,6 @@ Transform:
   m_Children:
   - {fileID: 1603244027}
   - {fileID: 541541011}
-  - {fileID: 1971226981}
-  - {fileID: 76444329}
   - {fileID: 1107986810}
   - {fileID: 254288562161006455}
   - {fileID: 503640116}
@@ -79153,8 +79155,8 @@ GameObject:
   - component: {fileID: 1971226981}
   - component: {fileID: 1971226982}
   - component: {fileID: 1971226984}
-  - component: {fileID: 1971226983}
   - component: {fileID: 1971226985}
+  - component: {fileID: 1971226986}
   m_Layer: 0
   m_Name: Despawn Pillar Left
   m_TagString: Untagged
@@ -79170,13 +79172,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1971226980}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.1, y: 10, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -28.099976, y: 10, z: 0}
   m_LocalScale: {x: 2, y: 2000, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1042811319}
-  m_Father: {fileID: 1693488479}
+  m_Father: {fileID: 1107986810}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1971226982
 SpriteRenderer:
@@ -79223,7 +79225,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -79233,33 +79235,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1971226983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971226980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc42c785eb751994b85a4d0c5863569a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isBackground: 1
-  playerIsDead: 0
-  target: {fileID: 2119655189}
-  offset: {x: -25, y: 0, z: -10}
-  baseFollowSpeed: 5
-  maxFollowLag: 1.5
-  speedThreshold: 40
-  maxPlayerSpeed: 100
-  maxCameraLagX: 0.3
-  verticalLerpSpeed: 2
-  riseThreshold: 25
-  fallThreshold: -25
-  maxUpOffset: 6
-  maxDownOffset: 2
-  neutralOffsetY: 4
 --- !u!61 &1971226984
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -79318,6 +79293,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fbf1d076b74ed2498ffb155ec9af7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1971226986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971226980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4d39d9fb26bb547b6b4d00c44ab965, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 330585546}
+  offset: {x: -50, y: 0, z: 0}
+  CenterPillar: {fileID: 1042811318}
+  playerIsDead: 0
 --- !u!1 &1984791764
 GameObject:
   m_ObjectHideFlags: 0
