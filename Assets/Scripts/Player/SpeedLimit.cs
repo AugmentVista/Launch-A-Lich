@@ -26,15 +26,15 @@ public class SpeedLimit : MonoBehaviour
 
     void Update()
     {
-        float currentSpeedY = Mathf.Abs(playerRb.linearVelocityY);
         float currentSpeedX = Mathf.Abs(playerRb.linearVelocityX);
+        float currentSpeedY = (playerRb.linearVelocityY);
 
         float dampX = CalculateDamping(currentSpeedX);
-        float gravY = CalculateGravityDrag(currentSpeedY);
+        float gravityY = CalculateGravityDrag(currentSpeedY);
 
         playerRb.linearDamping = Mathf.Lerp(playerRb.linearDamping, dampX, Time.deltaTime * 5f);
 
-        playerRb.gravityScale = Mathf.Lerp(playerRb.gravityScale, gravY, Time.deltaTime * 5f);
+        playerRb.gravityScale = Mathf.Lerp(playerRb.gravityScale, gravityY, Time.deltaTime * 5f);
 
         UpdateSpeedTextColor(playerRb.linearDamping);
     }
@@ -73,7 +73,7 @@ public class SpeedLimit : MonoBehaviour
             float t = Mathf.InverseLerp(0f, fullColorThreshold - baseLinearDampeningValue, excess);
 
             // Lerp from white to red
-            Color targetColor = Color.Lerp(Color.black, Color.red, t);
+            Color targetColor = Color.Lerp(Color.white, Color.red, t);
 
             Color currentColor = hudDisplay.speedText.color;
             hudDisplay.speedText.color = Color.Lerp(currentColor, targetColor, Time.deltaTime * 8f);

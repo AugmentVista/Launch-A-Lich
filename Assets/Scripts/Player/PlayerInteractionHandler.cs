@@ -24,10 +24,15 @@ public class PlayerInteractionHandler : PlayerBase
     /// <summary>
     /// A delegate event that other classes can subcribe to
     /// </summary>
-    public delegate void EnemyDefeated(float goldValue);
+    public delegate void EnemyDefeated(int goldValue);
 
     public static event EnemyDefeated OnFlyingEnemyDefeated;
     public static event EnemyDefeated OnGroundEnemyDefeated;
+
+    public delegate void ItemCollected(int goldValue);
+
+    public static event ItemCollected OnFlyingItemCollected;
+    public static event ItemCollected OnGroundItemCollected;
 
 
     private void Update()
@@ -42,6 +47,25 @@ public class PlayerInteractionHandler : PlayerBase
         if (collision.gameObject.CompareTag("Respawn"))
         {
             health = MaxHealth;
+        }
+
+        if (collision.gameObject.CompareTag("Item"))
+        {
+            Item_World item = collision.gameObject.GetComponent<Item_World>();
+
+            if (Health < MaxHealth) { TakeDamage(-item.healValue); }
+            LogarithmicBounce(4, item.healValue);
+
+            if (item.type == Item_World.Type.Flying)
+            {
+                OnFlyingItemCollected?.Invoke(item.moneyValue);
+            }
+            if (item.type == Item_World.Type.Grounded)
+            {
+                OnGroundItemCollected?.Invoke(item.moneyValue);
+            }
+
+            if (item != null) { item.isDead = true; }
         }
 
         if (collision.gameObject.CompareTag("Enemy"))
@@ -114,8 +138,8 @@ public class PlayerInteractionHandler : PlayerBase
                     
                     }
                     break;
-            }
-            if (Health - ground.damageValue > 0) { GetComponent<Player_Anim_Manager>()?.PlayTakeHit(); }
+            } 
+            GetComponent<Player_Anim_Manager>()?.PlayTakeHit(); 
             Debug.LogWarning("Player hit the ground");
             
         }
@@ -132,7 +156,7 @@ public class PlayerInteractionHandler : PlayerBase
             {
                 groundedTimer = 0f;
                 GetComponent<Player_Anim_Manager>()?.PlayTakeHit();
-                TakeDamage(ground.damageValue);
+                TakeDamage(ground.damageValue / 2);
                 ApplyExp2Force(2f, ground.damageValue * 2);
             }
         }

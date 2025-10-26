@@ -45,7 +45,7 @@ public class EnemyClear : MonoBehaviour
         // Destroy every enemy found
         for (int i = 0; i < count; i++)
         {
-            if (hits[i] != null && hits[i].CompareTag("Enemy"))
+            if (hits[i] != null && hits[i].CompareTag("Enemy") || hits[i].CompareTag("Item"))
             {
                 Destroy(hits[i].gameObject);
                 Debug.Log("Enemy cleared on respawn");

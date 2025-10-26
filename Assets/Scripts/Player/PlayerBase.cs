@@ -7,6 +7,8 @@ public class PlayerBase : MonoBehaviour
 
     public Rigidbody2D playerRb;
 
+    [SerializeField] private float maxFallSpeed = -100f;
+
     [SerializeField] private PlayerStateMachine stateMachine;
 
     private void Awake()
@@ -55,6 +57,8 @@ public class PlayerBase : MonoBehaviour
         zRotation = Mathf.Clamp(zRotation, -5f, 5f);
 
         transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
+
+        if (playerRb.linearVelocityY < maxFallSpeed) { playerRb.linearVelocityY = maxFallSpeed; }
     }
 
 

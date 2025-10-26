@@ -7,9 +7,14 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject GroundEnemy;
     [SerializeField] GameObject FlyingEnemy;
 
+    [SerializeField] SpeedLimit speedLimit;
+    private float speedLimitX;
     private float spawnInterval = 0.25f;
     public float spawnY;
     public float spawnOffset = 2f;  // how far past right edge to spawn
+
+    [SerializeField] private float minSpawnRate = 0.5f;
+    [SerializeField] private float maxSpawnRate = 0.15f;
 
     private Camera cam;
     private bool canSpawn = false;
@@ -51,14 +56,13 @@ public class EnemySpawner : MonoBehaviour
     {
         if (canSpawn)
         {
+            speedLimitX = speedLimit.maxSpeedX;
             float speed = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
 
-            // Map speed (10 → 50) to interval (0.1 → 1.0)
-            float speedDeterminedSpawnRange = Mathf.InverseLerp(10f, 100f, speed);
+            float speedDeterminedSpawnRange = Mathf.InverseLerp(20f, speedLimitX, speed);
             float scaledInterval = Mathf.Lerp(0.1f, 1.0f, speedDeterminedSpawnRange);
 
-            // Clamp and round to two decimals
-            spawnInterval = Mathf.Clamp((float)Mathf.Round(scaledInterval * 10f) / 10f, 0.15f, 0.5f);
+            spawnInterval = Mathf.Clamp((float)Mathf.Round(scaledInterval * 10f) / 10f, maxSpawnRate, minSpawnRate);
 
             if (PlayerResultsManager.globalPlayerSpeedY > 10 || PlayerResultsManager.globalPlayerSpeedY < -10f)
             {
@@ -83,10 +87,8 @@ public class EnemySpawner : MonoBehaviour
         Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
         Vector3 topEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, cam.nearClipPlane));
 
-        // Pick a random Y between a bit above bottom and a bit below top
         float randomY = Random.Range(bottomEdge.y + 10f, topEdge.y - 1f);
 
-        // Clamp it if you still want to enforce a minimum
         spawnY = Mathf.Clamp(randomY, 10f, float.MaxValue);
     }
 
@@ -102,7 +104,6 @@ public class EnemySpawner : MonoBehaviour
     {
         if (enemyPrefab == null) return;
 
-        // Get the size of the BoxCollider2D on the prefab
         CapsuleCollider2D prefabCollider = enemyPrefab.GetComponent<CapsuleCollider2D>();
         if (prefabCollider == null)
         {
@@ -123,7 +124,7 @@ public class EnemySpawner : MonoBehaviour
 
             Collider2D hit = Physics2D.OverlapBox(spawnPos, overlapBoxSize, 0f, LayerMask.GetMask("Enemies"));
 
-            if (hit == null || !hit.CompareTag("Enemy"))
+            if (hit == null || !hit.CompareTag("Enemy") && !hit.CompareTag("Item"))
             {
                 GameObject instance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
 

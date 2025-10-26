@@ -100,10 +100,10 @@ TextureImporter:
       name: death_15_0
       rect:
         serializedVersion: 2
-        x: 134
+        x: 133
         y: 0
-        width: 44
-        height: 12
+        width: 46
+        height: 14
       alignment: 2
       pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}

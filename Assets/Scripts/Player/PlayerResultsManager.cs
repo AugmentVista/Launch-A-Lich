@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerResultsManager : MonoBehaviour
 {
     public Respawner respawner;
+    public CentralBank bank;
 
     [SerializeField] Rigidbody2D playerRb;
     public Vector2 globalPlayerSpeedV2;
@@ -23,6 +24,9 @@ public class PlayerResultsManager : MonoBehaviour
     public float highScoreY = 0f;
     private float heightReached;
     private float distanceReached;
+
+    private int enemyGoldThisRun = 0;
+    private int itemGoldThisRun = 0;
 
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI distanceTraveledThisRunText;
@@ -76,7 +80,7 @@ public class PlayerResultsManager : MonoBehaviour
         else if (brokeY)
         {
             highScoreBanner.SetActive(true);
-            highScoreBanner.GetComponent<RectTransform>().position = highScorePosition;
+            highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
             highScoreText.text = $"Distance traveled\n {distanceThisRun:F1} meters\nNew Height High Score!\n {heightThisRun:F1} meters";
         }
         else
@@ -89,13 +93,40 @@ public class PlayerResultsManager : MonoBehaviour
         nextButton.SetActive(true);
     }
 
+    private void OnEnable()
+    {
+        PlayerInteractionHandler.OnFlyingEnemyDefeated += TrackEnemyMoneyGain;
+        PlayerInteractionHandler.OnGroundEnemyDefeated += TrackEnemyMoneyGain;
+        PlayerInteractionHandler.OnGroundItemCollected += TrackItemMoneyGain;
+        PlayerInteractionHandler.OnFlyingItemCollected += TrackItemMoneyGain;
+    }
+
+    private void OnDisable()
+    {
+        PlayerInteractionHandler.OnFlyingEnemyDefeated -= TrackEnemyMoneyGain;
+        PlayerInteractionHandler.OnGroundEnemyDefeated -= TrackEnemyMoneyGain;
+        PlayerInteractionHandler.OnGroundItemCollected -= TrackItemMoneyGain;
+        PlayerInteractionHandler.OnFlyingItemCollected -= TrackItemMoneyGain;
+    }
+
+    private void TrackEnemyMoneyGain(int amount)
+    {
+        enemyGoldThisRun += amount;
+    }
+
+    private void TrackItemMoneyGain(int amount)
+    {
+        itemGoldThisRun += amount;
+    }
+
+
 
     private void CalcuateGoldEarned(float distance, float height)
     {
         float travelMoneyEarned;
         travelMoneyEarned = (distance / 2) + height;
-
-        goldText.text = $"Gold earned from travel this run:\n {travelMoneyEarned:F0}\n Gold earned from enemies this run:\n 0\n Gold earned from drops this run:\n 0\n Total gold earned this run:\n {travelMoneyEarned:F0}";
+        bank.totalBalance += ((int)travelMoneyEarned + itemGoldThisRun);
+        goldText.text = $"Gold earned from travel this run:\n {travelMoneyEarned:F0}\n Gold earned from enemies this run: {enemyGoldThisRun}\n Gold earned from treats this run: {itemGoldThisRun}\n Total gold earned this run:\n {itemGoldThisRun + enemyGoldThisRun + travelMoneyEarned:F0}";
     }
 
     public void NextButton()
@@ -125,6 +156,8 @@ public class PlayerResultsManager : MonoBehaviour
         distanceTraveledThisRunText.text = "";
         heightReached = 0f;
         distanceReached = 0f;
+        enemyGoldThisRun = 0;
+        itemGoldThisRun = 0;
     }
 
     private void OnDestroy()

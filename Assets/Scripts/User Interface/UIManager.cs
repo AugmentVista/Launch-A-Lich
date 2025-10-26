@@ -26,11 +26,10 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         if (Gameplay.gameObject.activeSelf) { Time.timeScale = 1; }
-        if (Input.GetKeyDown(KeyCode.Escape) && !Pause.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape) && !Pause.activeSelf && Gameplay.gameObject.activeSelf)
         {
             SetScreen(Pause);
         }
-
         else if (Input.GetKeyDown(KeyCode.Escape) && Pause.activeSelf)
         {
             SetScreen(Gameplay);

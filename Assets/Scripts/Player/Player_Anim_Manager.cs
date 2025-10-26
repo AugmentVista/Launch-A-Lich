@@ -38,7 +38,7 @@ public class Player_Anim_Manager : MonoBehaviour
     {
         if (PlayerResultsManager.globalPlayerSpeedY > 0)
             animator.Play("Player_Rising");
-        else if (PlayerResultsManager.globalPlayerSpeedY > 0)
+        else if (PlayerResultsManager.globalPlayerSpeedY < 0)
             animator.Play("Player_Falling");
     }
 
@@ -52,9 +52,6 @@ public class Player_Anim_Manager : MonoBehaviour
         animator.Play("Player_Death");
     }
 
-    /// <summary>
-    /// Call this from PlayerInteractionHandler when hitting ground
-    /// </summary>
     public void PlayTakeHit()
     {
         animator.Play("Player_Take_Hit");

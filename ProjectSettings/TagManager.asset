@@ -7,6 +7,8 @@ TagManager:
   - Floor
   - Enemy
   - Ground
+  - P_Ability
+  - Item
   layers:
   - Default
   - TransparentFX
