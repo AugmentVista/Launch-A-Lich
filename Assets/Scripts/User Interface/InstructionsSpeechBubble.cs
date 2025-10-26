@@ -24,6 +24,8 @@ public class InstructionsSpeechBubble : MonoBehaviour
     {
         showCorrectSlide();
         if (counter != 11) { NextButton.SetActive(false); }
+        BoostIcon.SetActive(false);
+        HealthBar.SetActive(false);
     }
 
     void OnEnable()
@@ -52,7 +54,7 @@ public class InstructionsSpeechBubble : MonoBehaviour
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 break;
             case 2:
-                speechBubble.setDialogueText("Boost\r\n\nClick on me while flying when your boost meter is full to give a boost!\n");
+                speechBubble.setDialogueText("Boost\r\n\nClick on me while flying while your boost meter is full to give a boost!\n");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 BoostIcon.SetActive(true);
                 break;
@@ -63,6 +65,7 @@ public class InstructionsSpeechBubble : MonoBehaviour
             case 4:
                 speechBubble.setDialogueText("Upgrade \r\nSpend your gold in the upgrades shop to make me stronger!");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
+                BoostIcon.SetActive(false);
                 break;
             case 5:
                 speechBubble.setDialogueText("Repeat\r\nLaunch farther, earn more, and discover new treats!");
@@ -83,7 +86,7 @@ public class InstructionsSpeechBubble : MonoBehaviour
             case 9:
                 speechBubble.setDialogueText("Enemies offer a small boost but hurt a little .\r\nHitting the ground hurts a lot more.");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
-                speechBubble.setStyle(darkStyle);
+                HealthBar.SetActive(true);
                 break;
             case 10:
                 speechBubble.setDialogueText("Get cash for distance traveled, enemies vanquished, and treats snatched.\r\nPurchase upgrades after a run to become more powerful..");
@@ -92,6 +95,7 @@ public class InstructionsSpeechBubble : MonoBehaviour
             case 11:
                 speechBubble.setDialogueText("Enjoy!");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
+                HealthBar.SetActive(false);
                 Proceed();
                 break;
         }
