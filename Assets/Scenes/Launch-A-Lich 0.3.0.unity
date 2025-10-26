@@ -1117,7 +1117,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &236726157
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1180,6 +1180,111 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 236726156}
   m_CullTransparentMesh: 1
+--- !u!1 &248046010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 248046011}
+  - component: {fileID: 248046014}
+  - component: {fileID: 248046013}
+  - component: {fileID: 248046012}
+  m_Layer: 0
+  m_Name: Trees (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &248046011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248046010}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7071068, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: 2.91, y: -1, z: 12.15}
+  m_LocalScale: {x: 1.5, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 254288562161006455}
+  m_LocalEulerAnglesHint: {x: 90, y: -180, z: 0}
+--- !u!114 &248046012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248046010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9499a9ba1a470b4eb0f5457e0d5d2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedLimit: {fileID: 2119655199}
+  mat: {fileID: 0}
+  speed: 0.2
+  layerSpeedModifier: 0.25
+  minPlayerSpeed: 0
+  maxPlayerSpeed: 100
+--- !u!23 &248046013
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248046010}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 3985b7bf03da18b489ce49907ddaaf59, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &248046014
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248046010}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &253011154
 GameObject:
   m_ObjectHideFlags: 0
@@ -82549,13 +82654,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 559835780156710694, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.1565
+      objectReference: {fileID: 0}
+    - target: {fileID: 559835780156710694, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 598822090845047670, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_Name
+      value: Treeline
+      objectReference: {fileID: 0}
     - target: {fileID: 2098054945850877509, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
       propertyPath: speedLimit
       value: 
       objectReference: {fileID: 2119655199}
     - target: {fileID: 2098054945850877509, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
       propertyPath: layerSpeedModifier
-      value: 0.05
+      value: 0.025
       objectReference: {fileID: 0}
     - target: {fileID: 2562445529883121993, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
       propertyPath: speedLimit
@@ -82563,15 +82680,55 @@ PrefabInstance:
       objectReference: {fileID: 2119655199}
     - target: {fileID: 2562445529883121993, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
       propertyPath: layerSpeedModifier
-      value: 0.1
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091251162025237183, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091251162025237183, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091251162025237183, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 12.04
       objectReference: {fileID: 0}
     - target: {fileID: 3131527502846894270, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
       propertyPath: speedLimit
       value: 
       objectReference: {fileID: 2119655199}
+    - target: {fileID: 3131527502846894270, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: layerSpeedModifier
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3159717914675206851, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3159717914675206851, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.0112
+      objectReference: {fileID: 0}
+    - target: {fileID: 3159717914675206851, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 3159717914675206851, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3159717914675206851, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 13.98
+      objectReference: {fileID: 0}
     - target: {fileID: 3531618178616356278, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
       propertyPath: m_Name
       value: Mountains Background
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618025563295795779, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4169575692271713210, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
       propertyPath: speedLimit
@@ -82581,6 +82738,22 @@ PrefabInstance:
       propertyPath: layerSpeedModifier
       value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 6091346853928236704, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 47717054f87148044a268986fe68d0f9, type: 2}
+    - target: {fileID: 6335542787548030972, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6335542787548030972, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6335542787548030972, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 12.54
+      objectReference: {fileID: 0}
     - target: {fileID: 6841333626043545683, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
       propertyPath: target
       value: 
@@ -82589,13 +82762,24 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7791689905045890146, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7d74ceecffc737840a6dd6be20f79c86, type: 2}
     - target: {fileID: 8333431924867856381, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
       propertyPath: speedLimit
       value: 
       objectReference: {fileID: 2119655199}
+    - target: {fileID: 8333431924867856381, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      propertyPath: layerSpeedModifier
+      value: 0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 521749102337382570, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 248046011}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f37159b6f502d5b439a3dc5ed8d518b9, type: 3}
 --- !u!224 &516440798531501822
