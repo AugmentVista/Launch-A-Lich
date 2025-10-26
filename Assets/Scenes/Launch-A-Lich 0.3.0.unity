@@ -505,7 +505,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -750, y: -150}
+  m_AnchoredPosition: {x: -800, y: -100}
   m_SizeDelta: {x: 183, y: 163.02106}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &106814356
@@ -803,7 +803,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &236726157
 RectTransform:
   m_ObjectHideFlags: 0
@@ -69161,10 +69161,10 @@ MonoBehaviour:
   offset: {x: 0, y: 4, z: -10}
   baseFollowSpeed: 50
   maxFollowLag: 1.5
-  speedThreshold: 51
+  speedThreshold: 50
   maxPlayerSpeed: 100
   maxCameraLagX: 0.3
-  verticalLerpSpeed: 2
+  verticalLerpSpeed: 1.5
   riseThreshold: 25
   fallThreshold: -25
   maxUpOffset: 8
@@ -69524,7 +69524,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &404365268
 RectTransform:
   m_ObjectHideFlags: 0
@@ -69537,9 +69537,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1605341347}
   - {fileID: 2021085381}
   - {fileID: 1292216581}
+  - {fileID: 1605341347}
   - {fileID: 1805314749}
   m_Father: {fileID: 1984791768}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -73334,7 +73334,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 1500, y: -50}
+  m_AnchoredPosition: {x: 1400, y: -850}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1044701032
@@ -75429,7 +75429,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -750, y: -150}
+  m_AnchoredPosition: {x: -800, y: -100}
   m_SizeDelta: {x: 183, y: 163.02106}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1301611442
@@ -76209,7 +76209,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 500, y: -50}
+  m_AnchoredPosition: {x: 250, y: -100}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1418987571
@@ -77307,7 +77307,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -750, y: -350}
+  m_AnchoredPosition: {x: -800, y: -350}
   m_SizeDelta: {x: 1024, y: 1024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1605341348
@@ -80753,9 +80753,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd656b3811cd31346b1ec177fbb83fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundHitSound: {fileID: 8300000, guid: 23e7e9215ba03114e834529ec05490c4, type: 3}
+  groundHitSound: {fileID: 8300000, guid: f80cb924acd0b434a9573b6768400e68, type: 3}
   enemyHitSound: {fileID: 8300000, guid: 5e74c248e731844409fc010514522f51, type: 3}
   abilityHitSound: {fileID: 8300000, guid: 88a260e80614f5648aaa00c60a40dbe1, type: 3}
+  itemHitSound: {fileID: 8300000, guid: f550845f6addd604590ae98a8aeec752, type: 3}
   volume: 1
 --- !u!70 &2119655197
 CapsuleCollider2D:

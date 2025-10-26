@@ -52,9 +52,6 @@ public class Player_Anim_Manager : MonoBehaviour
         animator.Play("Player_Death");
     }
 
-    /// <summary>
-    /// Call this from PlayerInteractionHandler when hitting ground
-    /// </summary>
     public void PlayTakeHit()
     {
         animator.Play("Player_Take_Hit");

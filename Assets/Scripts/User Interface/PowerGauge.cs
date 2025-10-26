@@ -15,16 +15,27 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     bool isCharging = false;
 
+    bool fullyCharged = false;
+
 
     private void Update()
     {
         if (!UIManager.Gameplay.activeSelf) { return; }
         if (!Respawner.hasPlayerReturnedToLaunchpad) { return; }
-        if (isCharging && Respawner.hasPlayerReturnedToLaunchpad)
+
+        if (isCharging && Respawner.hasPlayerReturnedToLaunchpad && !fullyCharged)
         {
             chargeAmount += chargeSpeed * Time.deltaTime;
             chargeAmount = Mathf.Clamp01(chargeAmount);
             gauge.fillAmount = chargeAmount;
+            if (gauge.fillAmount == 1.0) { fullyCharged = true; }
+        }
+        if (isCharging && Respawner.hasPlayerReturnedToLaunchpad && fullyCharged)
+        {
+            chargeAmount -= chargeSpeed * Time.deltaTime;
+            chargeAmount = Mathf.Clamp01(chargeAmount);
+            gauge.fillAmount = chargeAmount;
+            if (gauge.fillAmount == 0.0) { fullyCharged = false; }
         }
     }
 
@@ -51,14 +62,6 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         float appliedForce = force * launchForceMultiplier;
         LogarithmicBounce(14f, appliedForce);
     }
-
-
-
-
-
-
-
-
 
     /// <summary>
     /// if inputX = 2, Angle Above X-Axis = 73.8°

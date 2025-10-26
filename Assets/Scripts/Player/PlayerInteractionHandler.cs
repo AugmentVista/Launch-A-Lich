@@ -138,8 +138,8 @@ public class PlayerInteractionHandler : PlayerBase
                     
                     }
                     break;
-            }
-            if (Health - ground.damageValue > 0) { GetComponent<Player_Anim_Manager>()?.PlayTakeHit(); }
+            } 
+            GetComponent<Player_Anim_Manager>()?.PlayTakeHit(); 
             Debug.LogWarning("Player hit the ground");
             
         }
