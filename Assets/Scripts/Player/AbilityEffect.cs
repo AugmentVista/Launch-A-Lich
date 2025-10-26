@@ -47,7 +47,7 @@ public class AbilityEffect : MonoBehaviour
     /// <param name="magnitude"></param>
     public void ApplyExp2Force(float inputX, float magnitude)
     {
-        float y = Mathf.Pow(2f, inputX);
+        float y = Mathf.Pow(4f, inputX);
         Vector2 direction = new Vector2(inputX, y).normalized;
 
         Vector2 force = direction * magnitude;

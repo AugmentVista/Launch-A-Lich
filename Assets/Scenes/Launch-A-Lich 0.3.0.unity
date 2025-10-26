@@ -70935,8 +70935,8 @@ MonoBehaviour:
   speedLimit: {fileID: 2119655199}
   spawnY: 0
   spawnOffset: 2
-  minSpawnRate: 0.5
-  maxSpawnRate: 0.15
+  minSpawnRate: 0.4
+  maxSpawnRate: 0.125
 --- !u!1 &573658404
 GameObject:
   m_ObjectHideFlags: 0

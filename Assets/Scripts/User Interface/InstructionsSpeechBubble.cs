@@ -1,6 +1,5 @@
 using UnityEngine;
 using SpeechBubble;
-using System.Linq;
 
 public class InstructionsSpeechBubble : MonoBehaviour
 {
@@ -23,7 +22,7 @@ public class InstructionsSpeechBubble : MonoBehaviour
     void Start()
     {
         showCorrectSlide();
-        if (counter != 11) { NextButton.SetActive(false); }
+        if (counter != 8) { NextButton.SetActive(false); }
         BoostIcon.SetActive(false);
         HealthBar.SetActive(false);
     }
@@ -37,10 +36,9 @@ public class InstructionsSpeechBubble : MonoBehaviour
         counter = 0;
     }
 
-
     private void showCorrectSlide()
     {
-        counter = Mathf.Clamp(counter, 0, 11);
+        counter = Mathf.Clamp(counter, 0, 8);
         speechBubble.setBubbleType(SpeechBubbleType.Think);
 
         switch (counter)
@@ -50,57 +48,43 @@ public class InstructionsSpeechBubble : MonoBehaviour
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 break;
             case 1:
-                speechBubble.setDialogueText("Launch!\r\n\nFire me as far as possible!");
+                speechBubble.setDialogueText("Launch!\n Boost\n Collect\n Upgrade\n Repeat\n Complete Compendium");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 break;
             case 2:
-                speechBubble.setDialogueText("Boost\r\n\nClick on me while flying while your boost meter is full to give a boost!\n");
+                speechBubble.setDialogueText("Click while flying to use your boost!\n");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 BoostIcon.SetActive(true);
                 break;
             case 3:
-                speechBubble.setDialogueText("Collect \r\nSnatch tasty treats mid-flight to recover health and earn bonus money");
+                speechBubble.setDialogueText("Complete the Treat Compendium to win");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 break;
             case 4:
-                speechBubble.setDialogueText("Upgrade \r\nSpend your gold in the upgrades shop to make me stronger!");
-                speechBubble.setBubbleType(SpeechBubbleType.Think);
-                BoostIcon.SetActive(false);
-                break;
-            case 5:
-                speechBubble.setDialogueText("Repeat\r\nLaunch farther, earn more, and discover new treats!");
-                speechBubble.setBubbleType(SpeechBubbleType.Think);
-                break;
-            case 6:
-                speechBubble.setDialogueText("Discover All Sweet Treats\r\nCollect each unique treat during your flights to win!");
-                speechBubble.setBubbleType(SpeechBubbleType.Think);
-                break;
-            case 7:
                 speechBubble.setDialogueText("Playing the Game");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 break;
-            case 8:
-                speechBubble.setDialogueText("Hold down left click to charge power, release at high power.\n Left click during flight explode your way even further.");
+            case 5:
+                speechBubble.setDialogueText("Hold down left click to charge power, release at high power.");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 break;
-            case 9:
-                speechBubble.setDialogueText("Enemies offer a small boost but hurt a little .\r\nHitting the ground hurts a lot more.");
+            case 6:
+                speechBubble.setDialogueText("Enemies hurt a little\n The ground hurts a lot");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 HealthBar.SetActive(true);
                 break;
-            case 10:
-                speechBubble.setDialogueText("Get cash for distance traveled, enemies vanquished, and treats snatched.\r\nPurchase upgrades after a run to become more powerful..");
+            case 7:
+                speechBubble.setDialogueText("Get cash from distance, enemies, and treats");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 break;
-            case 11:
-                speechBubble.setDialogueText("Enjoy!");
+            case 8:
+                speechBubble.setDialogueText("Purchase upgrades and break records to unlock more treats");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 HealthBar.SetActive(false);
                 Proceed();
                 break;
         }
     }
-
 
     public void nextButtonPushed()
     {
@@ -117,7 +101,7 @@ public class InstructionsSpeechBubble : MonoBehaviour
 
     public void Proceed()
     {
-        if (counter == 11) { NextButton.SetActive(true); }
+        if (counter == 8) { NextButton.SetActive(true); }
     }
 
 
