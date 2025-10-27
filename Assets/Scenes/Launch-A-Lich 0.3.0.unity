@@ -69867,7 +69867,7 @@ MonoBehaviour:
   playerIsDead: 0
   target: {fileID: 2119655189}
   offset: {x: 0, y: 4, z: -10}
-  baseFollowSpeed: 50
+  baseFollowSpeed: 51
   maxFollowLag: 1.5
   speedThreshold: 50
   maxPlayerSpeed: 100
@@ -74207,7 +74207,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
@@ -82194,7 +82194,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 1923042491, guid: 412602773009ca54c81c6914b2d72692, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
