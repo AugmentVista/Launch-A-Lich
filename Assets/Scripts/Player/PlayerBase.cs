@@ -11,6 +11,8 @@ public class PlayerBase : MonoBehaviour
 
     public float maxHealthUpgradeCount;
 
+    public bool stopCalled = false;
+
     public Rigidbody2D playerRb;
 
     [SerializeField] private float maxFallSpeed = -100f;
@@ -221,7 +223,7 @@ public class PlayerBase : MonoBehaviour
         Debug.Log($"[Exp2] inputX: {inputX}, y: {y}, direction: {direction}, force: {force}");
     }
 
-    public virtual void Stop() { playerRb.linearVelocity = Vector2.zero; playerRb.angularVelocity = 0f; /*Debug.LogError("STOP CALLED");*/ }
+    public virtual void Stop() { playerRb.linearVelocity = Vector2.zero; playerRb.angularVelocity = 0f; stopCalled = true; }
 
     #endregion
 

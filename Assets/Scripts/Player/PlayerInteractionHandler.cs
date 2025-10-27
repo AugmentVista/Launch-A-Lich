@@ -53,6 +53,7 @@ public class PlayerInteractionHandler : PlayerBase
     void Stopped() { TakeDamage(MaxHealth); }
     void ReadyToLaunch() 
     {
+        stopCalled = false;
         ResetHealth();
     }
 

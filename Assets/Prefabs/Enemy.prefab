@@ -215,8 +215,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDead: 0
-  baseSpeed: 12
-  damageValue: 2
+  baseSpeed: 10
+  damageValue: 4
   moneyValue: 2
   type: 1
   deathPrefab: {fileID: 6063229312718930144, guid: 8e543592794d4c84ba197233b378ade0, type: 3}

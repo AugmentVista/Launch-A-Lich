@@ -69426,7 +69426,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &404365268
 RectTransform:
   m_ObjectHideFlags: 0
@@ -73535,7 +73535,7 @@ Transform:
   m_GameObject: {fileID: 1042105322}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4910, y: -5.5, z: 0}
+  m_LocalPosition: {x: 4910, y: -5, z: 0}
   m_LocalScale: {x: 10000, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -81344,6 +81344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604e86e2ec44b6e4990d2a52b8733d33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInteract: {fileID: 2119655198}
   player: {fileID: 2119655188}
   ground: {fileID: 635227598}
   playerRb: {fileID: 2119655190}
@@ -81514,6 +81515,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthUpgradeValue: 0
   maxHealthUpgradeCount: 0
+  stopCalled: 0
   playerRb: {fileID: 2119655190}
   maxFallSpeed: -100
   stateMachine: {fileID: 2119655194}
