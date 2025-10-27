@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ae4f6fd077861b41b5b7da8dd98b0a2, type: 3}
-  m_Name: Bounceness Up
+  m_Name: Bounciness Up
   m_EditorClassIdentifier: 
-  title: Bouncey
+  title: Bounciness Up
   description: Lose less speed when you hit the ground
   itemImage: {fileID: 21300000, guid: 52c12fab9ce564f0792ee7745720dfaa, type: 3}
-  price: 0
-  improvementModifier: 0
+  price: 500
+  improvementModifier: 4
   maxPurchases: 5
-  upgradeType: 0
+  upgradeType: 5

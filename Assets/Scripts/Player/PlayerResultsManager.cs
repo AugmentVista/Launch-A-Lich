@@ -54,7 +54,6 @@ public class PlayerResultsManager : MonoBehaviour
         if (distanceReached < currentDistance) { distanceReached = currentDistance; if (distanceReached > highScoreX) highScoreX = distanceReached; }
     }
 
-
     void ShowDistanceTraveled()
     {
         float distanceThisRun = distanceReached;
@@ -100,7 +99,6 @@ public class PlayerResultsManager : MonoBehaviour
         PlayerInteractionHandler.OnGroundItemCollected += TrackItemMoneyGain;
         PlayerInteractionHandler.OnFlyingItemCollected += TrackItemMoneyGain;
     }
-
     private void OnDisable()
     {
         PlayerInteractionHandler.OnFlyingEnemyDefeated -= TrackEnemyMoneyGain;
@@ -119,14 +117,19 @@ public class PlayerResultsManager : MonoBehaviour
         itemGoldThisRun += amount;
     }
 
-
-
     private void CalcuateGoldEarned(float distance, float height)
     {
-        float travelMoneyEarned;
-        travelMoneyEarned = (distance / 2) + height;
-        bank.totalBalance += ((int)travelMoneyEarned + itemGoldThisRun);
-        goldText.text = $"Gold earned from travel this run:\n {travelMoneyEarned:F0}\n Gold earned from enemies this run: {enemyGoldThisRun}\n Gold earned from treats this run: {itemGoldThisRun}\n Total gold earned this run:\n {itemGoldThisRun + enemyGoldThisRun + travelMoneyEarned:F0}";
+        float travelMoneyEarned = (distance / 2) + height;
+        int totalRunGold = (int)(travelMoneyEarned + itemGoldThisRun + enemyGoldThisRun);
+
+        // Deposit total run gold directly into the CentralBank
+        bank.DepositRunEarnings(totalRunGold);
+
+        goldText.text =
+            $"Distance Gold Earned: {travelMoneyEarned:F0}\n" +
+            $"Enemies Gold Earned: {enemyGoldThisRun}\n" +
+            $"Items Gold Earned: {itemGoldThisRun}\n" +
+            $"Total earned this run: {totalRunGold}";
     }
 
     public void NextButton()

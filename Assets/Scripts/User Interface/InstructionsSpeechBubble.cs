@@ -63,6 +63,7 @@ public class InstructionsSpeechBubble : MonoBehaviour
             case 4:
                 speechBubble.setDialogueText("Playing the Game");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
+                BoostIcon.SetActive(false);
                 break;
             case 5:
                 speechBubble.setDialogueText("Hold down left click to charge power, release at high power.");
