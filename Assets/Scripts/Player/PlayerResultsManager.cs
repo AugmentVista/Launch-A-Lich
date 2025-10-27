@@ -195,10 +195,4 @@ public class PlayerResultsManager : MonoBehaviour
         itemGoldThisRun = 0;
     }
 
-    private void OnDestroy()
-    {
-        Debug.Log("PlayerResultsManager destroyed — unsubscribing from event.");
-        PlayerStateMachine.OnStopped -= ShowDistanceTraveled;
-        PlayerStateMachine.OnReadyToLaunch -= ResetResults;
-    }
 }

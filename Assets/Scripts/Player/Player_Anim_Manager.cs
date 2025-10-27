@@ -6,7 +6,7 @@ public class Player_Anim_Manager : MonoBehaviour
     private PlayerStateMachine stateMachine;
     private PlayerInteractionHandler interactionHandler;
 
-    private bool isDead = false;
+    public bool isDead = false;
 
     private void Awake()
     {
@@ -19,20 +19,20 @@ public class Player_Anim_Manager : MonoBehaviour
     {
         PlayerStateMachine.OnReadyToLaunch += PlayIdle;
         PlayerStateMachine.OnReadyToLaunch += GetBetter;
-        PlayerStateMachine.OnFlying += EvaluateFlyingState;
-        PlayerStateMachine.OnGrounded += EvaluateFlyingState;
         PlayerStateMachine.OnStopped += PlayDeath;
         PlayerStateMachine.OnStopped += Die;
+        PlayerStateMachine.OnFlying += EvaluateFlyingState;
+        PlayerStateMachine.OnGrounded += EvaluateFlyingState;
     }
 
     private void OnDisable()
     {
         PlayerStateMachine.OnReadyToLaunch -= PlayIdle;
         PlayerStateMachine.OnReadyToLaunch -= GetBetter;
-        PlayerStateMachine.OnFlying -= EvaluateFlyingState;
-        PlayerStateMachine.OnGrounded -= EvaluateFlyingState;
         PlayerStateMachine.OnStopped -= PlayDeath;
         PlayerStateMachine.OnStopped -= Die;
+        PlayerStateMachine.OnFlying -= EvaluateFlyingState;
+        PlayerStateMachine.OnGrounded -= EvaluateFlyingState;
     }
 
     private void PlayIdle()
@@ -42,14 +42,16 @@ public class Player_Anim_Manager : MonoBehaviour
 
     private void EvaluateFlyingState()
     {
-        if (!isDead)
+        if (PlayerResultsManager.globalPlayerSpeedY > 0.01)
         {
-            if (PlayerResultsManager.globalPlayerSpeedY > 0)
-                animator.Play("Player_Rising");
-            else if (PlayerResultsManager.globalPlayerSpeedY < 0)
-                animator.Play("Player_Falling");
+            animator.Play("Player_Rising");
+            isDead = false;
         }
-        
+        else if (PlayerResultsManager.globalPlayerSpeedY < -0.01)
+        { 
+            animator.Play("Player_Falling");
+            isDead = false;
+        }
     }
 
     public void PlayRolling()
@@ -70,6 +72,7 @@ public class Player_Anim_Manager : MonoBehaviour
     private void PlayDeath()
     {
         animator.Play("Player_Death");
+        isDead = false;
     }
 
     public void PlayTakeHit()
