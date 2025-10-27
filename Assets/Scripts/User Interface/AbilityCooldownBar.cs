@@ -4,46 +4,38 @@ using UnityEngine.UI;
 public class AbilityCooldownBar : MonoBehaviour
 {
     [SerializeField] PlayerAbility ability;
-
-    private float cooldownDuration;
-    private float cooldownTimer;
-
     public Image fillImage;
 
     private bool isCoolingDown = false;
 
+    public bool IsOnCooldown() => isCoolingDown;
+
     private void Start()
     {
-        cooldownDuration = ability.cooldown;
         fillImage.fillAmount = 1f;
     }
 
-    void Update()
+    private void Update()
     {
-        if (isCoolingDown)
+        if (!isCoolingDown) return;
+
+        // Ensure cooldown stays up to date with playerAbility's cooldown
+        float cooldownDuration = ability.cooldown;
+
+        float elapsed = Time.time - ability.LastUseTime;
+        float normalized = Mathf.Clamp01(elapsed / cooldownDuration);
+        fillImage.fillAmount = normalized;
+
+        if (normalized >= 1f)
         {
-            cooldownTimer -= Time.deltaTime;
-
-            float fillAmount = Mathf.Clamp01(1 - (cooldownTimer / cooldownDuration));
-            fillImage.fillAmount = fillAmount;
-
-            if (cooldownTimer <= 0f)
-            {
-                isCoolingDown = false;
-                fillImage.fillAmount = 1f;
-            }
+            fillImage.fillAmount = 1f;
+            isCoolingDown = false;
         }
     }
 
     public void StartCooldown()
     {
-        cooldownTimer = cooldownDuration;
         isCoolingDown = true;
         fillImage.fillAmount = 0f;
-    }
-
-    public bool IsOnCooldown()
-    {
-        return isCoolingDown;
     }
 }

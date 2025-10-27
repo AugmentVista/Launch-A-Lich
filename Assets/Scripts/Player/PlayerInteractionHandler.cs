@@ -88,8 +88,8 @@ public class PlayerInteractionHandler : PlayerBase
         {
             Item_World item = collision.GetComponent<Item_World>();
 
-            if (Health < MaxHealth)
-                TakeDamage(-item.healValue);
+            //if (Health < MaxHealth)
+            //    TakeDamage(-item.healValue);
 
             LogarithmicBounce(4, item.healValue);
 

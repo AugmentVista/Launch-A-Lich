@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae4f6fd077861b41b5b7da8dd98b0a2, type: 3}
   m_Name: Income Multiplier
   m_EditorClassIdentifier: 
-  title: Income Mult
+  title: Capital Raise
   description: Raises earned income by 20%
-  itemImage: {fileID: 21300000, guid: 817c5cbc269d2b344848a36aab84b6cf, type: 3}
-  price: 0
-  improvementModifier: 0
+  itemImage: {fileID: 21300000, guid: 6e32e9cc09118d04d8181e2f128080a3, type: 3}
+  price: 2500
+  improvementModifier: 1.2
   maxPurchases: 5
-  upgradeType: 0
+  upgradeType: 4

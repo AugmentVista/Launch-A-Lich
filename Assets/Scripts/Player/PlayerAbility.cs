@@ -12,6 +12,8 @@ public class PlayerAbility : MonoBehaviour
     private bool abilityEnabled = false;
     private float lastUseTime = -Mathf.Infinity;
 
+    public float LastUseTime => lastUseTime;
+
     public float boostUpgradeValue;
     public float boostUpgradeCount;
     private float boostUpgradesActive = 0;

@@ -69967,8 +69967,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balanceText: {fileID: 1820004739}
-  totalBalance: 999
-  balance: 999
+  totalBalance: 99999
+  balance: 99999
 --- !u!4 &595240229
 Transform:
   m_ObjectHideFlags: 0
@@ -77575,7 +77575,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 593072427244577252, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: m_Name
-      value: Shop Card Parent (3)
+      value: Shop Card Parent (Income)
       objectReference: {fileID: 0}
     - target: {fileID: 939289225350862989, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: bank
@@ -77592,7 +77592,7 @@ PrefabInstance:
     - target: {fileID: 1715581743410764125, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: upgradeData
       value: 
-      objectReference: {fileID: 11400000, guid: 7beab2f6d1bd15b459861347aacc6238, type: 2}
+      objectReference: {fileID: 11400000, guid: c412f001e3235294fab59ad0282b9d4d, type: 2}
     - target: {fileID: 2404213097584320110, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -78527,6 +78527,7 @@ MonoBehaviour:
   speed: {fileID: 2119655199}
   launcher: {fileID: 388133068}
   boost: {fileID: 1505092148}
+  results: {fileID: 1998686133}
 --- !u!1 &1971226980
 GameObject:
   m_ObjectHideFlags: 0
@@ -78989,6 +78990,8 @@ MonoBehaviour:
   nextButton: {fileID: 1292216580}
   highScoreX: 0
   highScoreY: 0
+  incomeUpgradeValue: 0
+  incomeUpgradeCount: 0
   highScoreText: {fileID: 1123219062}
   distanceTraveledThisRunText: {fileID: 1733561107}
   goldText: {fileID: 371993996}

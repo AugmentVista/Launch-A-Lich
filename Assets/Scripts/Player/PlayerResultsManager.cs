@@ -28,6 +28,10 @@ public class PlayerResultsManager : MonoBehaviour
     private int enemyGoldThisRun = 0;
     private int itemGoldThisRun = 0;
 
+
+    public float incomeUpgradeValue;
+    public float incomeUpgradeCount;
+
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI distanceTraveledThisRunText;
     public TextMeshProUGUI goldText;
@@ -117,19 +121,33 @@ public class PlayerResultsManager : MonoBehaviour
         itemGoldThisRun += amount;
     }
 
+    public void UpgradeIncome(float improvementMod, float purchaseCount)
+    {
+        incomeUpgradeCount = purchaseCount;
+        incomeUpgradeValue = improvementMod;
+    }
+
+    float ApplyIncomeUpgrade()
+    {
+        // Ternary Operator condition ? valueIfTrue : valueIfFalse;
+        return 1f + (incomeUpgradeCount * (incomeUpgradeValue - 1f));
+    }
+
     private void CalcuateGoldEarned(float distance, float height)
     {
         float travelMoneyEarned = (distance / 2) + height;
-        int totalRunGold = (int)(travelMoneyEarned + itemGoldThisRun + enemyGoldThisRun);
+        int totalRunGold = Mathf.RoundToInt(travelMoneyEarned + itemGoldThisRun + enemyGoldThisRun);
 
-        // Deposit total run gold directly into the CentralBank
-        bank.DepositRunEarnings(totalRunGold);
+
+        int deposit = Mathf.RoundToInt(totalRunGold * ApplyIncomeUpgrade());
+        bank.DepositRunEarnings(deposit);
 
         goldText.text =
             $"Distance Gold Earned: {travelMoneyEarned:F0}\n" +
             $"Enemies Gold Earned: {enemyGoldThisRun}\n" +
             $"Items Gold Earned: {itemGoldThisRun}\n" +
-            $"Total earned this run: {totalRunGold}";
+            $"Income bonus {ApplyIncomeUpgrade()}x\n" +
+            $"Total earned this run: {deposit}";
     }
 
     public void NextButton()

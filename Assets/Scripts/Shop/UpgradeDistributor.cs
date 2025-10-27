@@ -7,6 +7,7 @@ public class UpgradeDistributor : MonoBehaviour
     [SerializeField] private SpeedLimit speed;
     [SerializeField] private PowerGauge launcher;
     [SerializeField] private PlayerAbility boost;
+    [SerializeField] private PlayerResultsManager results;
 
     public void ApplyUpgrade(UpgradeItem item, int purchaseCount)
     {
@@ -28,7 +29,7 @@ public class UpgradeDistributor : MonoBehaviour
                 break;
 
             case UpgradeType.Income:
-                // player.UpgradeIncome(item.improvementModifier, purchaseCount);
+                results.UpgradeIncome(item.improvementModifier, purchaseCount);
                 break;
 
             case UpgradeType.Bounce:
