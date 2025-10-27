@@ -15,7 +15,7 @@ MonoBehaviour:
   title: Max Speed Up
   description: Raises max speed by 20
   itemImage: {fileID: 21300000, guid: ddacff8b75af3d345b57a4a28c263042, type: 3}
-  price: 0
-  improvementModifier: 0
+  price: 50
+  improvementModifier: 20
   maxPurchases: 5
-  upgradeType: 0
+  upgradeType: 1

@@ -6,8 +6,8 @@ public class PlayerInteractionHandler : PlayerBase
     public int enemyImpactVelocityGain;
 
     private float groundedTimer = 0f;
-    private float bouncyUpgradesActive = 0;
 
+    private float bouncyUpgradesActive = 0;
     public float bouncyUpgradeValue;
     public float bouncyUpgradesCount;
 
@@ -53,8 +53,7 @@ public class PlayerInteractionHandler : PlayerBase
     void Stopped() { TakeDamage(MaxHealth); }
     void ReadyToLaunch() 
     {
-        ResetHealth(); 
-        Debug.LogError($"Max Health is {MaxHealth}"); 
+        ResetHealth();
     }
 
     private void Update()
@@ -62,10 +61,10 @@ public class PlayerInteractionHandler : PlayerBase
         ApplyTouchingGroundDamage();
     }
 
-    public void UpgradeBounce(float purchaseCount, float improvementMod)
+    public void UpgradeBounce(float improvementMod, float purchaseCount)
     {
+        bouncyUpgradesCount = purchaseCount;
         bouncyUpgradeValue = improvementMod;
-        bouncyUpgradesCount += purchaseCount;
     }
 
     float ApplyBounceyUpgrade()

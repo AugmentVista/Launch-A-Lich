@@ -14,6 +14,12 @@ public class SpeedLimit : MonoBehaviour
 
     [SerializeField] HudSpeedDisplay hudDisplay;
 
+    public float maxSpeedUpgradeValue;
+    public float maxSpeedUpgradesCount;
+
+    private float maxSpeedUpgradesActive = 0;
+
+
     private float fullColorThreshold = 0.5f;
 
     void Start()
@@ -23,6 +29,23 @@ public class SpeedLimit : MonoBehaviour
         baseLinearDampeningValue = playerRb.linearDamping;
         baseGravityScale = playerRb.gravityScale;
     }
+
+    public void UpgradeMaxSpeed(float improvementMod, float purchaseCount)
+    {
+        maxSpeedUpgradesCount = purchaseCount;
+        maxSpeedUpgradeValue = improvementMod;
+    }
+
+    float ApplyMaxSpeedUpgrade()
+    {
+        if (maxSpeedUpgradesCount > 0)
+            maxSpeedUpgradesActive = maxSpeedUpgradesCount * maxSpeedUpgradeValue;
+        else
+            maxSpeedUpgradesActive = 0;
+
+        return maxSpeedUpgradesActive;
+    }
+
 
     void Update()
     {
@@ -51,10 +74,10 @@ public class SpeedLimit : MonoBehaviour
 
     private float CalculateDamping(float velocity)
     {
-        if (velocity <= maxSpeedX)
+        if (velocity <= maxSpeedX + ApplyMaxSpeedUpgrade())
             return baseLinearDampeningValue;
 
-        float excessRatio = (velocity - maxSpeedX) / maxSpeedX;
+        float excessRatio = (velocity - (maxSpeedX + ApplyMaxSpeedUpgrade())) / (maxSpeedX + ApplyMaxSpeedUpgrade());
         float addedDamping = excessRatio * (0.05f / 0.10f); // Add 0.05 linear dampening every 10% over maxSpeedX
         return baseLinearDampeningValue + addedDamping;
     }

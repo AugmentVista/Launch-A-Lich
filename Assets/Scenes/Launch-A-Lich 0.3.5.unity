@@ -69020,6 +69020,8 @@ MonoBehaviour:
   chargeSpeed: 1
   launchForceMultiplier: 1
   force: 50
+  launcherUpgradeValue: 0
+  launcherUpgradesCount: 0
 --- !u!114 &388133069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69474,10 +69476,10 @@ RectTransform:
   - {fileID: 1820004738}
   - {fileID: 1994408678}
   - {fileID: 905093161196530059}
-  - {fileID: 956227081}
   - {fileID: 2043828682}
-  - {fileID: 1694881496}
   - {fileID: 1366919142}
+  - {fileID: 956227081}
+  - {fileID: 1694881496}
   - {fileID: 1560052869}
   - {fileID: 1239401077}
   m_Father: {fileID: 1984791768}
@@ -70536,7 +70538,7 @@ PrefabInstance:
     - target: {fileID: 1715581743410764125, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: upgradeData
       value: 
-      objectReference: {fileID: 11400000, guid: 7beab2f6d1bd15b459861347aacc6238, type: 2}
+      objectReference: {fileID: 11400000, guid: e68a01da82dcdf3448bf84f17a75fa83, type: 2}
     - target: {fileID: 2404213097584320110, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -72334,7 +72336,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 593072427244577252, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: m_Name
-      value: Shop Card Parent (1)
+      value: Shop Card Parent (Max Speed)
       objectReference: {fileID: 0}
     - target: {fileID: 939289225350862989, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: bank
@@ -72351,7 +72353,7 @@ PrefabInstance:
     - target: {fileID: 1715581743410764125, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: upgradeData
       value: 
-      objectReference: {fileID: 11400000, guid: 7beab2f6d1bd15b459861347aacc6238, type: 2}
+      objectReference: {fileID: 11400000, guid: 5fc83c805481a3b4fa614c15e6decc8c, type: 2}
     - target: {fileID: 2404213097584320110, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -72730,7 +72732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b75692208c051848aaa3990f6240bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageValue: 20
+  damageValue: 100
 --- !u!1 &1042811318
 GameObject:
   m_ObjectHideFlags: 0
@@ -78520,6 +78522,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2119655198}
+  speed: {fileID: 2119655199}
+  launcher: {fileID: 388133068}
 --- !u!1 &1971226980
 GameObject:
   m_ObjectHideFlags: 0
@@ -79928,6 +79932,8 @@ MonoBehaviour:
   baseLinearDampeningValue: 0.1
   baseGravityScale: 0
   hudDisplay: {fileID: 2021085382}
+  maxSpeedUpgradeValue: 0
+  maxSpeedUpgradesCount: 0
 --- !u!95 &2119655200
 Animator:
   serializedVersion: 7

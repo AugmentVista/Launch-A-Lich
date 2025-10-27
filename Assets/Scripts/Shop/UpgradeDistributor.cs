@@ -4,6 +4,8 @@ public class UpgradeDistributor : MonoBehaviour
 {
     [Header("Gameplay References")]
     [SerializeField] private PlayerInteractionHandler player;
+    [SerializeField] private SpeedLimit speed;
+    [SerializeField] private PowerGauge launcher;
 
     public void ApplyUpgrade(UpgradeItem item, int purchaseCount)
     {
@@ -12,13 +14,12 @@ public class UpgradeDistributor : MonoBehaviour
             case UpgradeType.MaxHealth:
                 player.UpgradeMaxHealth(item.improvementModifier, purchaseCount);
                 break;
-
             case UpgradeType.MaxSpeed:
-                // player.UpgradeSpeed(item.improvementModifier, purchaseCount);
+                speed.UpgradeMaxSpeed(item.improvementModifier, purchaseCount);
                 break;
 
             case UpgradeType.LaunchPower:
-                // player.UpgradeLaunchPower(item.improvementModifier, purchaseCount);
+                launcher.UpgradeLauncher(item.improvementModifier, purchaseCount);
                 break;
 
             case UpgradeType.BoostPower:
@@ -30,7 +31,7 @@ public class UpgradeDistributor : MonoBehaviour
                 break;
 
             case UpgradeType.Bounce:
-                player.UpgradeBounce(purchaseCount, item.improvementModifier);
+                player.UpgradeBounce(item.improvementModifier, purchaseCount);
                 break;
         }
     }

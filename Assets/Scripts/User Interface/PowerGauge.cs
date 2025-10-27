@@ -11,12 +11,38 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] float chargeSpeed;
     [SerializeField]float launchForceMultiplier;
     float chargeAmount;
+
     public float force;
+
+    float minChargeMultiplier = 1f;
+    float maxChargeMultiplier = 1.5f;
+
+    public float launcherUpgradeValue;
+    public float launcherUpgradesCount;
+
+    private float launcherUpgradesActive = 0;
+
 
     bool isCharging = false;
 
     bool fullyCharged = false;
 
+
+    public void UpgradeLauncher(float improvementMod, float purchaseCount)
+    {
+        launcherUpgradesCount = purchaseCount;
+        launcherUpgradeValue = improvementMod;
+    }
+
+    float ApplyLauncherUpgrade()
+    {
+        if (launcherUpgradesCount > 0)
+            launcherUpgradesActive = launcherUpgradesCount * launcherUpgradeValue;
+        else
+            launcherUpgradesActive = 0;
+
+        return launcherUpgradesActive;
+    }
 
     private void Update()
     {
@@ -49,7 +75,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerUp(PointerEventData eventData)
     {
         isCharging = false;
-        launchForceMultiplier = chargeAmount;
+        launchForceMultiplier = Mathf.Lerp(minChargeMultiplier + ApplyLauncherUpgrade(), maxChargeMultiplier + ApplyLauncherUpgrade(), chargeAmount);
         gauge.fillAmount = 0;
         playerRb.bodyType = RigidbodyType2D.Dynamic;
         Launch();
@@ -58,8 +84,10 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private void Launch()
     {
         if (!Respawner.hasPlayerReturnedToLaunchpad) { return; }
-        launchForceMultiplier = Mathf.Clamp(launchForceMultiplier, 0.5f, 1.5f);
+
+        // Always base force (50), scaled by charge percentage value 0% = min 100% = max
         float appliedForce = force * launchForceMultiplier;
+
         LogarithmicBounce(14f, appliedForce);
     }
 
@@ -105,8 +133,8 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             return;
         }
 
-        float y = 5f * Mathf.Log(inputX + 2f);  // Your logarithmic function
-        Vector2 direction = new Vector2(inputX, y).normalized;  // Normalize to get direction
+        float y = 5f * Mathf.Log(inputX + 2f);
+        Vector2 direction = new Vector2(inputX, y).normalized;
 
         Vector2 force = direction * magnitude;
         playerRb.AddForce(force, ForceMode2D.Impulse);

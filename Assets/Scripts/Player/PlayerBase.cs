@@ -11,8 +11,6 @@ public class PlayerBase : MonoBehaviour
 
     public float maxHealthUpgradeCount;
 
-    float maxHealthUpgradesActive = 0;
-
     public Rigidbody2D playerRb;
 
     [SerializeField] private float maxFallSpeed = -100f;
@@ -33,8 +31,8 @@ public class PlayerBase : MonoBehaviour
 
     public void UpgradeMaxHealth(float purchaseCount, float improvementMod)
     {
-        maxHealthUpgradeValue = improvementMod;
         maxHealthUpgradeCount = purchaseCount;
+        maxHealthUpgradeValue = improvementMod;
         ResetHealth();
     }
 
@@ -42,8 +40,6 @@ public class PlayerBase : MonoBehaviour
     {
         return maxHealthUpgradeCount * maxHealthUpgradeValue;
     }
-
-
 
 
     #region Physics Stuff
