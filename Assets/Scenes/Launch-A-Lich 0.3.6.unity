@@ -70521,7 +70521,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 593072427244577252, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: m_Name
-      value: Shop Card Parent (2)
+      value: Shop Card Parent (Launch)
       objectReference: {fileID: 0}
     - target: {fileID: 939289225350862989, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: bank
@@ -72160,7 +72160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 593072427244577252, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: m_Name
-      value: Shop Card Parent (4)
+      value: Shop Card Parent (Boost)
       objectReference: {fileID: 0}
     - target: {fileID: 939289225350862989, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: bank
@@ -72177,7 +72177,7 @@ PrefabInstance:
     - target: {fileID: 1715581743410764125, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: upgradeData
       value: 
-      objectReference: {fileID: 11400000, guid: 7beab2f6d1bd15b459861347aacc6238, type: 2}
+      objectReference: {fileID: 11400000, guid: 43ad6b3f994aa134c804efca56fcaf3d, type: 2}
     - target: {fileID: 2404213097584320110, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -76160,6 +76160,8 @@ MonoBehaviour:
   playerRb: {fileID: 2119655190}
   mainCamera: {fileID: 330585545}
   cooldown: 3
+  boostUpgradeValue: 0
+  boostUpgradeCount: 0
 --- !u!1 &1544343890
 GameObject:
   m_ObjectHideFlags: 0
@@ -78524,6 +78526,7 @@ MonoBehaviour:
   player: {fileID: 2119655198}
   speed: {fileID: 2119655199}
   launcher: {fileID: 388133068}
+  boost: {fileID: 1505092148}
 --- !u!1 &1971226980
 GameObject:
   m_ObjectHideFlags: 0

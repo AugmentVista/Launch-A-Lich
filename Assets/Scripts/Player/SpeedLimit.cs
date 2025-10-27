@@ -19,7 +19,6 @@ public class SpeedLimit : MonoBehaviour
 
     private float maxSpeedUpgradesActive = 0;
 
-
     private float fullColorThreshold = 0.5f;
 
     void Start()

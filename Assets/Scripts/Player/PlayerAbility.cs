@@ -4,14 +4,17 @@ public class PlayerAbility : MonoBehaviour
 {
     public GameObject prefabToSpawn;
     [SerializeField] AbilityCooldownBar abilityCooldown;
-
     [SerializeField] private Rigidbody2D playerRb;
 
     public Camera mainCamera;
-    public float cooldown = 1f;
+    public float cooldown = 3f;
 
     private bool abilityEnabled = false;
     private float lastUseTime = -Mathf.Infinity;
+
+    public float boostUpgradeValue;
+    public float boostUpgradeCount;
+    private float boostUpgradesActive = 0;
 
     private void Start()
     {
@@ -24,7 +27,10 @@ public class PlayerAbility : MonoBehaviour
         {
             Debug.LogError("Dependency between PlayerAbility and AbilityCooldownBar is broken. Assign it in the inspector.");
         }
+    }
 
+    private void OnEnable()
+    {
         PlayerStateMachine.OnGrounded += EnableAbility;
         PlayerStateMachine.OnFlying += EnableAbility;
         PlayerStateMachine.OnStopped += DisableAbility;
@@ -32,7 +38,7 @@ public class PlayerAbility : MonoBehaviour
         PlayerStateMachine.OnReadyToLaunch += DisableAbility;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         PlayerStateMachine.OnGrounded -= EnableAbility;
         PlayerStateMachine.OnFlying -= EnableAbility;
@@ -53,9 +59,7 @@ public class PlayerAbility : MonoBehaviour
                 lastUseTime = Time.time;
 
                 if (abilityCooldown != null)
-                {
                     abilityCooldown.StartCooldown();
-                }
             }
             else
             {
@@ -73,8 +77,31 @@ public class PlayerAbility : MonoBehaviour
         GameObject instance = Instantiate(prefabToSpawn, worldPos, Quaternion.identity);
         AbilityEffect ability = instance.GetComponent<AbilityEffect>();
 
-        if (ability != null) { ability.SetPlayerRb(playerRb); }
-        
+        if (ability != null)
+        {
+            // Apply the upgrade bonus to ability strength
+            ability.abilityStrength += ApplyBoostUpgrade();
+            ability.SetPlayerRb(playerRb);
+        }
+    }
+
+    public void UpgradeBoost(float improvementMod, float purchaseCount)
+    {
+        boostUpgradeCount = purchaseCount;
+        boostUpgradeValue = improvementMod;
+
+        boostUpgradesActive = ApplyBoostUpgrade();
+
+        // Reduce cooldown based on number of upgrades (max 5 upgrades = -1s total)
+        float baseCooldown = 3f;
+        float cooldownReductionPerUpgrade = 0.2f;
+        cooldown = Mathf.Clamp(baseCooldown - (boostUpgradeCount * cooldownReductionPerUpgrade), 1f, baseCooldown);
+    }
+
+    float ApplyBoostUpgrade()
+    {
+        // Ternary Operator condition ? valueIfTrue : valueIfFalse;
+        return boostUpgradeCount > 0 ? boostUpgradeCount * boostUpgradeValue : 0;
     }
 
     private void EnableAbility() => abilityEnabled = true;
