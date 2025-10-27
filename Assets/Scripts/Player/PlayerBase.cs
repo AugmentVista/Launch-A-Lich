@@ -5,6 +5,14 @@ public class PlayerBase : MonoBehaviour
     public virtual int Health { get; set; } = 100;
     public virtual int MaxHealth { get; set; } = 100;
 
+    private const int baseMaxHealth = 100;
+
+    public float maxHealthUpgradeValue;
+
+    public float maxHealthUpgradeCount;
+
+    float maxHealthUpgradesActive = 0;
+
     public Rigidbody2D playerRb;
 
     [SerializeField] private float maxFallSpeed = -100f;
@@ -17,34 +25,28 @@ public class PlayerBase : MonoBehaviour
             Debug.LogError("PlayerBase requires a PlayerStateMachine component.");
     }
 
-    private void Start()
-    {
-        PlayerStateMachine.OnInactive += Inactive;
-        PlayerStateMachine.OnGrounded += Grounded;
-        PlayerStateMachine.OnFlying += Flying;
-        PlayerStateMachine.OnStopped += Stopped;
-        PlayerStateMachine.OnReadyToLaunch += ReadyToLaunch;
-    }
-
-    private void OnDestroy()
-    {
-        PlayerStateMachine.OnInactive -= Inactive;
-        PlayerStateMachine.OnGrounded -= Grounded;
-        PlayerStateMachine.OnFlying -= Flying;
-        PlayerStateMachine.OnStopped -= Stopped;
-        PlayerStateMachine.OnReadyToLaunch -= ReadyToLaunch;
-    }
-
-    void Inactive() { }
-    void Grounded() {  }
-    void Flying() { }
-    void Stopped() { TakeDamage(MaxHealth); }
-    void ReadyToLaunch() { ResetHealth(); }
-
     public virtual void ResetHealth()
     {
+        MaxHealth = baseMaxHealth + (int)ApplyMaxHealthUpgrade();
         Health = MaxHealth;
     }
+
+    public void UpgradeMaxHealth(float purchaseCount, float improvementMod)
+    {
+        maxHealthUpgradeValue = improvementMod;
+        maxHealthUpgradeCount = purchaseCount;
+        ResetHealth();
+    }
+
+    float ApplyMaxHealthUpgrade()
+    {
+        return maxHealthUpgradeCount * maxHealthUpgradeValue;
+    }
+
+
+
+
+    #region Physics Stuff
 
     private void FixedUpdate()
     {
@@ -110,7 +112,7 @@ public class PlayerBase : MonoBehaviour
         Vector2 force = direction * magnitude;
         playerRb.AddForce(force, ForceMode2D.Impulse);
 
-        Debug.LogWarning($"LogarithmicBounce: InputX: {inputX}, Y: {y:F2}, Force: {force}");
+        //Debug.LogWarning($"LogarithmicBounce: InputX: {inputX}, Y: {y:F2}, Force: {force}");
     }
 
     /// <summary>
@@ -130,7 +132,7 @@ public class PlayerBase : MonoBehaviour
     {
         if (inputX <= 0f)
         {
-            Debug.LogWarning("ApplyLog2Force: inputX must be > 0 for log2(x)");
+            //Debug.LogWarning("ApplyLog2Force: inputX must be > 0 for log2(x)");
             return;
         }
 
@@ -140,7 +142,7 @@ public class PlayerBase : MonoBehaviour
         Vector2 force = direction * magnitude;
         playerRb.AddForce(force, ForceMode2D.Impulse);
 
-        Debug.Log($"[Log2] inputX: {inputX}, y: {y}, direction: {direction}, force: {force}");
+        //Debug.Log($"[Log2] inputX: {inputX}, y: {y}, direction: {direction}, force: {force}");
     }
 
     /// <summary>
@@ -168,6 +170,8 @@ public class PlayerBase : MonoBehaviour
 
     public virtual void Stop() { playerRb.linearVelocity = Vector2.zero; playerRb.angularVelocity = 0f; /*Debug.LogError("STOP CALLED");*/ }
 
+    #endregion
+
     public virtual void TakeDamage(int damage)
     {
         int newHealth = Health -= damage;
@@ -175,9 +179,6 @@ public class PlayerBase : MonoBehaviour
         if (newHealth <= 0f) { Health = 0; }
         else if (newHealth > 0) { Health = newHealth; }
 
-
         if (Health == 0f) { Stop(); }
-            
     }
-
 }

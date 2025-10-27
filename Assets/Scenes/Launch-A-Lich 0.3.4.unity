@@ -486,7 +486,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adfc4a7711045eb43942934e17a2e9ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBase: {fileID: 2119655193}
   playerInteract: {fileID: 2119655198}
   healthFill: {fileID: 106814356}
 --- !u!1 &183092318
@@ -69966,8 +69965,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balanceText: {fileID: 1820004739}
-  totalBalance: 0
-  balance: 0
+  totalBalance: 999
+  balance: 999
 --- !u!4 &595240229
 Transform:
   m_ObjectHideFlags: 0
@@ -72570,7 +72569,7 @@ GameObject:
   - component: {fileID: 1042105326}
   - component: {fileID: 1042105327}
   m_Layer: 0
-  m_Name: Ground
+  m_Name: Ground Trigger
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78520,7 +78519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff6965d5d7faa7d418ab3318d28d80ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInteract: {fileID: 2119655198}
   player: {fileID: 2119655198}
 --- !u!1 &1971226980
 GameObject:
@@ -79581,6 +79579,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6099989545191276661, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099989545191276661, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099989545191276661, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -79598,7 +79608,6 @@ GameObject:
   - component: {fileID: 2119655192}
   - component: {fileID: 2119655197}
   - component: {fileID: 2119655190}
-  - component: {fileID: 2119655193}
   - component: {fileID: 2119655194}
   - component: {fileID: 2119655198}
   - component: {fileID: 2119655199}
@@ -79711,21 +79720,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2119655193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2119655188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 543bd4f357f06314d80dc9040bd2753b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerRb: {fileID: 2119655190}
-  maxFallSpeed: -100
-  stateMachine: {fileID: 2119655194}
 --- !u!114 &2119655194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79738,7 +79732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604e86e2ec44b6e4990d2a52b8733d33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBase: {fileID: 2119655193}
   player: {fileID: 2119655188}
   ground: {fileID: 635227598}
   playerRb: {fileID: 2119655190}
@@ -79907,10 +79900,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b2c5e7b1c422b4f95448f56485e1a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealthUpgradeValue: 0
+  maxHealthUpgradeCount: 0
   playerRb: {fileID: 2119655190}
   maxFallSpeed: -100
   stateMachine: {fileID: 2119655194}
-  health: 0
   forceMult: 4
   enemyImpactVelocityGain: 6
   bouncyUpgradeValue: 0
@@ -80416,7 +80410,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 593072427244577252, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: m_Name
-      value: Shop Card Parent
+      value: Shop Card Parent (Max Health)
       objectReference: {fileID: 0}
     - target: {fileID: 939289225350862989, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: bank
@@ -80433,7 +80427,7 @@ PrefabInstance:
     - target: {fileID: 1715581743410764125, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: upgradeData
       value: 
-      objectReference: {fileID: 11400000, guid: 7beab2f6d1bd15b459861347aacc6238, type: 2}
+      objectReference: {fileID: 11400000, guid: 2145f90dc83d5b94394bbdf5aae2dd2a, type: 2}
     - target: {fileID: 2404213097584320110, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -80461,6 +80455,18 @@ PrefabInstance:
     - target: {fileID: 2404213097584320110, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099989545191276661, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099989545191276661, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099989545191276661, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

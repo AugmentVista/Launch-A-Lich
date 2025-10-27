@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerStateMachine : MonoBehaviour
 {
-    public PlayerBase playerBase;
+    //public PlayerBase playerBase;
     public GameObject player;
     public GameObject ground;
     public Rigidbody2D playerRb;

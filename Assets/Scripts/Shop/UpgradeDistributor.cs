@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class UpgradeDistributor : MonoBehaviour
 {
-    [SerializeField] private PlayerInteractionHandler playerInteract;
-
     [Header("Gameplay References")]
     [SerializeField] private PlayerInteractionHandler player;
 
@@ -12,7 +10,7 @@ public class UpgradeDistributor : MonoBehaviour
         switch (item.upgradeType)
         {
             case UpgradeType.MaxHealth:
-                // player.UpgradeHealth(item.improvementModifier, purchaseCount);
+                player.UpgradeMaxHealth(item.improvementModifier, purchaseCount);
                 break;
 
             case UpgradeType.MaxSpeed:

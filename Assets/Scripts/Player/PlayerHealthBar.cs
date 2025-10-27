@@ -4,7 +4,6 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class PlayerHealthBar : MonoBehaviour
 {
-    [SerializeField] PlayerBase playerBase;
     [SerializeField] PlayerInteractionHandler playerInteract;
     private float currentHealth;
 
@@ -17,15 +16,15 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = playerInteract.health;
-        maxHealth = playerBase.MaxHealth;
+        currentHealth = playerInteract.Health;
+        maxHealth = playerInteract.MaxHealth;
         targetFillAmount = 1.0f;
         healthFill.fillAmount = targetFillAmount;
     }
 
     private void Update()
     {
-        currentHealth = playerInteract.health;
+        currentHealth = playerInteract.Health;
         UpdateFillAmount();
 
         if (Mathf.Abs(healthFill.fillAmount - targetFillAmount) > 0.01f)
