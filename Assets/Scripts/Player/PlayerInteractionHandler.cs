@@ -147,19 +147,19 @@ public class PlayerInteractionHandler : PlayerBase
             switch (Health)
             {
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.75f):
-                    ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.95f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(4f + bouncyUpgradesCount, Mathf.Abs(playerRb.linearVelocityY) * 0.95f + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.5f):
-                    ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.9f);
+                    ApplyExp2Force(4f + bouncyUpgradesCount, Mathf.Abs(playerRb.linearVelocityY) * 0.9f + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth * 0.5f && i >= MaxHealth * 0.25f):
-                    LogarithmicBounce(15f, Mathf.Abs(ground.damageValue) + ApplyBounceyUpgrade());
+                    ApplyExp2Force(4f + bouncyUpgradesCount, Mathf.Abs(playerRb.linearVelocityY) * 0.85f + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth * 0.25f && i >= 0f):
-                    ApplyExp2Force(2f, Mathf.Abs(playerRb.linearVelocityY) * 0.8f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(2f + bouncyUpgradesCount, Mathf.Abs(playerRb.linearVelocityY) * 0.8f + ApplyBounceyUpgrade());
                     break;
             }
 

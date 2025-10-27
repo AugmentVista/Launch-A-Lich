@@ -6,6 +6,8 @@ public class Player_Anim_Manager : MonoBehaviour
     private PlayerStateMachine stateMachine;
     private PlayerInteractionHandler interactionHandler;
 
+    private bool isDead = false;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -16,17 +18,21 @@ public class Player_Anim_Manager : MonoBehaviour
     private void OnEnable()
     {
         PlayerStateMachine.OnReadyToLaunch += PlayIdle;
+        PlayerStateMachine.OnReadyToLaunch += GetBetter;
         PlayerStateMachine.OnFlying += EvaluateFlyingState;
         PlayerStateMachine.OnGrounded += EvaluateFlyingState;
         PlayerStateMachine.OnStopped += PlayDeath;
+        PlayerStateMachine.OnStopped += Die;
     }
 
     private void OnDisable()
     {
         PlayerStateMachine.OnReadyToLaunch -= PlayIdle;
+        PlayerStateMachine.OnReadyToLaunch -= GetBetter;
         PlayerStateMachine.OnFlying -= EvaluateFlyingState;
         PlayerStateMachine.OnGrounded -= EvaluateFlyingState;
         PlayerStateMachine.OnStopped -= PlayDeath;
+        PlayerStateMachine.OnStopped -= Die;
     }
 
     private void PlayIdle()
@@ -36,15 +42,29 @@ public class Player_Anim_Manager : MonoBehaviour
 
     private void EvaluateFlyingState()
     {
-        if (PlayerResultsManager.globalPlayerSpeedY > 0)
-            animator.Play("Player_Rising");
-        else if (PlayerResultsManager.globalPlayerSpeedY < 0)
-            animator.Play("Player_Falling");
+        if (!isDead)
+        {
+            if (PlayerResultsManager.globalPlayerSpeedY > 0)
+                animator.Play("Player_Rising");
+            else if (PlayerResultsManager.globalPlayerSpeedY < 0)
+                animator.Play("Player_Falling");
+        }
+        
     }
 
     public void PlayRolling()
     {
         animator.Play("Player_Rolling");
+    }
+
+    private void Die()
+    {
+        isDead = true;
+    }
+
+    private void GetBetter()
+    {
+        isDead = false;
     }
 
     private void PlayDeath()

@@ -713,7 +713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &236726157
 RectTransform:
   m_ObjectHideFlags: 0
@@ -69733,7 +69733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &422639144
 RectTransform:
   m_ObjectHideFlags: 0
@@ -70376,8 +70376,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balanceText: {fileID: 1820004739}
-  totalBalance: 0
-  balance: 0
+  totalBalance: 10000
+  balance: 10000
 --- !u!4 &595240229
 Transform:
   m_ObjectHideFlags: 0

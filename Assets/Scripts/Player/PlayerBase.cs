@@ -223,7 +223,7 @@ public class PlayerBase : MonoBehaviour
         Debug.Log($"[Exp2] inputX: {inputX}, y: {y}, direction: {direction}, force: {force}");
     }
 
-    public virtual void Stop() { playerRb.linearVelocity = Vector2.zero; playerRb.angularVelocity = 0f; stopCalled = true; }
+    public virtual void Stop() { playerRb.linearVelocity = new Vector2(0.001f,0.001f); playerRb.angularVelocity = 0f; stopCalled = true; }
 
     #endregion
 
