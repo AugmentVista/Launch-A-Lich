@@ -88,6 +88,12 @@ public class UIManager : MonoBehaviour
         newScreen.SetActive(true);
     }
 
+
+    public void SetVictory()
+    {
+        SetScreen(Victory);
+    }
+
     // All Buttons start with B to make them easier to find in unity
 
     public void B_Play()

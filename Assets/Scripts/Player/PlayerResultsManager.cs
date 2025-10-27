@@ -157,18 +157,25 @@ public class PlayerResultsManager : MonoBehaviour
 
     void ResultsMenu()
     {
-        nextButton.SetActive(false);
-        UIManager.B_Results();
-        CalcuateGoldEarned(distanceReached, heightReached);
-
-        if (respawner != null)
+        if (highScoreX < 500f)
         {
-            respawner.RespawnPlayer();
-        }
+            nextButton.SetActive(false);
+            UIManager.B_Results();
+            CalcuateGoldEarned(distanceReached, heightReached);
 
-        ResetResults();
-        PlayerStateMachine playerState = player.GetComponent<PlayerStateMachine>();
-        if (playerState != null) { playerState.StoppedToLaunchReady(); }
+            if (respawner != null)
+            {
+                respawner.RespawnPlayer();
+            }
+
+            ResetResults();
+            PlayerStateMachine playerState = player.GetComponent<PlayerStateMachine>();
+            if (playerState != null) { playerState.StoppedToLaunchReady(); }
+        }
+        else 
+        {
+            UIManager.SetVictory();
+        }
     }
 
     void ResetResults()
