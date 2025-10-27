@@ -70376,8 +70376,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balanceText: {fileID: 1820004739}
-  totalBalance: 10000
-  balance: 10000
+  totalBalance: 0
+  balance: 0
 --- !u!4 &595240229
 Transform:
   m_ObjectHideFlags: 0
