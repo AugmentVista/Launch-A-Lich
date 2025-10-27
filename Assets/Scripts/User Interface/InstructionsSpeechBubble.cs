@@ -48,7 +48,7 @@ public class InstructionsSpeechBubble : MonoBehaviour
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 break;
             case 1:
-                speechBubble.setDialogueText("Launch!\n Boost\n Collect\n Upgrade\n Repeat\n Complete Compendium");
+                speechBubble.setDialogueText("Launch!\n Boost\n Collect\n Upgrade\n Repeat\n Reach 5000m");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 break;
             case 2:
@@ -57,7 +57,7 @@ public class InstructionsSpeechBubble : MonoBehaviour
                 BoostIcon.SetActive(true);
                 break;
             case 3:
-                speechBubble.setDialogueText("Complete the Treat Compendium to win");
+                speechBubble.setDialogueText("Reach 5000m to win");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 break;
             case 4:

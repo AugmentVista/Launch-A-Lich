@@ -1,10 +1,13 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerResultsManager : MonoBehaviour
 {
     public Respawner respawner;
     public CentralBank bank;
+
+    public Image progressBarFill;
 
     [SerializeField] Rigidbody2D playerRb;
     public Vector2 globalPlayerSpeedV2;
@@ -17,8 +20,9 @@ public class PlayerResultsManager : MonoBehaviour
 
     public GameObject highScoreBanner;
     public GameObject distanceBanner;
-    public GameObject goldIcon;
     public GameObject nextButton;
+
+    private float victoryDistance = 5000;
 
     public float highScoreX = 0f;
     public float highScoreY = 0f;
@@ -44,6 +48,7 @@ public class PlayerResultsManager : MonoBehaviour
         distanceBanner.SetActive(false);
         highScoreBanner.SetActive(false);
         nextButton.SetActive(false);
+        progressBarFill.fillAmount = 0f;
     }
 
     private void Update()
@@ -56,6 +61,8 @@ public class PlayerResultsManager : MonoBehaviour
         float currentDistance = player.transform.position.x;
         if (heightReached < currentHeight) { heightReached = currentHeight; if(heightReached > highScoreY) highScoreY = heightReached; }
         if (distanceReached < currentDistance) { distanceReached = currentDistance; if (distanceReached > highScoreX) highScoreX = distanceReached; }
+        float fillAmount = Mathf.Clamp01(currentDistance / victoryDistance);
+        progressBarFill.fillAmount = fillAmount;
     }
 
     void ShowDistanceTraveled()
@@ -157,7 +164,7 @@ public class PlayerResultsManager : MonoBehaviour
 
     void ResultsMenu()
     {
-        if (highScoreX < 500f)
+        if (highScoreX < victoryDistance)
         {
             nextButton.SetActive(false);
             UIManager.B_Results();
