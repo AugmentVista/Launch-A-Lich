@@ -67,7 +67,7 @@ public class SpeedLimit : MonoBehaviour
             return baseGravityScale;
 
         float excessRatio = (velocity - maxSpeedY) / maxSpeedY;
-        float addedGravity = excessRatio * (0.50f / 0.10f);// add 0.5 gravity scale every 10% over maxSpeedY
+        float addedGravity = excessRatio * (0.5f / 0.05f);// add 0.5 gravity scale every 5% over maxSpeedY
         return baseGravityScale + addedGravity;
     }
 
@@ -77,7 +77,7 @@ public class SpeedLimit : MonoBehaviour
             return baseLinearDampeningValue;
 
         float excessRatio = (velocity - (maxSpeedX + ApplyMaxSpeedUpgrade())) / (maxSpeedX + ApplyMaxSpeedUpgrade());
-        float addedDamping = excessRatio * (0.05f / 0.10f); // Add 0.05 linear dampening every 10% over maxSpeedX
+        float addedDamping = excessRatio * (0.05f / 0.05f); // Add 0.05 linear dampening every 5% over maxSpeedX
         return baseLinearDampeningValue + addedDamping;
     }
 
@@ -98,7 +98,7 @@ public class SpeedLimit : MonoBehaviour
             Color targetColor = Color.Lerp(Color.white, Color.red, t);
 
             Color currentColor = hudDisplay.speedText.color;
-            hudDisplay.speedText.color = Color.Lerp(currentColor, targetColor, Time.deltaTime * 8f);
+            hudDisplay.speedText.color = Color.Lerp(currentColor, targetColor, Time.deltaTime * 10f);
         }
     }
 

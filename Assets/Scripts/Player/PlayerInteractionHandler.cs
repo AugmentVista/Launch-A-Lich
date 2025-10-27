@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerInteractionHandler : PlayerBase
 {
+    [SerializeField] Player_Anim_Manager playerAnim;
+
     public int forceMult;
     public int enemyImpactVelocityGain;
 
@@ -162,8 +164,9 @@ public class PlayerInteractionHandler : PlayerBase
                     ApplyExp2Force(2f + bouncyUpgradesCount, Mathf.Abs(playerRb.linearVelocityY) * 0.8f + ApplyBounceyUpgrade());
                     break;
             }
-
-            GetComponent<Player_Anim_Manager>()?.PlayTakeHit();
+            if (Health <= 0){ playerAnim.PlayDeath(); }
+            else { playerAnim.PlayTakeHit(); }
+                
         }
     }
 

@@ -111,7 +111,7 @@ public class PlayerStateMachine : MonoBehaviour
 
                 ChangePlayerState(PlayerState.Stopped);
             }
-            else if (playerInteract.stopCalled && player.transform.position.y < flyingHeightThreshold)
+            else if (playerInteract.stopCalled && player.transform.position.y < flyingHeightThreshold && playerState!= PlayerState.Stopped)
             {
                 playerRb.linearVelocity = Vector2.zero;
                 FreezePlayerMovement();

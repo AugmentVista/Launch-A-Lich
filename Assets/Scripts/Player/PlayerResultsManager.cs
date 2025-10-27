@@ -175,7 +175,6 @@ public class PlayerResultsManager : MonoBehaviour
                 respawner.RespawnPlayer();
             }
 
-            ResetResults();
             PlayerStateMachine playerState = player.GetComponent<PlayerStateMachine>();
             if (playerState != null) { playerState.StoppedToLaunchReady(); }
         }
@@ -183,6 +182,7 @@ public class PlayerResultsManager : MonoBehaviour
         {
             UIManager.SetVictory();
         }
+        ResetResults();
     }
 
     void ResetResults()

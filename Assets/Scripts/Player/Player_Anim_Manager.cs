@@ -6,8 +6,6 @@ public class Player_Anim_Manager : MonoBehaviour
     private PlayerStateMachine stateMachine;
     private PlayerInteractionHandler interactionHandler;
 
-    public bool isDead = false;
-
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -45,12 +43,10 @@ public class Player_Anim_Manager : MonoBehaviour
         if (PlayerResultsManager.globalPlayerSpeedY > 0.01)
         {
             animator.Play("Player_Rising");
-            isDead = false;
         }
         else if (PlayerResultsManager.globalPlayerSpeedY < -0.01)
         { 
             animator.Play("Player_Falling");
-            isDead = false;
         }
     }
 
@@ -61,18 +57,18 @@ public class Player_Anim_Manager : MonoBehaviour
 
     private void Die()
     {
-        isDead = true;
+        //isDead = true;
     }
 
     private void GetBetter()
     {
-        isDead = false;
+        //isDead = false;
     }
 
-    private void PlayDeath()
+    public void PlayDeath()
     {
         animator.Play("Player_Death");
-        isDead = false;
+        //isDead = false;
     }
 
     public void PlayTakeHit()

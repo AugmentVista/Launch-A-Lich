@@ -21,7 +21,7 @@ public class Respawner : MonoBehaviour
         {
             player = collision.gameObject;
             hasPlayerReturnedToLaunchpad = true;
-            Debug.Log("Player has returned to launchpad.");
+            //Debug.Log("Player has returned to launchpad.");
         }
     }
 
@@ -31,7 +31,7 @@ public class Respawner : MonoBehaviour
         {
             player = collision.gameObject;
             hasPlayerReturnedToLaunchpad = false;
-            Debug.Log("Player has left the launchpad.");
+            //Debug.Log("Player has left the launchpad.");
         }
     }
 }
