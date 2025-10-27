@@ -70613,7 +70613,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &422639144
 RectTransform:
   m_ObjectHideFlags: 0
@@ -70627,12 +70627,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1088862153}
-  - {fileID: 627706022}
-  - {fileID: 1868491675}
-  - {fileID: 454401184}
   - {fileID: 2086690252}
   - {fileID: 1032613413}
   - {fileID: 1375594022}
+  - {fileID: 627706022}
+  - {fileID: 1868491675}
+  - {fileID: 454401184}
   - {fileID: 1239401077}
   m_Father: {fileID: 1984791768}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -70766,7 +70766,7 @@ GameObject:
   - component: {fileID: 454401186}
   - component: {fileID: 454401185}
   m_Layer: 5
-  m_Name: Background (8)
+  m_Name: Upgrade Item 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71364,6 +71364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74ff87021efe1e41b9545290eaa2a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  balanceText: {fileID: 0}
   totalBalance: 0
 --- !u!4 &595240229
 Transform:
@@ -71746,7 +71747,7 @@ GameObject:
   - component: {fileID: 627706024}
   - component: {fileID: 627706023}
   m_Layer: 5
-  m_Name: Background (4)
+  m_Name: Upgrade Item 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73774,7 +73775,7 @@ GameObject:
   - component: {fileID: 1032613415}
   - component: {fileID: 1032613414}
   m_Layer: 5
-  m_Name: Background (7)
+  m_Name: Upgrade Item 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75147,7 +75148,7 @@ GameObject:
   - component: {fileID: 1088862155}
   - component: {fileID: 1088862154}
   m_Layer: 5
-  m_Name: Background (10)
+  m_Name: Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77267,7 +77268,7 @@ GameObject:
   - component: {fileID: 1375594024}
   - component: {fileID: 1375594023}
   m_Layer: 5
-  m_Name: Background (9)
+  m_Name: Upgrade Item 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80466,7 +80467,7 @@ GameObject:
   - component: {fileID: 1868491677}
   - component: {fileID: 1868491676}
   m_Layer: 5
-  m_Name: Background (6)
+  m_Name: Upgrade Item 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81880,7 +81881,7 @@ GameObject:
   - component: {fileID: 2086690254}
   - component: {fileID: 2086690253}
   m_Layer: 5
-  m_Name: Background (5)
+  m_Name: Upgrade Item 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82408,6 +82409,8 @@ MonoBehaviour:
   health: 0
   forceMult: 4
   enemyImpactVelocityGain: 6
+  bouncyUpgradeValue: 0
+  bouncyUpgradesCount: 0
   grounded: 0
 --- !u!114 &2119655199
 MonoBehaviour:

@@ -10,6 +10,12 @@ public class PlayerInteractionHandler : PlayerBase
 
     private float groundedTimer = 0f;
 
+    float bouncyUpgradesActive = 0;
+
+    public float bouncyUpgradeValue;
+
+    public float bouncyUpgradesCount;
+
     [SerializeField] private bool grounded = false;
 
     private Ground ground;
@@ -39,6 +45,25 @@ public class PlayerInteractionHandler : PlayerBase
     {
         health = Health;
         ApplyTouchingGroundDamage();
+    }
+
+    public void UpgradeBounce(float purchaseCount, float improvementMod)
+    {
+        bouncyUpgradeValue = improvementMod;
+        bouncyUpgradesCount += purchaseCount;
+    }
+
+    float ApplyBounceyUpgrade()
+    {
+        if (bouncyUpgradesCount > 0)
+        {
+            bouncyUpgradesActive = bouncyUpgradesCount * bouncyUpgradeValue;
+        }
+        else
+        {
+            bouncyUpgradesActive = 0;
+        }
+        return bouncyUpgradesActive;
     }
 
 
@@ -115,7 +140,7 @@ public class PlayerInteractionHandler : PlayerBase
             {
                 case int i when (i < MaxHealth && Mathf.Round(i) >= MaxHealth * 0.75f):
                     {
-                        ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.95f);
+                        ApplyExp2Force(4f, Mathf.Abs(playerRb.linearVelocityY) * 0.95f + ApplyBounceyUpgrade());
                     }
                     break;
                 case int i when (i < MaxHealth && Mathf.Round(i) >= MaxHealth * 0.5f):
@@ -125,12 +150,12 @@ public class PlayerInteractionHandler : PlayerBase
                     break;
                 case int i when (Mathf.Round(i) < MaxHealth * 0.5f && Mathf.Round(i) >= MaxHealth * 0.25f):
                     {
-                        LogarithmicBounce(15f, Mathf.Abs(ground.damageValue));
+                        LogarithmicBounce(15f, Mathf.Abs(ground.damageValue) + ApplyBounceyUpgrade());
                     }
                     break;
                 case int i when (Mathf.Round(i) < MaxHealth * 0.25f && Mathf.Round(i) >= 0f):
                     {
-                        ApplyExp2Force(2f, Mathf.Abs(playerRb.linearVelocityY) * 0.8f);
+                        ApplyExp2Force(2f, Mathf.Abs(playerRb.linearVelocityY) * 0.8f + ApplyBounceyUpgrade());
                     }
                     break;
                 case int i when (Mathf.Round(i) >= 0):
@@ -157,7 +182,7 @@ public class PlayerInteractionHandler : PlayerBase
                 groundedTimer = 0f;
                 GetComponent<Player_Anim_Manager>()?.PlayTakeHit();
                 TakeDamage(ground.damageValue / 2);
-                ApplyExp2Force(2f, ground.damageValue * 2);
+                ApplyExp2Force(2f, ground.damageValue * 2 + ApplyBounceyUpgrade());
             }
         }
     }
