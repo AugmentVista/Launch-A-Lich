@@ -37,6 +37,7 @@ public class PlayerHealthBar : MonoBehaviour
     {
         if (healthFill != null)
         {
+            maxHealth = playerInteract.MaxHealth;
             targetFillAmount = currentHealth / maxHealth;
         }
     }
