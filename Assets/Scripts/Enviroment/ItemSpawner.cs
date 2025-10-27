@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
+    [SerializeField] PlayerResultsManager results;
+
     public GameObject itemPrefab;
 
     [SerializeField] GameObject groundItem;
     [SerializeField] GameObject flyingItem;
+    [SerializeField] GameObject flyingItem2;
+    [SerializeField] GameObject flyingItem3;
 
     [SerializeField] SpeedLimit speedLimit;
     private float speedLimitX;
@@ -83,9 +87,27 @@ public class ItemSpawner : MonoBehaviour
 
     void SpawnFlyingItems()
     {
-        itemPrefab = flyingItem;
 
-        Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
+        if (results.currentDistance < 1000)
+        {
+            itemPrefab = flyingItem;
+        }
+        else if (results.currentDistance < 2000)
+        {
+            itemPrefab = flyingItem2;
+        }
+        else if (results.currentDistance > 2000)
+        {
+            itemPrefab = flyingItem3;
+        }
+        else
+        {
+            itemPrefab = flyingItem;
+        }
+
+
+
+            Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
         Vector3 topEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, cam.nearClipPlane));
 
         float randomY = Random.Range(bottomEdge.y + 10f, topEdge.y - 1f);

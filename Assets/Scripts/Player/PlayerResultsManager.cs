@@ -31,7 +31,7 @@ public class PlayerResultsManager : MonoBehaviour
 
     private int enemyGoldThisRun = 0;
     private int itemGoldThisRun = 0;
-
+    public float currentDistance;
 
     public float incomeUpgradeValue;
     public float incomeUpgradeCount;
@@ -58,7 +58,7 @@ public class PlayerResultsManager : MonoBehaviour
         globalPlayerSpeedY = playerRb.linearVelocityY;
 
         float currentHeight = player.transform.position.y;
-        float currentDistance = player.transform.position.x;
+        currentDistance = player.transform.position.x;
         if (heightReached < currentHeight) { heightReached = currentHeight; if(heightReached > highScoreY) highScoreY = heightReached; }
         if (distanceReached < currentDistance) { distanceReached = currentDistance; if (distanceReached > highScoreX) highScoreX = distanceReached; }
         float fillAmount = Mathf.Clamp01(currentDistance / victoryDistance);

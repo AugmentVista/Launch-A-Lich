@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5945824292595923845}
   - component: {fileID: 354536901746810292}
   m_Layer: 6
-  m_Name: Item Flying
+  m_Name: Item Flying 1
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2cc4c147b6b7649d6ac98a928018c544, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 55fee746438a44352bf8b7ee9998f174, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDead: 0
-  healValue: 8
-  moneyValue: 10
+  healValue: 10
+  moneyValue: 25
   type: 0
   deathPrefab: {fileID: 0}

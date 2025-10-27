@@ -713,7 +713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &236726157
 RectTransform:
   m_ObjectHideFlags: 0
@@ -77924,9 +77924,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6dc324e1ee8ecb4e9a5bb9033be584b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  results: {fileID: 1998686133}
   itemPrefab: {fileID: 3020272124151466552, guid: 702f72092f4ff3f4ea160392e8a1bb66, type: 3}
   groundItem: {fileID: 3020272124151466552, guid: 702f72092f4ff3f4ea160392e8a1bb66, type: 3}
   flyingItem: {fileID: 1640966646589641564, guid: c639c116b99f72240872b1d67454ac9b, type: 3}
+  flyingItem2: {fileID: 1640966646589641564, guid: 5d8287fb92f783847b3216b82198dbe3, type: 3}
+  flyingItem3: {fileID: 1640966646589641564, guid: 164171b4b23e6804a8a7119de2df85e9, type: 3}
   speedLimit: {fileID: 2119655199}
   spawnY: 0
   spawnOffset: 2
@@ -80516,6 +80519,7 @@ MonoBehaviour:
   nextButton: {fileID: 1292216580}
   highScoreX: 0
   highScoreY: 0
+  currentDistance: 0
   incomeUpgradeValue: 0
   incomeUpgradeCount: 0
   highScoreText: {fileID: 1123219062}
@@ -82595,6 +82599,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 236726157}
     m_Modifications:
+    - target: {fileID: 1527866612420386452, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
+      propertyPath: m_FillAmount
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4279593648256099752, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
+      propertyPath: m_text
+      value: "10% Treat \nCompletion"
+      objectReference: {fileID: 0}
     - target: {fileID: 7593533706712096025, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -82679,6 +82691,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Treats Compendium
       objectReference: {fileID: 0}
+    - target: {fileID: 9059592601445491549, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2cc4c147b6b7649d6ac98a928018c544, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
