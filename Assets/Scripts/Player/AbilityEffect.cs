@@ -29,8 +29,8 @@ public class AbilityEffect : MonoBehaviour
             {
                 if (playerRb.linearVelocityY < -10) // Reverse half of falling velocity
                 {
-                    NegativeLogarithmicBounce(2f, abilityStrength);
-                    //LogarithmicBounce(2f, abilityStrength + (playerRb.linearVelocityY * -1.0f));
+                    //NegativeLogarithmicBounce(2f, abilityStrength);
+                    LogarithmicBounce(2f, abilityStrength + (playerRb.linearVelocityY * -1.0f));
                 }
                 else { LogarithmicBounce(4f, abilityStrength); }
                     

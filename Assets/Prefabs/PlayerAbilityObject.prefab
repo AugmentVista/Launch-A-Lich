@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd399698ba2ea134e8a83fc2a2b8e9be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityStrength: 50
+  abilityStrength: 200
 --- !u!95 &-6549935195534877416
 Animator:
   serializedVersion: 7

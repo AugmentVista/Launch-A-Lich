@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - P_Ability
   - Item
+  - Celling
   layers:
   - Default
   - TransparentFX
