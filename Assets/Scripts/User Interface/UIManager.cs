@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+
+    [SerializeField] Respawner respawner;
+
     [Header("UI Screens")]
     public GameObject Menu;
     public GameObject Instructions;
@@ -16,10 +19,10 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject LastScreenActive;
 
-    [Range(0.5f, 1f)]
+    [Range(0.25f, 1f)]
     public float time;
 
-    private float minTime = 0.5f;
+    private float minTime = 0.25f;
 
     private float maxTime = 1f;
 
@@ -191,6 +194,12 @@ public class UIManager : MonoBehaviour
     public void B_OpenShop()
     {
         SetScreen(Shop);
+
+        if (respawner != null)
+        {
+            respawner.RespawnPlayer();
+        }
+        
     }
     public void B_Resume()
     {
@@ -199,7 +208,6 @@ public class UIManager : MonoBehaviour
 
     public void B_Continue()
     {
-        Respawner.hasPlayerReturnedToLaunchpad = true;
         SetUIFalse();
         SetScreen(Gameplay);
     }

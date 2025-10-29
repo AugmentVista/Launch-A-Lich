@@ -4,6 +4,8 @@ public class Respawner : MonoBehaviour
 {
     [SerializeField] private GameObject player;
 
+    [SerializeField] PlayerStateMachine playerStateMachine;
+
     public static bool hasPlayerReturnedToLaunchpad = false;
 
     // Call this from PlayerResultsManager after results screen opens
@@ -21,6 +23,7 @@ public class Respawner : MonoBehaviour
         {
             player = collision.gameObject;
             hasPlayerReturnedToLaunchpad = true;
+            playerStateMachine.StoppedToLaunchReady();
             //Debug.Log("Player has returned to launchpad.");
         }
     }
