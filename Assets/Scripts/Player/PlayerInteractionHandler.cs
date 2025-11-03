@@ -109,12 +109,28 @@ public class PlayerInteractionHandler : PlayerBase
 
             if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
             {
-                NegativeLogarithmicBounce(2f, enemyImpactVelocityGain);
+                //if (PlayerResultsManager.globalPlayerSpeedY > 0.01 && transform.position.y > 20)
+                //{
+                //    NegativeLogarithmicBounce(15f, enemyImpactVelocityGain * forceMult);
+                //}
+                //else
+                {
+                    LogarithmicBounce(4f, enemyImpactVelocityGain * forceMult);
+                }
+                
                 OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
             }
-            else if (Health >= MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
+            else if (Health >= MaxHealth * 0.5f && Health > 0 && enemy.type == Enemy.Type.Flying)
             {
-                NegativeLogarithmicBounce(2f, enemyImpactVelocityGain * 2f);
+                if (PlayerResultsManager.globalPlayerSpeedY > 0.01)
+                {
+                    NegativeLogarithmicBounce(2f, enemyImpactVelocityGain * forceMult);
+                }
+                else if (PlayerResultsManager.globalPlayerSpeedY < -0.01)
+                {
+                    LogarithmicBounce(2f, enemyImpactVelocityGain * forceMult);
+                }
+
                 OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
             }
             else if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Grounded)
@@ -122,17 +138,16 @@ public class PlayerInteractionHandler : PlayerBase
                 LogarithmicBounce(4f, enemyImpactVelocityGain * forceMult);
                 OnGroundEnemyDefeated?.Invoke(enemy.moneyValue);
             }
-            else if (Health >= MaxHealth * 0.5f && enemy.type == Enemy.Type.Grounded)
+            else if (Health >= MaxHealth * 0.5f && Health > 0 && enemy.type == Enemy.Type.Grounded)
             {
                 LogarithmicBounce(4f, enemyImpactVelocityGain * forceMult);
                 OnGroundEnemyDefeated?.Invoke(enemy.moneyValue);
             }
 
-            if (Health >= 0)
-                LogarithmicBounce(1f, enemyImpactVelocityGain * 0f);
+            if (Health - enemy.damageValue > 0) { GetComponent<Player_Anim_Manager>()?.PlayRolling(); }
 
-            if (Health - enemy.damageValue > 0)
-                GetComponent<Player_Anim_Manager>()?.PlayRolling();
+
+            if (Health <= 0) { NegativeLogarithmicBounce(2f, 100f); }
 
             if (enemy != null) enemy.isDead = true;
         }
@@ -145,19 +160,19 @@ public class PlayerInteractionHandler : PlayerBase
             switch (Health)
             {
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.75f):
-                    ApplyExp2Force(5f, Mathf.Abs(playerRb.linearVelocityY) * 0.95f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(5f, ground.damageValue + Mathf.Abs(playerRb.linearVelocityY)  + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.5f):
-                    ApplyExp2Force(6f, Mathf.Abs(playerRb.linearVelocityY) * 0.9f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(6f, ground.damageValue + Mathf.Abs(playerRb.linearVelocityY)  + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth * 0.5f && i >= MaxHealth * 0.25f):
-                    ApplyExp2Force(7f, Mathf.Abs(playerRb.linearVelocityY) * 0.85f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(7f, ground.damageValue + Mathf.Abs(playerRb.linearVelocityY)  + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth * 0.25f && i >= 0f):
-                    ApplyExp2Force(8f, Mathf.Abs(playerRb.linearVelocityY) * 0.8f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(8f, ground.damageValue + Mathf.Abs(playerRb.linearVelocityY)  + ApplyBounceyUpgrade());
                     break;
             }
             if (Health <= 0) { playerAnim.PlayDeath(); }
@@ -204,7 +219,7 @@ public class PlayerInteractionHandler : PlayerBase
             {
                 groundedTimer = 0f;
                 GetComponent<Player_Anim_Manager>()?.PlayTakeHit();
-                TakeDamage(ground.damageValue / 2);
+                TakeDamage(ground.damageValue - 10);
                 ApplyExp2Force(2f, ground.damageValue * 2 + ApplyBounceyUpgrade());
             }
         }

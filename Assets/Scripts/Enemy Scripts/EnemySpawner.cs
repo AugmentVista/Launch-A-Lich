@@ -32,7 +32,6 @@ public class EnemySpawner : MonoBehaviour
         PlayerStateMachine.OnGrounded += SpawnGroundedEnemies;
         PlayerStateMachine.OnFlying += SpawnFlyingEnemies;
 
-
         PlayerStateMachine.OnInactive += DisableSpawning;
         PlayerStateMachine.OnStopped += DisableSpawning;
 
@@ -84,7 +83,7 @@ public class EnemySpawner : MonoBehaviour
         Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
         Vector3 topEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, cam.nearClipPlane));
 
-        float randomY = Random.Range(bottomEdge.y + 10f, topEdge.y - 1f);
+        float randomY = Random.Range(bottomEdge.y + Random.Range(10f, 15f), topEdge.y - 1f);
 
         spawnY = Mathf.Clamp(randomY, 10f, float.MaxValue);
     }
@@ -113,7 +112,7 @@ public class EnemySpawner : MonoBehaviour
 
         Vector2 rightEdge = cam.ViewportToWorldPoint(new Vector3(1, 0.5f, 0));
 
-        const int maxAttempts = 10;
+        const int maxAttempts = 20;
         for (int attempt = 0; attempt < maxAttempts; attempt++)
         {
             float randomSpawnOffset = Random.Range(0.25f, 0.75f);
@@ -142,10 +141,5 @@ public class EnemySpawner : MonoBehaviour
 
     private void EnableSpawning() => canSpawn = true;
     private void DisableSpawning() => canSpawn = false;
-
-    private void OnPlayerReadyToLaunch()
-    {
-        DisableSpawning();
-    }
 
 }

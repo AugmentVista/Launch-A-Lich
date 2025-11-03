@@ -67,19 +67,19 @@ public class InstructionsSpeechBubble : MonoBehaviour
                 LaunchIcon.SetActive(true);
                 break;
             case 3:
-                speechBubble.setDialogueText("Enemies hurt a little\n The Ground hurts a lot");
+                speechBubble.setDialogueText("Enemies hurt a little\nCelling hurts some\nGround hurts a lot");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 LaunchIcon.SetActive(false);
                 HealthBar.SetActive(true);
                 break;
             case 4:
-                speechBubble.setDialogueText("Height, distance, enemies, and treats = $$$");
+                speechBubble.setDialogueText("Earn Gold from\nHeight\nDistance\nEnemies\nTreats\n");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 HealthBar.SetActive(false);
                 GoldIcon.SetActive(true);
                 break;
             case 5:
-                speechBubble.setDialogueText("Purchase upgrades go even farther beyond!");
+                speechBubble.setDialogueText("Good Luck");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 GoldIcon.SetActive(false);
                 Proceed();

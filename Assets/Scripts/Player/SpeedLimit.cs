@@ -95,7 +95,7 @@ public class SpeedLimit : MonoBehaviour
             float t = Mathf.InverseLerp(0f, fullColorThreshold - baseLinearDampeningValue, excess);
 
             // Lerp from white to red
-            Color targetColor = Color.Lerp(Color.white, Color.red, t);
+            Color targetColor = Color.Lerp(Color.black, Color.red, t);
 
             Color currentColor = hudDisplay.speedText.color;
             hudDisplay.speedText.color = Color.Lerp(currentColor, targetColor, Time.deltaTime * 10f);

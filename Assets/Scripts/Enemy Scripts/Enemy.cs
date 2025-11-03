@@ -12,17 +12,12 @@ public class Enemy : MonoBehaviour
     public Type type;
 
     public GameObject deathPrefab;
-
-    private void Start()
-    {
-        moveSpeed = Random.Range(baseSpeed, PlayerResultsManager.globalPlayerSpeedX * 0.8f);
-    }
-
     void Update()
     {
         if (!isDead)
         {
-            
+            float relativeMult = Random.Range(0.5f, 0.8f);
+            moveSpeed = Mathf.Max(baseSpeed, PlayerResultsManager.globalPlayerSpeedX * relativeMult);
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         }
         if (isDead)
