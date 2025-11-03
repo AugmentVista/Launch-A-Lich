@@ -73788,6 +73788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b11f635ac232d684c9e9c9fd33390422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawner: {fileID: 1902506032}
   Menu: {fileID: 1683774342}
   Instructions: {fileID: 7055022681745409945}
   Options: {fileID: 1285052789}
@@ -73798,6 +73799,7 @@ MonoBehaviour:
   Credits: {fileID: 1795878700}
   Victory: {fileID: 326860228}
   LastScreenActive: {fileID: 0}
+  time: 0.5
 --- !u!1 &1044701030
 GameObject:
   m_ObjectHideFlags: 0
@@ -79836,6 +79838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  playerStateMachine: {fileID: 2119655194}
 --- !u!61 &1902506033
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -80712,6 +80715,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021085380}
   m_CullTransparentMesh: 1
+--- !u!1 &2032901070 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1798073809152487767, guid: 10871d39f83df5a41ae5c169a84f00e2, type: 3}
+  m_PrefabInstance: {fileID: 69814442}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2032901071 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3901030333919834056, guid: 10871d39f83df5a41ae5c169a84f00e2, type: 3}
@@ -81656,6 +81664,7 @@ MonoBehaviour:
   playerRb: {fileID: 2119655190}
   maxFallSpeed: -100
   stateMachine: {fileID: 2119655194}
+  playerAnim: {fileID: 2119655201}
   forceMult: 4
   enemyImpactVelocityGain: 6
   bouncyUpgradeValue: 0
@@ -150696,6 +150705,8 @@ MonoBehaviour:
   NextButton: {fileID: 9086229579515864599}
   HealthBar: {fileID: 1741233902}
   BoostIcon: {fileID: 1556626297}
+  LaunchIcon: {fileID: 2032901070}
+  GoldIcon: {fileID: 1974711749}
   speechBubble: {fileID: 4940812956217743340}
   defaultStyle: {fileID: 11400000, guid: c702512d436060f46aec888b647b2d62, type: 2}
   darkStyle: {fileID: 11400000, guid: c702512d436060f46aec888b647b2d62, type: 2}

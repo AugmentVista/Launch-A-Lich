@@ -89,6 +89,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         float appliedForce = force * launchForceMultiplier;
 
         LogarithmicBounce(14f, appliedForce);
+        
     }
 
     /// <summary>

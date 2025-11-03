@@ -11,6 +11,10 @@ public class InstructionsSpeechBubble : MonoBehaviour
 
     [SerializeField] GameObject BoostIcon;
 
+    [SerializeField] GameObject LaunchIcon;
+
+    [SerializeField] GameObject GoldIcon;
+
     [SerializeField]
     private SpeechBubble_TMP speechBubble;
 
@@ -19,12 +23,16 @@ public class InstructionsSpeechBubble : MonoBehaviour
     [SerializeField]
     private SpeechBubbleStyle darkStyle;
 
+    private int dialogueCount = 5;
+
     void Start()
     {
         showCorrectSlide();
-        if (counter != 8) { NextButton.SetActive(false); }
+        if (counter != dialogueCount) { NextButton.SetActive(false); }
         BoostIcon.SetActive(false);
         HealthBar.SetActive(false);
+        LaunchIcon.SetActive(false);
+        GoldIcon.SetActive(false);
     }
 
     void OnEnable()
@@ -38,50 +46,42 @@ public class InstructionsSpeechBubble : MonoBehaviour
 
     private void showCorrectSlide()
     {
-        counter = Mathf.Clamp(counter, 0, 8);
+        counter = Mathf.Clamp(counter, 0, dialogueCount);
         speechBubble.setBubbleType(SpeechBubbleType.Think);
 
         switch (counter)
         {
             case 0:
-                speechBubble.setDialogueText("How to Play");
-                speechBubble.setBubbleType(SpeechBubbleType.Think);
-                break;
-            case 1:
                 speechBubble.setDialogueText("Launch!\n Boost\n Collect\n Upgrade\n Repeat\n Reach 5000m");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 break;
-            case 2:
-                speechBubble.setDialogueText("Click while flying to use your boost!\n");
+            case 1:
+                speechBubble.setDialogueText("Click me with a full meter to Boost!\n");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 BoostIcon.SetActive(true);
                 break;
-            case 3:
-                speechBubble.setDialogueText("Reach 5000m to win");
-                speechBubble.setBubbleType(SpeechBubbleType.Think);
-                break;
-            case 4:
-                speechBubble.setDialogueText("Playing the Game");
+            case 2:
+                speechBubble.setDialogueText("Click and hold Launch button to charge");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 BoostIcon.SetActive(false);
+                LaunchIcon.SetActive(true);
                 break;
-            case 5:
-                speechBubble.setDialogueText("Hold down left click to charge power, release at high power.");
+            case 3:
+                speechBubble.setDialogueText("Enemies hurt a little\n The Ground hurts a lot");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
-                break;
-            case 6:
-                speechBubble.setDialogueText("Enemies hurt a little\n The ground hurts a lot");
-                speechBubble.setBubbleType(SpeechBubbleType.Think);
+                LaunchIcon.SetActive(false);
                 HealthBar.SetActive(true);
                 break;
-            case 7:
-                speechBubble.setDialogueText("Get cash from distance, enemies, and treats");
-                speechBubble.setBubbleType(SpeechBubbleType.Think);
-                break;
-            case 8:
-                speechBubble.setDialogueText("Purchase upgrades and break records to unlock more treats");
+            case 4:
+                speechBubble.setDialogueText("Height, distance, enemies, and treats = $$$");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 HealthBar.SetActive(false);
+                GoldIcon.SetActive(true);
+                break;
+            case 5:
+                speechBubble.setDialogueText("Purchase upgrades go even farther beyond!");
+                speechBubble.setBubbleType(SpeechBubbleType.Think);
+                GoldIcon.SetActive(false);
                 Proceed();
                 break;
         }
@@ -102,7 +102,7 @@ public class InstructionsSpeechBubble : MonoBehaviour
 
     public void Proceed()
     {
-        if (counter == 8) { NextButton.SetActive(true); }
+        if (counter == dialogueCount) { NextButton.SetActive(true); }
     }
 
 

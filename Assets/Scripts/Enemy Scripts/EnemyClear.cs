@@ -48,7 +48,7 @@ public class EnemyClear : MonoBehaviour
             if (hits[i] != null && hits[i].CompareTag("Enemy") || hits[i].CompareTag("Item"))
             {
                 Destroy(hits[i].gameObject);
-                Debug.Log("Enemy cleared on respawn");
+                //Debug.Log("Enemy cleared on respawn");
             }
         }
 

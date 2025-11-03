@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerInteractionHandler : PlayerBase
 {
+    [SerializeField] Player_Anim_Manager playerAnim;
+
     public int forceMult;
     public int enemyImpactVelocityGain;
 
@@ -89,9 +91,6 @@ public class PlayerInteractionHandler : PlayerBase
         {
             Item_World item = collision.GetComponent<Item_World>();
 
-            //if (Health < MaxHealth)
-            //    TakeDamage(-item.healValue);
-
             LogarithmicBounce(4, item.healValue);
 
             if (item.type == Item_World.Type.Flying)
@@ -147,23 +146,52 @@ public class PlayerInteractionHandler : PlayerBase
             switch (Health)
             {
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.75f):
-                    ApplyExp2Force(4f + bouncyUpgradesCount, Mathf.Abs(playerRb.linearVelocityY) * 0.95f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(9f, Mathf.Abs(playerRb.linearVelocityY) * 0.95f + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.5f):
-                    ApplyExp2Force(4f + bouncyUpgradesCount, Mathf.Abs(playerRb.linearVelocityY) * 0.9f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(9f, Mathf.Abs(playerRb.linearVelocityY) * 0.9f + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth * 0.5f && i >= MaxHealth * 0.25f):
-                    ApplyExp2Force(4f + bouncyUpgradesCount, Mathf.Abs(playerRb.linearVelocityY) * 0.85f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(9f, Mathf.Abs(playerRb.linearVelocityY) * 0.85f + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth * 0.25f && i >= 0f):
-                    ApplyExp2Force(2f + bouncyUpgradesCount, Mathf.Abs(playerRb.linearVelocityY) * 0.8f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(9f, Mathf.Abs(playerRb.linearVelocityY) * 0.8f + ApplyBounceyUpgrade());
                     break;
             }
+            if (Health <= 0){ playerAnim.PlayDeath(); }
+            else { playerAnim.PlayTakeHit(); }
+                
+        }
 
-            GetComponent<Player_Anim_Manager>()?.PlayTakeHit();
+        if (collision.CompareTag("Celling"))
+        {
+            ground = collision.GetComponent<Ground>();
+            TakeDamage(ground.damageValue);
+
+            switch (Health)
+            {
+                case int i when (i < MaxHealth && i >= MaxHealth * 0.75f):
+                    NegativeLogarithmicBounce(2f , Mathf.Abs(playerRb.linearVelocityY) * 0.95f + ApplyBounceyUpgrade());
+                    break;
+
+                case int i when (i < MaxHealth && i >= MaxHealth * 0.5f):
+                    NegativeLogarithmicBounce(2f , Mathf.Abs(playerRb.linearVelocityY) * 0.90f + ApplyBounceyUpgrade());
+                    break;
+
+                case int i when (i < MaxHealth * 0.5f && i >= MaxHealth * 0.25f):
+                    NegativeLogarithmicBounce(2f , Mathf.Abs(playerRb.linearVelocityY) * 0.85f + ApplyBounceyUpgrade());
+                    break;
+
+                case int i when (i < MaxHealth * 0.25f && i >= 0f):
+                    NegativeLogarithmicBounce(2f , Mathf.Abs(playerRb.linearVelocityY) * 0.80f + ApplyBounceyUpgrade());
+                    break;
+            }
+            if (Health <= 0) { playerAnim.PlayDeath(); }
+            else { playerAnim.PlayTakeHit(); }
+
         }
     }
 

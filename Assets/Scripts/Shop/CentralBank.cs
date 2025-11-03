@@ -57,17 +57,22 @@ public class CentralBank : MonoBehaviour
     /// <summary>
     /// Spend gold if enough balance is available.
     /// </summary>
-    public bool TrySpendMoney(int cost)
+    public bool TrySpendMoney(int cost, bool isPurchasing)
     {
-        if (balance >= cost)
+        if (balance >= cost && isPurchasing == true)
         {
             balance -= cost;
             UpdateBalanceUI();
             return true;
         }
-
-        Debug.Log("Not enough money!");
-        return false;
+        else if (balance >= cost)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /// <summary>

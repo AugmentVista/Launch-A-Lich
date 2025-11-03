@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ public class PlayerResultsManager : MonoBehaviour
     public Image progressBarFill;
 
     [SerializeField] Rigidbody2D playerRb;
+
     public Vector2 globalPlayerSpeedV2;
     public static float globalPlayerSpeedX;
     public static float globalPlayerSpeedY;
@@ -77,30 +79,39 @@ public class PlayerResultsManager : MonoBehaviour
         Vector3 highScorePosition = basePosition + new Vector3(0f, 9f, 0f);
         if (brokeX && brokeY)
         {
+            if (distanceBanner != null) { distanceBanner.SetActive(false); } 
             highScoreBanner.SetActive(true);
             highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
-            highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nNew Height High Score!\n {heightThisRun:F1} meters";
+            highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nEarned {distanceThisRun / 2:F0} gold\nNew Height High Score!\n {heightThisRun:F1} meters\nEarned {heightThisRun:F0} gold";
         }
         else if (brokeX)
         {
+            if (distanceBanner != null) { distanceBanner.SetActive(false); }
             highScoreBanner.SetActive(true);
             highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
-            highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nHeight reached\n {heightThisRun:F1} meters";
+            highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nEarned {distanceThisRun / 2:F0} gold\nHeight reached\n {heightThisRun:F1} meters\nEarned {heightThisRun:F0} gold";
         }
         else if (brokeY)
         {
+            if (distanceBanner != null) { distanceBanner.SetActive(false); }
             highScoreBanner.SetActive(true);
             highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
-            highScoreText.text = $"Distance traveled\n {distanceThisRun:F1} meters\nNew Height High Score!\n {heightThisRun:F1} meters";
+            highScoreText.text = $"Distance traveled\n {distanceThisRun:F1} meters\nEarned {distanceThisRun/2:F0} gold\nNew Height High Score!\nHeight reached \n {heightThisRun:F1} meters\nEarned {heightThisRun:F0} gold";
         }
-        else
+        else if (!brokeX && !brokeY)
         {
             distanceBanner.SetActive(true);
             distanceBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
-            distanceTraveledThisRunText.text = $"Distance traveled\n {distanceThisRun:F1} meters\nHeight reached\n {heightThisRun:F1} meters";
+            distanceTraveledThisRunText.text = $"Distance traveled\n {distanceThisRun:F1} meters\nEarned {distanceThisRun/2:F0} gold\nHeight reached\n {heightThisRun:F1} meters\nEarned {heightThisRun:F0} gold";
         }
-        
-        nextButton.SetActive(true);
+        ResultsMenu();
+    }
+
+    IEnumerator ResultsDelay()
+    {
+        yield return new WaitForSeconds(2);
+        CalcuateGoldEarned(distanceReached, heightReached);
+        UIManager.B_Results();
     }
 
     private void OnEnable()
@@ -116,6 +127,8 @@ public class PlayerResultsManager : MonoBehaviour
         PlayerInteractionHandler.OnGroundEnemyDefeated -= TrackEnemyMoneyGain;
         PlayerInteractionHandler.OnGroundItemCollected -= TrackItemMoneyGain;
         PlayerInteractionHandler.OnFlyingItemCollected -= TrackItemMoneyGain;
+        PlayerStateMachine.OnStopped -= ShowDistanceTraveled;
+        PlayerStateMachine.OnReadyToLaunch -= ResetResults;
     }
 
     private void TrackEnemyMoneyGain(int amount)
@@ -157,27 +170,13 @@ public class PlayerResultsManager : MonoBehaviour
             $"Total earned this run: {deposit}";
     }
 
-    public void NextButton()
-    {
-        ResultsMenu();
-    }
-
     void ResultsMenu()
     {
         if (highScoreX < victoryDistance)
         {
-            nextButton.SetActive(false);
-            UIManager.B_Results();
-            CalcuateGoldEarned(distanceReached, heightReached);
+            StartCoroutine(ResultsDelay());
 
-            if (respawner != null)
-            {
-                respawner.RespawnPlayer();
-            }
-
-            ResetResults();
-            PlayerStateMachine playerState = player.GetComponent<PlayerStateMachine>();
-            if (playerState != null) { playerState.StoppedToLaunchReady(); }
+            
         }
         else 
         {
@@ -187,18 +186,10 @@ public class PlayerResultsManager : MonoBehaviour
 
     void ResetResults()
     {
-        distanceBanner.SetActive(false);
-        distanceTraveledThisRunText.text = "";
         heightReached = 0f;
         distanceReached = 0f;
         enemyGoldThisRun = 0;
         itemGoldThisRun = 0;
     }
 
-    private void OnDestroy()
-    {
-        Debug.Log("PlayerResultsManager destroyed — unsubscribing from event.");
-        PlayerStateMachine.OnStopped -= ShowDistanceTraveled;
-        PlayerStateMachine.OnReadyToLaunch -= ResetResults;
-    }
 }

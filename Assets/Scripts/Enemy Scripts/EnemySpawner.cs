@@ -36,7 +36,6 @@ public class EnemySpawner : MonoBehaviour
         PlayerStateMachine.OnInactive += DisableSpawning;
         PlayerStateMachine.OnStopped += DisableSpawning;
 
-        PlayerStateMachine.OnReadyToLaunch += OnPlayerReadyToLaunch;
     }
 
     void OnDisable()
@@ -48,8 +47,6 @@ public class EnemySpawner : MonoBehaviour
 
         PlayerStateMachine.OnInactive -= DisableSpawning;
         PlayerStateMachine.OnStopped -= DisableSpawning;
-
-        PlayerStateMachine.OnReadyToLaunch -= OnPlayerReadyToLaunch;
     }
 
     void Update()

@@ -220,7 +220,7 @@ public class PlayerBase : MonoBehaviour
         Vector2 force = direction * magnitude;
         playerRb.AddForce(force, ForceMode2D.Impulse);
 
-        Debug.Log($"[Exp2] inputX: {inputX}, y: {y}, direction: {direction}, force: {force}");
+        //Debug.Log($"[Exp2] inputX: {inputX}, y: {y}, direction: {direction}, force: {force}");
     }
 
     public virtual void Stop() { playerRb.linearVelocity = new Vector2(0.001f,0.001f); playerRb.angularVelocity = 0f; stopCalled = true; }

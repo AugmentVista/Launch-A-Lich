@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+
+    [SerializeField] Respawner respawner;
+
     [Header("UI Screens")]
     public GameObject Menu;
     public GameObject Instructions;
@@ -16,6 +19,28 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject LastScreenActive;
 
+    [Range(0.25f, 1f)]
+    public float time;
+
+    private float minTime = 0.25f;
+
+    private float maxTime = 1f;
+
+    bool gaming = false;
+
+
+    private void OnEnable()
+    {
+        PlayerStateMachine.OnGrounded += gameTime;
+        PlayerStateMachine.OnFlying += gameTime;
+    }
+
+    private void OnDisable()
+    {
+        PlayerStateMachine.OnGrounded -= gameTime;
+        PlayerStateMachine.OnFlying -= gameTime;
+    }
+
     private void Start()
     {
         SetUIFalse();
@@ -23,9 +48,30 @@ public class UIManager : MonoBehaviour
         Menu.gameObject.SetActive(true);
     }
 
+    private void gameTime()
+    {
+        gaming = true;
+    }
+
     private void Update()
     {
-        if (Gameplay.gameObject.activeSelf) { Time.timeScale = 1; }
+        if (Gameplay.gameObject.activeSelf && gaming) 
+        {
+            float speed = PlayerResultsManager.globalPlayerSpeedX;
+
+            // Clamp the raw speed between 25 and 150
+            float clampedSpeed = Mathf.Clamp(speed, 25f, 150f);
+
+            // Normalize (100 -> 0, 25 -> 1)
+            float normalizedSpeed = Mathf.InverseLerp(100f, 25f, clampedSpeed);
+
+            // Lerp between minTime and maxTime
+            float relativeTime = Mathf.Lerp(minTime, maxTime, normalizedSpeed);
+
+            time = relativeTime;
+            Time.timeScale = relativeTime;
+
+        }
         if (Input.GetKeyDown(KeyCode.Escape) && !Pause.activeSelf && Gameplay.gameObject.activeSelf)
         {
             SetScreen(Pause);
@@ -33,6 +79,10 @@ public class UIManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Escape) && Pause.activeSelf)
         {
             SetScreen(Gameplay);
+        }
+        else if (Gameplay.gameObject.activeSelf)
+        {
+            Time.timeScale = 1f;
         }
     }
 
@@ -144,6 +194,12 @@ public class UIManager : MonoBehaviour
     public void B_OpenShop()
     {
         SetScreen(Shop);
+
+        if (respawner != null)
+        {
+            respawner.RespawnPlayer();
+        }
+        
     }
     public void B_Resume()
     {
@@ -152,7 +208,6 @@ public class UIManager : MonoBehaviour
 
     public void B_Continue()
     {
-        Respawner.hasPlayerReturnedToLaunchpad = true;
         SetUIFalse();
         SetScreen(Gameplay);
     }
