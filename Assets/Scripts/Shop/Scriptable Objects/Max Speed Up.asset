@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Max Speed Up
   m_EditorClassIdentifier: 
   title: Max Speed Up
-  description: Raises max speed by 20
+  description: Max Speed +20
   itemImage: {fileID: 21300000, guid: ddacff8b75af3d345b57a4a28c263042, type: 3}
   price: 700
   improvementModifier: 20

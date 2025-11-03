@@ -95,7 +95,7 @@ public class PlayerAbility : MonoBehaviour
         boostUpgradesActive = ApplyBoostUpgrade();
 
         // Reduce cooldown based on number of upgrades (max 5 upgrades = -1s total)
-        float baseCooldown = 3f;
+        float baseCooldown = 4f;
         float cooldownReductionPerUpgrade = 0.2f;
         cooldown = Mathf.Clamp(baseCooldown - (boostUpgradeCount * cooldownReductionPerUpgrade), 1f, baseCooldown);
     }

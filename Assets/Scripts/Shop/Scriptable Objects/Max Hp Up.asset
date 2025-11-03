@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Max Hp Up
   m_EditorClassIdentifier: 
   title: Max Hp Up
-  description: Raises Max Hp by 25%
+  description: HP +25%
   itemImage: {fileID: 21300000, guid: 25dd3a93ef6a6224798da496bd5b80e0, type: 3}
   price: 400
   improvementModifier: 25
