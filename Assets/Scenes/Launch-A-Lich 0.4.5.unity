@@ -69807,7 +69807,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &420488349
 RectTransform:
   m_ObjectHideFlags: 0
@@ -70523,8 +70523,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balanceText: {fileID: 1820004739}
-  totalBalance: 99999
-  balance: 99999
+  totalBalance: 0
+  balance: 0
 --- !u!4 &595240229
 Transform:
   m_ObjectHideFlags: 0
@@ -73964,7 +73964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b75692208c051848aaa3990f6240bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageValue: 100
+  damageValue: 25
 --- !u!1 &1042811318
 GameObject:
   m_ObjectHideFlags: 0
@@ -77679,7 +77679,7 @@ MonoBehaviour:
   abilityCooldown: {fileID: 1605341350}
   playerRb: {fileID: 2119655190}
   mainCamera: {fileID: 330585545}
-  cooldown: 0.5
+  cooldown: 4
   boostUpgradeValue: 0
   boostUpgradeCount: 0
 --- !u!1 &1526881664
@@ -78291,8 +78291,8 @@ MonoBehaviour:
   speedLimit: {fileID: 2119655199}
   spawnY: 0
   spawnOffset: 2
-  minSpawnRate: 1.5
-  maxSpawnRate: 0.5
+  minSpawnRate: 2
+  maxSpawnRate: 0.75
 --- !u!1 &1605341346
 GameObject:
   m_ObjectHideFlags: 0
@@ -80382,7 +80382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1915983838
 RectTransform:
   m_ObjectHideFlags: 0
@@ -80916,7 +80916,7 @@ MonoBehaviour:
   playerAudioSource: {fileID: 2119655195}
   backgroundAudioSource: {fileID: 606368658}
   playerVolume: 1
-  backgroundVolume: 0
+  backgroundVolume: 0.6
 --- !u!1 &1994408677
 GameObject:
   m_ObjectHideFlags: 0
@@ -82704,7 +82704,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7353836940653077388}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -83079,7 +83079,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6382124581476268986}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
