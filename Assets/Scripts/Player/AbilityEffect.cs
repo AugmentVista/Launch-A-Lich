@@ -8,6 +8,8 @@ public class AbilityEffect : MonoBehaviour
 
     public float abilityStrength;
 
+    [SerializeField] bool downForce;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -27,15 +29,14 @@ public class AbilityEffect : MonoBehaviour
         {
             if (playerRb != null)
             {
-                if (playerRb.linearVelocityY < -10) // Reverse half of falling velocity
+                if (downForce)
                 {
-                    //NegativeLogarithmicBounce(2f, abilityStrength);
-                    LogarithmicBounce(2f, abilityStrength + (playerRb.linearVelocityY * -1.0f));
+                    NegativeLogarithmicBounce(2f, abilityStrength);
                 }
-                else { LogarithmicBounce(4f, abilityStrength); }
-                    
-                //NegativeLogarithmicBounce(2f, abilityStrength);
-                //Debug.LogWarning("ABILITY HIT THE PLAYER");
+                else 
+                {
+                    LogarithmicBounce(2f, abilityStrength); 
+                }
             }
         }
     }

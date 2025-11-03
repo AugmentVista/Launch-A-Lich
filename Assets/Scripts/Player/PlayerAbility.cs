@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerAbility : MonoBehaviour
 {
     public GameObject prefabToSpawn;
+    public GameObject prefabToSpawn2;
     [SerializeField] AbilityCooldownBar abilityCooldown;
     [SerializeField] private Rigidbody2D playerRb;
 
@@ -57,7 +58,7 @@ public class PlayerAbility : MonoBehaviour
         {
             if (Time.time >= lastUseTime + cooldown)
             {
-                SpawnAbility();
+                SpawnAbility(prefabToSpawn);
                 lastUseTime = Time.time;
 
                 if (abilityCooldown != null)
@@ -68,15 +69,31 @@ public class PlayerAbility : MonoBehaviour
                 Debug.Log("Ability is still on cooldown.");
             }
         }
+        if (Input.GetMouseButtonDown(1) && prefabToSpawn2 != null)
+        {
+            if (Time.time >= lastUseTime + cooldown)
+            {
+                SpawnAbility(prefabToSpawn2);
+                lastUseTime = Time.time;
+
+                if (abilityCooldown != null)
+                    abilityCooldown.StartCooldown();
+            }
+            else
+            {
+                Debug.Log("Ability is still on cooldown.");
+            }
+        }
+
     }
 
-    private void SpawnAbility()
+    private void SpawnAbility(GameObject prefab)
     {
         Vector3 mousePos = Input.mousePosition;
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
         worldPos.z = 0f;
 
-        GameObject instance = Instantiate(prefabToSpawn, worldPos, Quaternion.identity);
+        GameObject instance = Instantiate(prefab, worldPos, Quaternion.identity);
         AbilityEffect ability = instance.GetComponent<AbilityEffect>();
 
         if (ability != null)

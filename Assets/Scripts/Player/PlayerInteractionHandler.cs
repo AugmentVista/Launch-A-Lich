@@ -122,11 +122,11 @@ public class PlayerInteractionHandler : PlayerBase
             }
             else if (Health >= MaxHealth * 0.5f && Health > 0 && enemy.type == Enemy.Type.Flying)
             {
-                if (PlayerResultsManager.globalPlayerSpeedY > 0.01)
-                {
-                    NegativeLogarithmicBounce(2f, enemyImpactVelocityGain * forceMult);
-                }
-                else if (PlayerResultsManager.globalPlayerSpeedY < -0.01)
+                //if (PlayerResultsManager.globalPlayerSpeedY > 0.01)
+                //{
+                //    NegativeLogarithmicBounce(2f, enemyImpactVelocityGain * forceMult);
+                //}
+                //else if (PlayerResultsManager.globalPlayerSpeedY < -0.01)
                 {
                     LogarithmicBounce(2f, enemyImpactVelocityGain * forceMult);
                 }
