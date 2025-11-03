@@ -324,7 +324,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5699005304422238998}
-  - component: {fileID: 8756293914027654518}
   - component: {fileID: 9124281169014931103}
   m_Layer: 0
   m_Name: Background
@@ -353,19 +352,6 @@ Transform:
   - {fileID: 3568952452030042980}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8756293914027654518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4377035275808670625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a141dde154bbe04439ebfa2764f6f215, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parallaxSpeed: 0.2
 --- !u!114 &9124281169014931103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,6 +368,17 @@ MonoBehaviour:
   playerIsDead: 0
   target: {fileID: 0}
   offset: {x: 0, y: 2, z: -10}
+  baseFollowSpeed: 5
+  maxFollowLag: 1.5
+  speedThreshold: 40
+  maxPlayerSpeed: 100
+  maxCameraLagX: 0.3
+  verticalLerpSpeed: 2
+  riseThreshold: 25
+  fallThreshold: -25
+  maxUpOffset: 6
+  maxDownOffset: 2
+  neutralOffsetY: 4
 --- !u!1 &8354973897483915425
 GameObject:
   m_ObjectHideFlags: 0

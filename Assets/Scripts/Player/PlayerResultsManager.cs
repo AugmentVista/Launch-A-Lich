@@ -18,10 +18,12 @@ public class PlayerResultsManager : MonoBehaviour
 
     public GameObject player;
     public GameObject ground;
+
+    public GameObject ParallaxBackground;
+    public GameObject ParallaxBackground2;
+
     public UIManager UIManager;
 
-    public GameObject highScoreBanner;
-    public GameObject distanceBanner;
     public GameObject nextButton;
 
     private float victoryDistance = 5000;
@@ -38,17 +40,13 @@ public class PlayerResultsManager : MonoBehaviour
     public float incomeUpgradeValue;
     public float incomeUpgradeCount;
 
-    public TextMeshProUGUI highScoreText;
-    public TextMeshProUGUI distanceTraveledThisRunText;
     public TextMeshProUGUI goldText;
 
     private void Start()
     {
-        PlayerStateMachine.OnStopped += ShowDistanceTraveled;
-        PlayerStateMachine.OnReadyToLaunch += ResetResults;
+        ParallaxBackground.SetActive(true);
+        ParallaxBackground2.SetActive(false);
 
-        distanceBanner.SetActive(false);
-        highScoreBanner.SetActive(false);
         nextButton.SetActive(false);
         progressBarFill.fillAmount = 0f;
     }
@@ -65,6 +63,13 @@ public class PlayerResultsManager : MonoBehaviour
         if (distanceReached < currentDistance) { distanceReached = currentDistance; if (distanceReached > highScoreX) highScoreX = distanceReached; }
         float fillAmount = Mathf.Clamp01(currentDistance / victoryDistance);
         progressBarFill.fillAmount = fillAmount;
+
+        if (currentDistance > 2500)
+        {
+            ParallaxBackground.SetActive(false);
+            ParallaxBackground2.SetActive(true);
+        }
+
     }
 
     void ShowDistanceTraveled()
@@ -77,40 +82,40 @@ public class PlayerResultsManager : MonoBehaviour
         bool brokeY = heightThisRun >= highScoreY;
 
         Vector3 highScorePosition = basePosition + new Vector3(0f, 9f, 0f);
-        if (brokeX && brokeY)
-        {
-            if (distanceBanner != null) { distanceBanner.SetActive(false); } 
-            highScoreBanner.SetActive(true);
-            highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
-            highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nEarned {distanceThisRun / 2:F0} gold\nNew Height High Score!\n {heightThisRun:F1} meters\nEarned {heightThisRun:F0} gold";
-        }
-        else if (brokeX)
-        {
-            if (distanceBanner != null) { distanceBanner.SetActive(false); }
-            highScoreBanner.SetActive(true);
-            highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
-            highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nEarned {distanceThisRun / 2:F0} gold\nHeight reached\n {heightThisRun:F1} meters\nEarned {heightThisRun:F0} gold";
-        }
-        else if (brokeY)
-        {
-            if (distanceBanner != null) { distanceBanner.SetActive(false); }
-            highScoreBanner.SetActive(true);
-            highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
-            highScoreText.text = $"Distance traveled\n {distanceThisRun:F1} meters\nEarned {distanceThisRun/2:F0} gold\nNew Height High Score!\nHeight reached \n {heightThisRun:F1} meters\nEarned {heightThisRun:F0} gold";
-        }
-        else if (!brokeX && !brokeY)
-        {
-            distanceBanner.SetActive(true);
-            distanceBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
-            distanceTraveledThisRunText.text = $"Distance traveled\n {distanceThisRun:F1} meters\nEarned {distanceThisRun/2:F0} gold\nHeight reached\n {heightThisRun:F1} meters\nEarned {heightThisRun:F0} gold";
-        }
+        //if (brokeX && brokeY)
+        //{
+        //    if (distanceBanner != null) { distanceBanner.SetActive(false); } 
+        //    highScoreBanner.SetActive(true);
+        //    highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
+        //    highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nEarned {distanceThisRun / 2:F0} gold\nNew Height High Score!\n {heightThisRun:F1} meters\nEarned {heightThisRun:F0} gold";
+        //}
+        //else if (brokeX)
+        //{
+        //    if (distanceBanner != null) { distanceBanner.SetActive(false); }
+        //    highScoreBanner.SetActive(true);
+        //    highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
+        //    highScoreText.text = $"New Distance High Score!\n {distanceThisRun:F1} meters\nEarned {distanceThisRun / 2:F0} gold\nHeight reached\n {heightThisRun:F1} meters\nEarned {heightThisRun:F0} gold";
+        //}
+        //else if (brokeY)
+        //{
+        //    if (distanceBanner != null) { distanceBanner.SetActive(false); }
+        //    highScoreBanner.SetActive(true);
+        //    highScoreBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
+        //    highScoreText.text = $"Distance traveled\n {distanceThisRun:F1} meters\nEarned {distanceThisRun/2:F0} gold\nNew Height High Score!\nHeight reached \n {heightThisRun:F1} meters\nEarned {heightThisRun:F0} gold";
+        //}
+        //else if (!brokeX && !brokeY)
+        //{
+        //    distanceBanner.SetActive(true);
+        //    distanceBanner.GetComponent<RectTransform>().position = new Vector3(basePosition.x, basePosition.y + 4f, basePosition.z);
+        //    distanceTraveledThisRunText.text = $"Distance traveled\n {distanceThisRun:F1} meters\nEarned {distanceThisRun/2:F0} gold\nHeight reached\n {heightThisRun:F1} meters\nEarned {heightThisRun:F0} gold";
+        //}
         ResultsMenu();
     }
 
     IEnumerator ResultsDelay()
     {
         yield return new WaitForSeconds(2);
-        CalcuateGoldEarned(distanceReached, heightReached);
+        CalcuateGoldEarned(distanceReached, heightReached, enemyGoldThisRun, itemGoldThisRun);
         UIManager.B_Results();
     }
 
@@ -120,6 +125,9 @@ public class PlayerResultsManager : MonoBehaviour
         PlayerInteractionHandler.OnGroundEnemyDefeated += TrackEnemyMoneyGain;
         PlayerInteractionHandler.OnGroundItemCollected += TrackItemMoneyGain;
         PlayerInteractionHandler.OnFlyingItemCollected += TrackItemMoneyGain;
+        PlayerStateMachine.OnStopped += ShowDistanceTraveled;
+        PlayerStateMachine.OnReadyToLaunch += ResetResults;
+        PlayerStateMachine.OnReadyToLaunch += ResetBackground;
     }
     private void OnDisable()
     {
@@ -129,6 +137,13 @@ public class PlayerResultsManager : MonoBehaviour
         PlayerInteractionHandler.OnFlyingItemCollected -= TrackItemMoneyGain;
         PlayerStateMachine.OnStopped -= ShowDistanceTraveled;
         PlayerStateMachine.OnReadyToLaunch -= ResetResults;
+        PlayerStateMachine.OnReadyToLaunch -= ResetBackground;
+    }
+
+    public void ResetBackground()
+    {
+        ParallaxBackground.SetActive(true);
+        ParallaxBackground2.SetActive(false);
     }
 
     private void TrackEnemyMoneyGain(int amount)
@@ -153,21 +168,22 @@ public class PlayerResultsManager : MonoBehaviour
         return 1f + (incomeUpgradeCount * (incomeUpgradeValue - 1f));
     }
 
-    private void CalcuateGoldEarned(float distance, float height)
+    private void CalcuateGoldEarned(float distance, float height, float enemyGold, float itemGold)
     {
-        float travelMoneyEarned = (distance / 2) + height;
-        int totalRunGold = Mathf.RoundToInt(travelMoneyEarned + itemGoldThisRun + enemyGoldThisRun);
+        int totalRunGold = Mathf.RoundToInt(distance /2 + height + enemyGold + itemGold);
 
 
-        int deposit = Mathf.RoundToInt(totalRunGold * ApplyIncomeUpgrade());
+        int deposit = Mathf.RoundToInt(distance / 2 + height * ApplyIncomeUpgrade());
         bank.DepositRunEarnings(deposit);
 
         goldText.text =
-            $"Distance Gold Earned: {travelMoneyEarned:F0}\n" +
-            $"Enemies Gold Earned: {enemyGoldThisRun}\n" +
-            $"Items Gold Earned: {itemGoldThisRun}\n" +
-            $"Income bonus {ApplyIncomeUpgrade()}x\n" +
-            $"Total earned this run: {deposit}";
+            $"Height = {height:F0}\n" +
+            $"Distance = {distance/2:F0}\n" +
+            $"Enemies = {enemyGoldThisRun}\n" +
+            $"Treats = {itemGoldThisRun}\n" +
+            $"Income Multiplier {ApplyIncomeUpgrade()}x\n" +
+            $"Gold Earned This Run: {totalRunGold}\n\n" +
+            $"Total: {bank.Balance - totalRunGold} + {totalRunGold}";
     }
 
     void ResultsMenu()

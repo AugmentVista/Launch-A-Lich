@@ -70,7 +70,7 @@ public class PlayerInteractionHandler : PlayerBase
         bouncyUpgradeValue = improvementMod;
     }
 
-    float ApplyBounceyUpgrade()
+    [SerializeField] private float ApplyBounceyUpgrade()
     {
         if (bouncyUpgradesCount > 0)
             bouncyUpgradesActive = bouncyUpgradesCount * bouncyUpgradeValue;
@@ -109,17 +109,17 @@ public class PlayerInteractionHandler : PlayerBase
 
             if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
             {
-                ApplyLog2Force(2f, enemyImpactVelocityGain * forceMult);
+                NegativeLogarithmicBounce(2f, enemyImpactVelocityGain);
                 OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
             }
             else if (Health >= MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
             {
-                ApplyLog2Force(8f, enemyImpactVelocityGain * (forceMult - 1));
+                NegativeLogarithmicBounce(2f, enemyImpactVelocityGain * 2f);
                 OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
             }
             else if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Grounded)
             {
-                LogarithmicBounce(8f, enemyImpactVelocityGain * forceMult);
+                LogarithmicBounce(4f, enemyImpactVelocityGain * forceMult);
                 OnGroundEnemyDefeated?.Invoke(enemy.moneyValue);
             }
             else if (Health >= MaxHealth * 0.5f && enemy.type == Enemy.Type.Grounded)
@@ -134,7 +134,6 @@ public class PlayerInteractionHandler : PlayerBase
             if (Health - enemy.damageValue > 0)
                 GetComponent<Player_Anim_Manager>()?.PlayRolling();
 
-            //Debug.LogWarning("Player hit an enemy");
             if (enemy != null) enemy.isDead = true;
         }
 
@@ -146,24 +145,24 @@ public class PlayerInteractionHandler : PlayerBase
             switch (Health)
             {
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.75f):
-                    ApplyExp2Force(9f, Mathf.Abs(playerRb.linearVelocityY) * 0.95f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(5f, Mathf.Abs(playerRb.linearVelocityY) * 0.95f + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.5f):
-                    ApplyExp2Force(9f, Mathf.Abs(playerRb.linearVelocityY) * 0.9f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(6f, Mathf.Abs(playerRb.linearVelocityY) * 0.9f + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth * 0.5f && i >= MaxHealth * 0.25f):
-                    ApplyExp2Force(9f, Mathf.Abs(playerRb.linearVelocityY) * 0.85f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(7f, Mathf.Abs(playerRb.linearVelocityY) * 0.85f + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth * 0.25f && i >= 0f):
-                    ApplyExp2Force(9f, Mathf.Abs(playerRb.linearVelocityY) * 0.8f + ApplyBounceyUpgrade());
+                    ApplyExp2Force(8f, Mathf.Abs(playerRb.linearVelocityY) * 0.8f + ApplyBounceyUpgrade());
                     break;
             }
-            if (Health <= 0){ playerAnim.PlayDeath(); }
+            if (Health <= 0) { playerAnim.PlayDeath(); }
             else { playerAnim.PlayTakeHit(); }
-                
+
         }
 
         if (collision.CompareTag("Celling"))

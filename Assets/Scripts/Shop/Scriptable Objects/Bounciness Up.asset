@@ -16,6 +16,6 @@ MonoBehaviour:
   description: Lose less speed when you hit the ground
   itemImage: {fileID: 21300000, guid: 52c12fab9ce564f0792ee7745720dfaa, type: 3}
   price: 500
-  improvementModifier: 20
+  improvementModifier: 5
   maxPurchases: 5
   upgradeType: 5
