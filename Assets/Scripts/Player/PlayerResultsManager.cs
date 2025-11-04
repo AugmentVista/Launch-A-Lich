@@ -152,8 +152,8 @@ public class PlayerResultsManager : MonoBehaviour
             $"Distance = {distance/2:F0}\n" +
             $"Enemies = {enemyGoldThisRun}\n" +
             $"Treats = {itemGoldThisRun}\n" +
-            $"Income Multiplier {ApplyIncomeUpgrade()}x\n" +
-            $"Gold Earned This Run: {totalRunGold}\n\n" +
+            $"Income Multiplier {ApplyIncomeUpgrade()}x\n\n" +
+            $"Earned This Run: {totalRunGold}\n\n" +
             $"Total: {bank.Balance - totalRunGold} + {totalRunGold}";
     }
 

@@ -8,6 +8,8 @@ public class AbilityEffect : MonoBehaviour
 
     public float abilityStrength;
 
+    float relativeAbilityStrength;
+
     [SerializeField] bool downForce;
 
     private void Start()
@@ -22,6 +24,16 @@ public class AbilityEffect : MonoBehaviour
         playerRb = rb;
     }
 
+    private void Update()
+    {
+        if (PlayerResultsManager.globalPlayerSpeedY < 0)
+        {
+            relativeAbilityStrength = abilityStrength + PlayerResultsManager.globalPlayerSpeedY * -1;
+        }
+        else { relativeAbilityStrength = abilityStrength; }
+        
+    }
+
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -31,11 +43,11 @@ public class AbilityEffect : MonoBehaviour
             {
                 if (downForce)
                 {
-                    NegativeLogarithmicBounce(2f, abilityStrength);
+                    NegativeLogarithmicBounce(2f, relativeAbilityStrength);
                 }
                 else 
                 {
-                    LogarithmicBounce(2f, abilityStrength); 
+                    LogarithmicBounce(2f, relativeAbilityStrength); 
                 }
             }
         }

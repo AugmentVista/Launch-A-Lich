@@ -28,7 +28,6 @@ public class UIManager : MonoBehaviour
 
     bool gaming = false;
 
-
     private void OnEnable()
     {
         PlayerStateMachine.OnGrounded += gameTime;

@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour
     public bool playerIsDead = false;
 
     [SerializeField] private Transform target;
-    [SerializeField] private Vector3 offset = new Vector3(0, 4f, -10f);
+    [SerializeField] private Vector3 offset = new Vector3(5, 4f, -10f);
 
 
     [Header("Lag Settings")]
@@ -76,12 +76,12 @@ public class CameraFollow : MonoBehaviour
         float playerSpeedX = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
         float playerSpeedY = PlayerResultsManager.globalPlayerSpeedY;
 
-        // --- X axis lag ---
+        //  X axis lag 
         float speedFactorX = Mathf.InverseLerp(speedThreshold, maxPlayerSpeed, playerSpeedX);
         float lagOffsetX = Mathf.Lerp(0f, maxFollowLag, speedFactorX) * Mathf.Sign(PlayerResultsManager.globalPlayerSpeedX);
         float followSpeedX = Mathf.Lerp(baseFollowSpeed, baseFollowSpeed * maxCameraLagX, speedFactorX);
 
-        // --- Vertical lag (simplified) ---
+        //  Vertical lag (simplified) 
         float targetOffsetY = neutralOffsetY;
 
         if (playerSpeedY > fallThreshold) // rising fast

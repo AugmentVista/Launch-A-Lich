@@ -1,9 +1,21 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+    [Header("Launcher Visuals")]
+    [SerializeField] Transform launchArrowTransform;
+
+    [Header("Trajectory Display")]
+    public LineRenderer lineRenderer;
+    public int linePoints = 175;
+    public float timeIntervalInPoints = 0.01f;
+    public Transform launchPoint;
+    Vector2 aimDirection;
+
+    [Header("Launcher Variables")]
     [SerializeField] Image gauge;
     [SerializeField] Rigidbody2D playerRb;
     [SerializeField] UIManager UIManager;
@@ -22,10 +34,21 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private float launcherUpgradesActive = 0;
 
-
     bool isCharging = false;
 
     bool fullyCharged = false;
+
+
+    // Lookup table mapping inputX -> angle above x-axis
+    private readonly Dictionary<int, float> inputXToAngle = new Dictionary<int, float>()
+    {
+        {2, 73.8f}, {3, 69.2f}, {4, 66.1f}, {5, 62.7f}, {6, 60.1f},
+        {7, 57.6f}, {8, 55.0f}, {9, 53.1f}, {10, 51.4f}, {11, 49.8f},
+        {12, 48.3f}, {13, 47.0f}, {14, 45.8f}, {15, 44.7f}, {16, 42.1f},
+        {17, 40.1f}, {18, 39.8f}, {19, 38.7f}, {20, 37.8f}, {21, 36.7f},
+        {22, 35.8f}, {23, 35.0f}, {24, 34.2f}, {25, 33.4f}, {26, 32.6f},
+        {27, 32.0f}, {28, 31.3f}, {29, 30.6f}, {30, 30.0f}
+    };
 
 
     public void UpgradeLauncher(float improvementMod, float purchaseCount)
@@ -49,8 +72,19 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (!UIManager.Gameplay.activeSelf) { return; }
         if (!Respawner.hasPlayerReturnedToLaunchpad) { return; }
 
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        aimDirection = (mouseWorldPos - transform.position).normalized;
+
+        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+        angle = Mathf.Clamp(angle, 30f, 74f);
+
+        if (launchArrowTransform != null)
+            launchArrowTransform.rotation = Quaternion.Euler(0f, 180f, 90f - angle);
+
         if (isCharging && Respawner.hasPlayerReturnedToLaunchpad && !fullyCharged)
         {
+            DrawTrajectory();
+            lineRenderer.enabled = true;
             chargeAmount += chargeSpeed * Time.deltaTime;
             chargeAmount = Mathf.Clamp01(chargeAmount);
             gauge.fillAmount = chargeAmount;
@@ -58,12 +92,48 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
         if (isCharging && Respawner.hasPlayerReturnedToLaunchpad && fullyCharged)
         {
+            DrawTrajectory();
+            lineRenderer.enabled = true;
             chargeAmount -= chargeSpeed * Time.deltaTime;
             chargeAmount = Mathf.Clamp01(chargeAmount);
             gauge.fillAmount = chargeAmount;
             if (gauge.fillAmount == 0.0) { fullyCharged = false; }
         }
     }
+
+    void DrawTrajectory()
+    {
+        Vector2 origin = launchPoint.position;
+
+        // Compute the *actual applied force* based on your current charge and upgrades
+        float appliedForce = force * Mathf.Lerp(minChargeMultiplier + ApplyLauncherUpgrade(),
+                                                maxChargeMultiplier + ApplyLauncherUpgrade(),
+                                                chargeAmount);
+
+        float angle = GetAimAngleFromMouse();
+        float inputX = GetClosestInputXForAngle(angle);
+        float y = 5f * Mathf.Log(inputX + 2f);
+        Vector2 direction = new Vector2(inputX, y).normalized;
+
+        // Calculate the *initial velocity* based on the player's Rigidbody2D mass and applied force
+        Vector2 startVelocity = (direction * appliedForce) / playerRb.mass;
+
+        // Gravity (use Rigidbody2D gravity scale)
+        Vector2 gravity = Physics2D.gravity * playerRb.gravityScale;
+
+        // Configure line renderer
+        lineRenderer.positionCount = linePoints;
+
+        float time = 0f;
+        for (int i = 0; i < linePoints; i++)
+        {
+            // Physics equation: p = p0 + v0 * t + ½ * g * t²
+            Vector2 point = origin + startVelocity * time + 0.5f * gravity * (time * time);
+            lineRenderer.SetPosition(i, point);
+            time += timeIntervalInPoints;
+        }
+    }
+
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -74,6 +144,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        lineRenderer.enabled = false;
         isCharging = false;
         launchForceMultiplier = Mathf.Lerp(minChargeMultiplier + ApplyLauncherUpgrade(), maxChargeMultiplier + ApplyLauncherUpgrade(), chargeAmount);
         gauge.fillAmount = 0;
@@ -88,7 +159,10 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         // Always base force (50), scaled by charge percentage value 0% = min 100% = max
         float appliedForce = force * launchForceMultiplier;
 
-        LogarithmicBounce(14f, appliedForce);
+        float angle = GetAimAngleFromMouse();
+        float inputX = GetClosestInputXForAngle(angle);
+
+        LogarithmicBounce(inputX, appliedForce);
         
     }
 
@@ -142,4 +216,31 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         Debug.LogWarning($"LogarithmicBounce: InputX: {inputX}, Y: {y:F2}, Force: {force}");
     }
+
+    private float GetAimAngleFromMouse()
+    {
+        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+        return Mathf.Clamp(angle, 30f, 74f);
+    }
+
+    float GetClosestInputXForAngle(float targetAngle)
+    {
+        int closestInputX = 14; // fallback (your current default)
+        float smallestDifference = float.MaxValue;
+
+        foreach (var kvp in inputXToAngle)
+        {
+            float diff = Mathf.Abs(kvp.Value - targetAngle);
+            if (diff < smallestDifference)
+            {
+                smallestDifference = diff;
+                closestInputX = kvp.Key;
+            }
+        }
+
+        return closestInputX;
+    }
+
+
+
 }
