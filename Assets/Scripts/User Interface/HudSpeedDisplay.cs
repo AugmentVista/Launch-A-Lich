@@ -12,6 +12,10 @@ public class HudSpeedDisplay : MonoBehaviour
 
     public TextMeshProUGUI goalText;
 
+    public TextMeshProUGUI warningTextLow;
+
+    public TextMeshProUGUI warningTextHigh;
+
     public Image heightImage;
 
     public float groundHeight;
@@ -40,6 +44,21 @@ public class HudSpeedDisplay : MonoBehaviour
             heightImage.fillAmount = 1f;
         }
         heightImage.fillAmount = normalized;
+
+
+        if (heightImage.fillAmount < 0.099f)
+        {
+            warningTextLow.text = "Warning!\nLow Altitude";
+        }
+        else if (heightImage.fillAmount > 0.85f)
+        {
+            warningTextHigh.text = "Warning!\nHigh Altitude";
+        }
+        else if (heightImage.fillAmount > 0.099f && heightImage.fillAmount < 0.85f)
+        {
+            warningTextLow.text = "";
+            warningTextHigh.text = "";
+        }
     }
 
     void FixedUpdate()
