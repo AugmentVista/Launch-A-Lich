@@ -77,7 +77,7 @@ public class SpeedLimit : MonoBehaviour
             return baseLinearDampeningValue;
 
         float excessRatio = (velocity - (maxSpeedX + ApplyMaxSpeedUpgrade())) / (maxSpeedX + ApplyMaxSpeedUpgrade());
-        float addedDamping = excessRatio * (0.05f / 0.025f); // Add 0.05 linear dampening every 5% over maxSpeedX
+        float addedDamping = excessRatio * (0.05f / 0.05f); // Add 0.05 linear dampening every 5% over maxSpeedX
         return baseLinearDampeningValue + addedDamping;
     }
 

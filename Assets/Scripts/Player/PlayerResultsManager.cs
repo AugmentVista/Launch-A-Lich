@@ -45,7 +45,7 @@ public class PlayerResultsManager : MonoBehaviour
     private void Start()
     {
         ParallaxBackground.SetActive(true);
-        ParallaxBackground2.SetActive(false);
+        //ParallaxBackground2.SetActive(false);
 
         nextButton.SetActive(false);
         progressBarFill.fillAmount = 0f;
@@ -64,11 +64,11 @@ public class PlayerResultsManager : MonoBehaviour
         float fillAmount = Mathf.Clamp01(currentDistance / victoryDistance);
         progressBarFill.fillAmount = fillAmount;
 
-        if (currentDistance > 2500)
-        {
-            ParallaxBackground.SetActive(false);
-            ParallaxBackground2.SetActive(true);
-        }
+        //if (currentDistance > 2500)
+        //{
+        //    ParallaxBackground.SetActive(false);
+        //    ParallaxBackground2.SetActive(true);
+        //}
 
     }
 
@@ -114,7 +114,7 @@ public class PlayerResultsManager : MonoBehaviour
     public void ResetBackground()
     {
         ParallaxBackground.SetActive(true);
-        ParallaxBackground2.SetActive(false);
+        //ParallaxBackground2.SetActive(false);
     }
 
     private void TrackEnemyMoneyGain(int amount)
