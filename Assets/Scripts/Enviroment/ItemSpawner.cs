@@ -40,8 +40,6 @@ public class ItemSpawner : MonoBehaviour
 
         PlayerStateMachine.OnInactive += DisableSpawning;
         PlayerStateMachine.OnStopped += DisableSpawning;
-
-        PlayerStateMachine.OnReadyToLaunch += OnPlayerReadyToLaunch;
     }
 
     void OnDisable()
@@ -53,8 +51,6 @@ public class ItemSpawner : MonoBehaviour
 
         PlayerStateMachine.OnInactive -= DisableSpawning;
         PlayerStateMachine.OnStopped -= DisableSpawning;
-
-        PlayerStateMachine.OnReadyToLaunch -= OnPlayerReadyToLaunch;
     }
 
     void Update()
@@ -88,15 +84,15 @@ public class ItemSpawner : MonoBehaviour
     void SpawnFlyingItems()
     {
 
-        if (results.currentDistance < 1000)
+        if (PlayerResultsManager.currentDistance < 1000)
         {
             itemPrefab = flyingItem;
         }
-        else if (results.currentDistance < 2000)
+        else if (PlayerResultsManager.currentDistance < 2000)
         {
             itemPrefab = flyingItem2;
         }
-        else if (results.currentDistance > 2000)
+        else if (PlayerResultsManager.currentDistance > 2000)
         {
             itemPrefab = flyingItem3;
         }
@@ -162,14 +158,7 @@ public class ItemSpawner : MonoBehaviour
 
     }
 
-
-
     private void EnableSpawning() => canSpawn = true;
     private void DisableSpawning() => canSpawn = false;
-
-    private void OnPlayerReadyToLaunch()
-    {
-        DisableSpawning();
-    }
 
 }

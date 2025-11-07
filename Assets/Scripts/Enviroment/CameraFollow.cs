@@ -25,6 +25,10 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float maxDownOffset = 2f;       // camera shows more sky
     [SerializeField] private float neutralOffsetY = 4f;      // default mid offset
 
+    [Header("Predictive Bias")]
+    [SerializeField] private float maxForwardBias = 15f;
+    [SerializeField] private float biasEasePower = 1.5f;
+
 
     private void OnEnable()
     {
@@ -78,6 +82,13 @@ public class CameraFollow : MonoBehaviour
 
         //  X axis lag 
         float speedFactorX = Mathf.InverseLerp(speedThreshold, maxPlayerSpeed, playerSpeedX);
+
+        // Apply a nonlinear curve to bias intensity (Camera Lerp Blending Curve)
+        float curvedSpeedFactor = Mathf.Pow(speedFactorX, biasEasePower);
+
+        // Calculate forward bias based on curved factor
+        float biasOffsetX = Mathf.Lerp(0f, maxForwardBias, curvedSpeedFactor);
+
         float lagOffsetX = Mathf.Lerp(0f, maxFollowLag, speedFactorX) * Mathf.Sign(PlayerResultsManager.globalPlayerSpeedX);
         float followSpeedX = Mathf.Lerp(baseFollowSpeed, baseFollowSpeed * maxCameraLagX, speedFactorX);
 
@@ -92,8 +103,11 @@ public class CameraFollow : MonoBehaviour
         // Smoothly return toward target vertical offset
         offset.y = Mathf.Lerp(offset.y, targetOffsetY, Time.deltaTime * verticalLerpSpeed);
 
+        
+        // Combine the camera foward offsets
+        float combinedOffsetX = biasOffsetX - lagOffsetX;
         // Aggregate both offsets into a Vector3, z doesn't matter.
-        Vector3 targetOffset = new Vector3(-lagOffsetX, offset.y, offset.z);
+        Vector3 targetOffset = new Vector3(combinedOffsetX, offset.y, offset.z);
         Vector3 targetPos = target.position + targetOffset;
 
         Vector3 smoothPos = new Vector3(
@@ -102,4 +116,41 @@ public class CameraFollow : MonoBehaviour
 
         transform.position = smoothPos;
     }
+
+    private void OnDrawGizmos()
+    {
+        if (target == null || isBackground) return;
+
+        // Draw the camera’s current position
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, 0.3f);
+
+        // Compute horizontal offset factors (same logic as LateUpdate)
+        float playerSpeedX = Application.isPlaying ? Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX) : 0f;
+        float speedFactorX = Mathf.InverseLerp(speedThreshold, maxPlayerSpeed, playerSpeedX);
+
+        float curvedSpeedFactor = Mathf.Pow(speedFactorX, biasEasePower);
+        float lagOffsetX = Mathf.Lerp(0f, maxFollowLag, speedFactorX) * Mathf.Sign(PlayerResultsManager.globalPlayerSpeedX);
+        float biasOffsetX = Mathf.Lerp(0f, maxForwardBias, curvedSpeedFactor);
+
+        // Positions for visualization
+        Vector3 playerPos = target.position;
+        Vector3 lagPos = playerPos - new Vector3(lagOffsetX, 0f, 0f);
+        Vector3 biasPos = playerPos + new Vector3(biasOffsetX, 0f, 0f);
+
+        // Draw lag line (red)
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(playerPos, lagPos);
+        Gizmos.DrawWireSphere(lagPos, 0.15f);
+
+        // Draw forward bias line (green)
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(playerPos, biasPos);
+        Gizmos.DrawWireSphere(biasPos, 0.15f);
+
+        // Optional: draw camera target line (blue)
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(transform.position, playerPos);
+    }
+
 }

@@ -15,6 +15,7 @@ public class PlayerResultsManager : MonoBehaviour
     public Vector2 globalPlayerSpeedV2;
     public static float globalPlayerSpeedX;
     public static float globalPlayerSpeedY;
+    public static float currentDistance;
 
     public GameObject player;
     public GameObject ground;
@@ -35,7 +36,6 @@ public class PlayerResultsManager : MonoBehaviour
 
     private int enemyGoldThisRun = 0;
     private int itemGoldThisRun = 0;
-    public float currentDistance;
 
     public float incomeUpgradeValue;
     public float incomeUpgradeCount;
@@ -56,9 +56,9 @@ public class PlayerResultsManager : MonoBehaviour
         globalPlayerSpeedV2 = playerRb.linearVelocity;
         globalPlayerSpeedX = playerRb.linearVelocityX;
         globalPlayerSpeedY = playerRb.linearVelocityY;
+        currentDistance = player.transform.position.x;
 
         float currentHeight = player.transform.position.y;
-        currentDistance = player.transform.position.x;
         if (heightReached < currentHeight) { heightReached = currentHeight; if(heightReached > highScoreY) highScoreY = heightReached; }
         if (distanceReached < currentDistance) { distanceReached = currentDistance; if (distanceReached > highScoreX) highScoreX = distanceReached; }
         float fillAmount = Mathf.Clamp01(currentDistance / victoryDistance);
@@ -135,7 +135,6 @@ public class PlayerResultsManager : MonoBehaviour
 
     float ApplyIncomeUpgrade()
     {
-        // Ternary Operator condition ? valueIfTrue : valueIfFalse;
         return 1f + (incomeUpgradeCount * (incomeUpgradeValue - 1f));
     }
 

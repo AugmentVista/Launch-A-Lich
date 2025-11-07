@@ -6,6 +6,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] GameObject GroundEnemy;
     [SerializeField] GameObject FlyingEnemy;
+    [SerializeField] GameObject FlyingChargedEnemy;
 
     [SerializeField] SpeedLimit speedLimit;
     private float speedLimitX;
@@ -78,7 +79,11 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnFlyingEnemies()
     {
-        enemyPrefab = FlyingEnemy;
+
+        // Ternary Operator condition ? valueIfTrue : valueIfFalse;
+        // INCORRECT USAGE if (PlayerResultsManager.currentDistance > 500 ? enemyPrefab = FlyingChargedEnemy : enemyPrefab = FlyingEnemy)
+        // Correct Usage. Variable assigned to an expression that can be true or false followed by a ? followed the true answer separated from the false answer with :
+        enemyPrefab = PlayerResultsManager.currentDistance > 500 ? FlyingChargedEnemy : FlyingEnemy;
 
         Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
         Vector3 topEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, cam.nearClipPlane));
