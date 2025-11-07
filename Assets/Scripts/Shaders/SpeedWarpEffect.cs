@@ -7,6 +7,12 @@ public class SpeedWarpEffect : MonoBehaviour
     public Material warpMaterial;
     public float maxPlayerSpeed = 100f;
 
+    [Range(1f, 1.2f)]
+    [SerializeField] private float warpX;
+
+    [Range(0.9f, 1f)]
+    [SerializeField] private float warpY;
+
     private void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
         if (warpMaterial == null)
@@ -22,8 +28,8 @@ public class SpeedWarpEffect : MonoBehaviour
         float warpFactor = Mathf.InverseLerp(40f, maxPlayerSpeed, speed);
 
         // horizontal stretches up to +20%, vertical compresses to 90%
-        float warpX = Mathf.Lerp(1f, 1.2f, warpFactor);
-        float warpY = Mathf.Lerp(1f, 0.9f, warpFactor);
+        warpX = Mathf.Lerp(1f, 1.2f, warpFactor);
+        warpY = Mathf.Lerp(1f, 0.9f, warpFactor);
 
         // feed these to the shader
         warpMaterial.SetFloat("_WarpX", warpX);
