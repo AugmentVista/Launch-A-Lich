@@ -70086,7 +70086,7 @@ MonoBehaviour:
   UIManager: {fileID: 1044183633}
   chargeSpeed: 1
   launchForceMultiplier: 1
-  force: 50
+  force: 150
   launcherUpgradeValue: 0
   launcherUpgradesCount: 0
 --- !u!114 &493354459
@@ -81883,7 +81883,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2119655188}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b69fc107b1292fc418ce3c09ff6e2194, type: 3}
   m_Name: 
