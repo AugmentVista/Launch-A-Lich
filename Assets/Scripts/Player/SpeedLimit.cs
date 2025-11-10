@@ -19,7 +19,9 @@ public class SpeedLimit : MonoBehaviour
 
     private float maxSpeedUpgradesActive = 0;
 
-    private float fullColorThreshold = 0.5f;
+    private float fullColorThreshold = 0.25f;
+
+    public bool overSpeed;
 
     void Start()
     {
@@ -83,9 +85,10 @@ public class SpeedLimit : MonoBehaviour
 
     private void UpdateSpeedTextColor(float currentDamping)
     {
-        if (currentDamping >= 0.3f)
+        if (currentDamping >= fullColorThreshold)
         {
-            hudDisplay.speedText.color = new Color32(255, 0, 0, 255);
+            // If the level of dampening is past the full color threshold set text color to full red.
+            hudDisplay.speedText.color = Color.red;
         }
         else
         {
@@ -94,11 +97,14 @@ public class SpeedLimit : MonoBehaviour
             // Normalize the excess to 0–1 for the range between base and 0.3
             float t = Mathf.InverseLerp(0f, fullColorThreshold - baseLinearDampeningValue, excess);
 
-            // Lerp from white to red
+            // Lerp from black to red
             Color targetColor = Color.Lerp(Color.black, Color.red, t);
 
             Color currentColor = hudDisplay.speedText.color;
             hudDisplay.speedText.color = Color.Lerp(currentColor, targetColor, Time.deltaTime * 10f);
+
+            if (excess > 0) { overSpeed = true; }
+            else if (excess <= 0) { overSpeed = false; }
         }
     }
 

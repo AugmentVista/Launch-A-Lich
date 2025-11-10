@@ -6,6 +6,8 @@ public class HudSpeedDisplay : MonoBehaviour
 {
     public Rigidbody2D playerRb;
 
+    public SpeedLimit speedLimit;
+
     public TextMeshProUGUI speedText;
 
     public TextMeshProUGUI heightText;
@@ -20,9 +22,11 @@ public class HudSpeedDisplay : MonoBehaviour
 
     public float groundHeight;
 
+
     public void MeasurePlayerSpeed()
     {
-        speedText.text = $"Speed: {playerRb.linearVelocityX:F2} meters";
+        if (speedLimit.overSpeed) { speedText.text = $"Beyond Speed Limt: \n{playerRb.linearVelocityX:F2} meters"; }
+        else if (!speedLimit.overSpeed) { speedText.text = $"Speed: {playerRb.linearVelocityX:F2} meters"; }
     }
 
     public void MeasurePlayerHeight()
