@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerInteractionHandler : PlayerBase
@@ -20,7 +21,7 @@ public class PlayerInteractionHandler : PlayerBase
     public static event EnemyDefeated OnFlyingEnemyDefeated;
     public static event EnemyDefeated OnGroundEnemyDefeated;
 
-    public delegate void ItemCollected(int goldValue);
+    public delegate void ItemCollected(int goldValue, Enum tier);
     public static event ItemCollected OnFlyingItemCollected;
     public static event ItemCollected OnGroundItemCollected;
 
@@ -94,9 +95,9 @@ public class PlayerInteractionHandler : PlayerBase
             LogarithmicBounce(4, item.healValue);
 
             if (item.type == Item_World.Type.Flying)
-                OnFlyingItemCollected?.Invoke(item.moneyValue);
+                OnFlyingItemCollected?.Invoke(item.moneyValue, item.tier);
             else if (item.type == Item_World.Type.Grounded)
-                OnGroundItemCollected?.Invoke(item.moneyValue);
+                OnGroundItemCollected?.Invoke(item.moneyValue, item.tier);
 
             if (item != null) item.isDead = true;
         }

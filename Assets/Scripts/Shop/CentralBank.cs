@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -47,7 +48,7 @@ public class CentralBank : MonoBehaviour
     /// <summary>
     /// Add gold to both lifetime and spendable balance.
     /// </summary>
-    public void AddMoney(int amount)
+    public void AddMoney(int amount, System.Enum __)
     {
         balance += amount;
         totalBalance += amount;
@@ -80,7 +81,7 @@ public class CentralBank : MonoBehaviour
     /// </summary>
     public void DepositRunEarnings(int amount)
     {
-        AddMoney(amount);
+        AddMoney(amount, );
     }
 
     private void UpdateBalanceUI()

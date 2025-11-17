@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -122,7 +123,7 @@ public class PlayerResultsManager : MonoBehaviour
         enemyGoldThisRun += amount;
     }
 
-    private void TrackItemMoneyGain(int amount)
+    private void TrackItemMoneyGain(int amount, Enum someEnum)
     {
         itemGoldThisRun += amount;
     }
