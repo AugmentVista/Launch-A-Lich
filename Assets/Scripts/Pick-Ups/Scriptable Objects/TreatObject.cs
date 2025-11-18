@@ -20,63 +20,63 @@ public class TreatObject : MonoBehaviour
     public int amountCollected;  // convert this to a TMP_Text.text to update visual count
     
 
-    private void Start()
+    private void Awake()
     {
         if (treatPickUp != null)
-            SetupTreat(treatPickUp);
+            SetupTreat();
     }
 
-    public void SetupTreat(TreatPickUp treat)
+    public void SetupTreat()
     {
         Debug.Log("Setup Treat called");
         hasBeenCollected = false;
         amountCollected = 0;
         activeSprite.sprite = locked;
-        switch (treat.treatType)
+        switch (treatPickUp.treatType)
         {
             case TreatType.Candy:
                 {
-                        activeSprite.sprite = treat.allTreatSprites[0];
+                    activeSprite.sprite = treatPickUp.allTreatSprites[0];
                 }
                 break;
             case TreatType.Donuts:
                 {
-                        activeSprite.sprite = treat.allTreatSprites[1];
+                    activeSprite.sprite = treatPickUp.allTreatSprites[1];
                 }
                 break;
             case TreatType.Cupcake:
                 {
-                    activeSprite.sprite = treat.allTreatSprites[2];
+                    activeSprite.sprite = treatPickUp.allTreatSprites[2];
                 }
                 break;
             case TreatType.Cake:
                 {
-                    activeSprite.sprite = treat.allTreatSprites[3];
+                    activeSprite.sprite = treatPickUp.allTreatSprites[3];
                 }
                 break;
             case TreatType.CheeseCake:
                 {
-                    activeSprite.sprite = treat.allTreatSprites[4];
+                    activeSprite.sprite = treatPickUp.allTreatSprites[4];
                 }
                 break;
             case TreatType.CakeDeluxe:
                 {
-                    activeSprite.sprite = treat.allTreatSprites[5];
+                    activeSprite.sprite = treatPickUp.allTreatSprites[5];
                 }
                 break;
             case TreatType.Pie:
                 {
-                    activeSprite.sprite = treat.allTreatSprites[6];
+                    activeSprite.sprite = treatPickUp.allTreatSprites[6];
                 }
                 break;
             case TreatType.Chocolate:
                 {
-                    activeSprite.sprite = treat.allTreatSprites[7];
+                    activeSprite.sprite = treatPickUp.allTreatSprites[7];
                 }
                 break;
             case TreatType.Jelly:
                 {
-                    activeSprite.sprite = treat.allTreatSprites[8];
+                    activeSprite.sprite = treatPickUp.allTreatSprites[8];
                 }
                 break;
         }
