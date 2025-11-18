@@ -20,9 +20,9 @@ public class TreatManager : MonoBehaviour
 
     private void OnTreatCollected(int gold, Enum tierEnum)
     {
-        int index = (int)tierEnum;
+        //int index = (int)tierEnum;
 
-        collectedCounts[index] += 1;
+        //collectedCounts[index] += 1;
 
     }
 

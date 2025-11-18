@@ -147,8 +147,10 @@ GameObject:
   - component: {fileID: 3520731209347396885}
   - component: {fileID: 7593692646614059236}
   - component: {fileID: 5752110983202614852}
+  - component: {fileID: 1191838077940180930}
+  - component: {fileID: 5709422014931916676}
   m_Layer: 5
-  m_Name: Treat 8
+  m_Name: Treat Chocolate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,6 +213,44 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1191838077940180930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577282309085800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be2414e399bb478c7fbb08232a111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatPickUp: {fileID: 11400000, guid: 79bb254ef7d32964db9558266c2c2087, type: 2}
+  hintText: {fileID: 1958336351262811671}
+  statsText: {fileID: 1958336351262811671}
+  activeSprite: {fileID: 5752110983202614852}
+  locked: {fileID: 21300000, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  unlocked: {fileID: 21300082, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  treatSprite: {fileID: 0}
+  hasBeenCollected: 0
+  amountCollected: 0
+--- !u!114 &5709422014931916676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577282309085800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20cf86d145fcc5340ba04a05edb5379c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatObject: {fileID: 0}
+  infoBackgroundImage: {fileID: 2887545264016986804}
+  infoText: {fileID: 1958336351262811671}
+  hintOnHoverEnabled: 0
+  statsOnHoverEnabled: 0
 --- !u!1 &743324188200892144
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +401,7 @@ GameObject:
   - component: {fileID: 5805023601745847124}
   - component: {fileID: 4368914149758031906}
   m_Layer: 5
-  m_Name: Treat 1
+  m_Name: Treat Candy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -473,8 +513,10 @@ GameObject:
   - component: {fileID: 6007896253133828792}
   - component: {fileID: 1262523322248512531}
   - component: {fileID: 7952002453009410968}
+  - component: {fileID: 8672084771068805462}
+  - component: {fileID: 6753909255555102998}
   m_Layer: 5
-  m_Name: Treat 4
+  m_Name: Treat Cake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -537,6 +579,44 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8672084771068805462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527680328715641773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be2414e399bb478c7fbb08232a111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatPickUp: {fileID: 11400000, guid: 5864b59d9200a4c40837b9e366321193, type: 2}
+  hintText: {fileID: 1958336351262811671}
+  statsText: {fileID: 1958336351262811671}
+  activeSprite: {fileID: 7952002453009410968}
+  locked: {fileID: 21300000, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  unlocked: {fileID: 21300082, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  treatSprite: {fileID: 0}
+  hasBeenCollected: 0
+  amountCollected: 0
+--- !u!114 &6753909255555102998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527680328715641773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20cf86d145fcc5340ba04a05edb5379c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatObject: {fileID: 0}
+  infoBackgroundImage: {fileID: 2887545264016986804}
+  infoText: {fileID: 1958336351262811671}
+  hintOnHoverEnabled: 0
+  statsOnHoverEnabled: 0
 --- !u!1 &2086845709388084913
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,8 +704,10 @@ GameObject:
   - component: {fileID: 4431208413886625896}
   - component: {fileID: 5728066317942232966}
   - component: {fileID: 8746609534343903291}
+  - component: {fileID: 1551556321522291012}
+  - component: {fileID: 6937305398609998687}
   m_Layer: 5
-  m_Name: Treat 3
+  m_Name: Treat CupCake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -688,6 +770,44 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1551556321522291012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3069728264408468349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be2414e399bb478c7fbb08232a111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatPickUp: {fileID: 11400000, guid: 40b2976c45a258e42b4385068b6d063b, type: 2}
+  hintText: {fileID: 1958336351262811671}
+  statsText: {fileID: 1958336351262811671}
+  activeSprite: {fileID: 8746609534343903291}
+  locked: {fileID: 21300000, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  unlocked: {fileID: 21300082, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  treatSprite: {fileID: 0}
+  hasBeenCollected: 0
+  amountCollected: 0
+--- !u!114 &6937305398609998687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3069728264408468349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20cf86d145fcc5340ba04a05edb5379c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatObject: {fileID: 1551556321522291012}
+  infoBackgroundImage: {fileID: 2887545264016986804}
+  infoText: {fileID: 1958336351262811671}
+  hintOnHoverEnabled: 0
+  statsOnHoverEnabled: 0
 --- !u!1 &3275045099647851537
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,8 +894,10 @@ GameObject:
   - component: {fileID: 7824424993098425074}
   - component: {fileID: 4106377082384997120}
   - component: {fileID: 7963114906777453441}
+  - component: {fileID: 2544973764974835393}
+  - component: {fileID: 4843090237470534880}
   m_Layer: 5
-  m_Name: Treat 5
+  m_Name: Treat CheeseCake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -838,6 +960,44 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2544973764974835393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4757201446841731469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be2414e399bb478c7fbb08232a111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatPickUp: {fileID: 11400000, guid: 84b318603bed0564e9ce7b6c00c5a452, type: 2}
+  hintText: {fileID: 1958336351262811671}
+  statsText: {fileID: 1958336351262811671}
+  activeSprite: {fileID: 7963114906777453441}
+  locked: {fileID: 21300000, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  unlocked: {fileID: 21300082, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  treatSprite: {fileID: 0}
+  hasBeenCollected: 0
+  amountCollected: 0
+--- !u!114 &4843090237470534880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4757201446841731469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20cf86d145fcc5340ba04a05edb5379c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatObject: {fileID: 0}
+  infoBackgroundImage: {fileID: 2887545264016986804}
+  infoText: {fileID: 1958336351262811671}
+  hintOnHoverEnabled: 0
+  statsOnHoverEnabled: 0
 --- !u!1 &5924833624051542153
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,8 +1085,10 @@ GameObject:
   - component: {fileID: 5914872422898025065}
   - component: {fileID: 1432177885551391545}
   - component: {fileID: 1717529141318876990}
+  - component: {fileID: 6999396937083628590}
+  - component: {fileID: 5565153418869902092}
   m_Layer: 5
-  m_Name: Treat 6
+  m_Name: Treat CakeDeluxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -989,6 +1151,44 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6999396937083628590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7094692649721539317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be2414e399bb478c7fbb08232a111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatPickUp: {fileID: 11400000, guid: 9801a35ff2425544e8800f0e05537124, type: 2}
+  hintText: {fileID: 1958336351262811671}
+  statsText: {fileID: 1958336351262811671}
+  activeSprite: {fileID: 1717529141318876990}
+  locked: {fileID: 21300000, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  unlocked: {fileID: 21300082, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  treatSprite: {fileID: 0}
+  hasBeenCollected: 0
+  amountCollected: 0
+--- !u!114 &5565153418869902092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7094692649721539317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20cf86d145fcc5340ba04a05edb5379c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatObject: {fileID: 0}
+  infoBackgroundImage: {fileID: 2887545264016986804}
+  infoText: {fileID: 1958336351262811671}
+  hintOnHoverEnabled: 0
+  statsOnHoverEnabled: 0
 --- !u!1 &7256405607146272224
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,8 +1200,10 @@ GameObject:
   - component: {fileID: 1795566946563909171}
   - component: {fileID: 2262061018402911931}
   - component: {fileID: 2852976744441498500}
+  - component: {fileID: 7710635419573202595}
+  - component: {fileID: 2437548230403582811}
   m_Layer: 5
-  m_Name: Treat 7
+  m_Name: Treat Pie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1064,6 +1266,44 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7710635419573202595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7256405607146272224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be2414e399bb478c7fbb08232a111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatPickUp: {fileID: 11400000, guid: 8cb87f574d8fb67489f7ec036937c764, type: 2}
+  hintText: {fileID: 1958336351262811671}
+  statsText: {fileID: 1958336351262811671}
+  activeSprite: {fileID: 2852976744441498500}
+  locked: {fileID: 21300000, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  unlocked: {fileID: 21300082, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  treatSprite: {fileID: 0}
+  hasBeenCollected: 0
+  amountCollected: 0
+--- !u!114 &2437548230403582811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7256405607146272224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20cf86d145fcc5340ba04a05edb5379c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatObject: {fileID: 0}
+  infoBackgroundImage: {fileID: 2887545264016986804}
+  infoText: {fileID: 1958336351262811671}
+  hintOnHoverEnabled: 0
+  statsOnHoverEnabled: 0
 --- !u!1 &7297439134840474681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1289,7 +1529,7 @@ GameObject:
   - component: {fileID: 7680809683311602781}
   - component: {fileID: 5798720021803338372}
   m_Layer: 5
-  m_Name: Treat 1 (1)
+  m_Name: Treat Donut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1390,81 +1630,6 @@ MonoBehaviour:
   infoText: {fileID: 1958336351262811671}
   hintOnHoverEnabled: 0
   statsOnHoverEnabled: 0
---- !u!1 &7735891397846645525
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5308465478705485785}
-  - component: {fileID: 612641768812996327}
-  - component: {fileID: 5637041005653268524}
-  m_Layer: 5
-  m_Name: Treat 2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &5308465478705485785
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7735891397846645525}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7593533706712096025}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -550, y: 200}
-  m_SizeDelta: {x: 125, y: 125}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &612641768812996327
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7735891397846645525}
-  m_CullTransparentMesh: 1
---- !u!114 &5637041005653268524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7735891397846645525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300082, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &7946883380834455313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1476,8 +1641,10 @@ GameObject:
   - component: {fileID: 5315644006873164157}
   - component: {fileID: 2915539019670302226}
   - component: {fileID: 7072838432504317996}
+  - component: {fileID: 2034323543904775624}
+  - component: {fileID: 6105023206525876965}
   m_Layer: 5
-  m_Name: Treat 9
+  m_Name: Treat Jelly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1540,6 +1707,44 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2034323543904775624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7946883380834455313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be2414e399bb478c7fbb08232a111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatPickUp: {fileID: 11400000, guid: 89780434b9bd3e548ad1ba36ef1d207a, type: 2}
+  hintText: {fileID: 1958336351262811671}
+  statsText: {fileID: 1958336351262811671}
+  activeSprite: {fileID: 7072838432504317996}
+  locked: {fileID: 21300000, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  unlocked: {fileID: 21300082, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  treatSprite: {fileID: 0}
+  hasBeenCollected: 0
+  amountCollected: 0
+--- !u!114 &6105023206525876965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7946883380834455313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20cf86d145fcc5340ba04a05edb5379c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treatObject: {fileID: 0}
+  infoBackgroundImage: {fileID: 2887545264016986804}
+  infoText: {fileID: 1958336351262811671}
+  hintOnHoverEnabled: 0
+  statsOnHoverEnabled: 0
 --- !u!1 &8367008806393494765
 GameObject:
   m_ObjectHideFlags: 0
@@ -1650,7 +1855,6 @@ RectTransform:
   - {fileID: 9128196830592071901}
   - {fileID: 1392976184824647762}
   - {fileID: 523073185734609258}
-  - {fileID: 5308465478705485785}
   - {fileID: 4431208413886625896}
   - {fileID: 6007896253133828792}
   - {fileID: 7824424993098425074}

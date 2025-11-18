@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerInteractionHandler : PlayerBase
 {
+    #region Variable Declarations
     [SerializeField] Player_Anim_Manager playerAnim;
 
     public int forceMult;
@@ -25,6 +26,7 @@ public class PlayerInteractionHandler : PlayerBase
     public static event ItemCollected OnFlyingItemCollected;
     public static event ItemCollected OnGroundItemCollected;
 
+    #endregion
     private void Awake()
     {
         if (!playerRb)
@@ -32,6 +34,8 @@ public class PlayerInteractionHandler : PlayerBase
 
         ResetHealth();
     }
+
+    #region State Subcriptions
 
     private void OnEnable()
     {
@@ -60,11 +64,14 @@ public class PlayerInteractionHandler : PlayerBase
         ResetHealth();
     }
 
+    #endregion
+
     private void Update()
     {
         ApplyTouchingGroundDamage();
     }
 
+    #region Upgrade Section
     public void UpgradeBounce(float improvementMod, float purchaseCount)
     {
         bouncyUpgradesCount = purchaseCount;
@@ -81,6 +88,8 @@ public class PlayerInteractionHandler : PlayerBase
         return bouncyUpgradesActive;
     }
 
+    #endregion
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Respawn"))
@@ -92,15 +101,21 @@ public class PlayerInteractionHandler : PlayerBase
         {
             Item_World item = collision.GetComponent<Item_World>();
 
-            LogarithmicBounce(4, item.healValue);
+            LogarithmicBounce(4, item.supportValue);
 
             if (item.type == Item_World.Type.Flying)
+            {
                 OnFlyingItemCollected?.Invoke(item.moneyValue, item.tier);
+            }
             else if (item.type == Item_World.Type.Grounded)
+            { 
                 OnGroundItemCollected?.Invoke(item.moneyValue, item.tier);
+            }
 
             if (item != null) item.isDead = true;
         }
+
+        #region Enemy Interactions
 
         if (collision.CompareTag("Enemy"))
         {
@@ -110,11 +125,6 @@ public class PlayerInteractionHandler : PlayerBase
 
             if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
             {
-                //if (PlayerResultsManager.globalPlayerSpeedY > 0.01 && transform.position.y > 20)
-                //{
-                //    NegativeLogarithmicBounce(15f, enemyImpactVelocityGain * forceMult);
-                //}
-                //else
                 {
                     LogarithmicBounce(4f, enemyImpactVelocityGain * forceMult);
                 }
@@ -123,11 +133,6 @@ public class PlayerInteractionHandler : PlayerBase
             }
             else if (Health >= MaxHealth * 0.5f && Health > 0 && enemy.type == Enemy.Type.Flying)
             {
-                //if (PlayerResultsManager.globalPlayerSpeedY > 0.01)
-                //{
-                //    NegativeLogarithmicBounce(2f, enemyImpactVelocityGain * forceMult);
-                //}
-                //else if (PlayerResultsManager.globalPlayerSpeedY < -0.01)
                 {
                     LogarithmicBounce(2f, enemyImpactVelocityGain * forceMult);
                 }
@@ -153,6 +158,9 @@ public class PlayerInteractionHandler : PlayerBase
             if (enemy != null) enemy.isDead = true;
         }
 
+        #endregion
+
+        #region Ground & Ceiling Damaging details
         if (collision.CompareTag("Ground"))
         {
             ground = collision.GetComponent<Ground>();
@@ -208,7 +216,10 @@ public class PlayerInteractionHandler : PlayerBase
             else { playerAnim.PlayTakeHit(); }
 
         }
+#endregion
     }
+
+    #region Prevent player from skidding across ground
 
     private void ApplyTouchingGroundDamage()
     {
@@ -242,4 +253,5 @@ public class PlayerInteractionHandler : PlayerBase
             grounded = false;
         }
     }
+    #endregion
 }

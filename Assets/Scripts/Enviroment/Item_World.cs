@@ -6,7 +6,7 @@ public class Item_World : MonoBehaviour
 
     public bool isDead = false;
 
-    public int healValue;
+    public int supportValue;
     public int moneyValue;
     public enum Type { Flying, Grounded };
     public Type type;
@@ -52,7 +52,6 @@ public class Item_World : MonoBehaviour
         if (deathPrefab != null)
         {
             Instantiate(deathPrefab, transform.position, Quaternion.identity);
-            // something was supposed to go here?
         }
         Destroy(gameObject);
     }

@@ -26,18 +26,18 @@ public class CentralBank : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerInteractionHandler.OnFlyingEnemyDefeated += AddMoney;
-        PlayerInteractionHandler.OnGroundEnemyDefeated += AddMoney;
-        PlayerInteractionHandler.OnFlyingItemCollected += AddMoney;
-        PlayerInteractionHandler.OnGroundItemCollected += AddMoney;
+        PlayerInteractionHandler.OnFlyingEnemyDefeated += AddMoneyEnemy;
+        PlayerInteractionHandler.OnGroundEnemyDefeated += AddMoneyEnemy;
+        PlayerInteractionHandler.OnFlyingItemCollected += AddMoneyItem;
+        PlayerInteractionHandler.OnGroundItemCollected += AddMoneyItem;
     }
 
     private void OnDisable()
     {
-        PlayerInteractionHandler.OnFlyingEnemyDefeated -= AddMoney;
-        PlayerInteractionHandler.OnGroundEnemyDefeated -= AddMoney;
-        PlayerInteractionHandler.OnFlyingItemCollected -= AddMoney;
-        PlayerInteractionHandler.OnGroundItemCollected -= AddMoney;
+        PlayerInteractionHandler.OnFlyingEnemyDefeated -= AddMoneyEnemy;
+        PlayerInteractionHandler.OnGroundEnemyDefeated -= AddMoneyEnemy;
+        PlayerInteractionHandler.OnFlyingItemCollected -= AddMoneyItem;
+        PlayerInteractionHandler.OnGroundItemCollected -= AddMoneyItem;
     }
 
     private void Start()
@@ -48,12 +48,23 @@ public class CentralBank : MonoBehaviour
     /// <summary>
     /// Add gold to both lifetime and spendable balance.
     /// </summary>
-    public void AddMoney(int amount, System.Enum __)
+    public void AddMoneyItem(int amount, Enum _)
+    {
+        AddMoney(amount);
+    }
+
+    public void AddMoneyEnemy(int amount)
+    {
+        AddMoney(amount);
+    }
+
+    public void AddMoney(int amount)
     {
         balance += amount;
         totalBalance += amount;
         UpdateBalanceUI();
     }
+
 
     /// <summary>
     /// Spend gold if enough balance is available.
@@ -81,7 +92,7 @@ public class CentralBank : MonoBehaviour
     /// </summary>
     public void DepositRunEarnings(int amount)
     {
-        AddMoney(amount, );
+        AddMoneyEnemy(amount);
     }
 
     private void UpdateBalanceUI()
