@@ -150875,6 +150875,10 @@ PrefabInstance:
       propertyPath: m_FillAmount
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 1551556321522291012, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
+      propertyPath: amountCollected
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4279593648256099752, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
       propertyPath: m_text
       value: "10% Treat \nCompletion"
