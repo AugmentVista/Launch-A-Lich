@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class AbilityEffect : MonoBehaviour
 {
-    private Animator animator;
+    [SerializeField] private Animator animator;
+
+    [SerializeField] private Transform visualTransform;
+
+    private bool armed = true;
 
     private Rigidbody2D playerRb;
 
@@ -12,11 +16,19 @@ public class AbilityEffect : MonoBehaviour
 
     [SerializeField] bool downForce;
 
+    public bool followPlayer = true;
+
+    private Transform playerTransform;
+
     private void Start()
     {
-        animator = GetComponent<Animator>();
         float clipLength = animator.GetCurrentAnimatorStateInfo(0).length;
         Destroy(gameObject, clipLength);
+    }
+
+    public void SetPlayerTransform(Transform transform)
+    {
+        playerTransform = transform;
     }
 
     public void SetPlayerRb(Rigidbody2D rb)
@@ -26,17 +38,30 @@ public class AbilityEffect : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerResultsManager.globalPlayerSpeedY < 0)
+        if (PlayerResultsManager.globalPlayerSpeedY < 0 && !downForce)
         {
             relativeAbilityStrength = abilityStrength + PlayerResultsManager.globalPlayerSpeedY * -1;
         }
-        else { relativeAbilityStrength = abilityStrength; }
+        else 
+        { 
+            relativeAbilityStrength = abilityStrength; 
+        }
         
+    }
+
+    private void LateUpdate()
+    {
+        if (followPlayer && playerTransform != null)
+        {
+            visualTransform.position = playerTransform.position;
+        }
     }
 
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!armed) return; 
+
         if (collision.gameObject.CompareTag("Player"))
         {
             if (playerRb != null)

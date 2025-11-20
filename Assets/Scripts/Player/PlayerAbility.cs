@@ -101,6 +101,8 @@ public class PlayerAbility : MonoBehaviour
             // Apply the upgrade bonus to ability strength
             ability.abilityStrength += ApplyBoostUpgrade();
             ability.SetPlayerRb(playerRb);
+
+            ability.SetPlayerTransform(playerRb.transform);
         }
     }
 
