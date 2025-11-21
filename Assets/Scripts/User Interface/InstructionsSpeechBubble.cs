@@ -66,12 +66,11 @@ public class InstructionsSpeechBubble : MonoBehaviour
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 LaunchIcon.SetActive(false);
                 BoostIcon.SetActive(true);
-                
                 break;
             case 3:
                 speechBubble.setDialogueText("Mind the ground and ceiling");
                 speechBubble.setBubbleType(SpeechBubbleType.Yell);
-                LaunchIcon.SetActive(false);
+                BoostIcon.SetActive(false);
                 HealthBar.SetActive(true);
                 break;
             case 4:
