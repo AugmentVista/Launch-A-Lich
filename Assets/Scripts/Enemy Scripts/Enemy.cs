@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Enemy : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class Enemy : MonoBehaviour
     public float baseSpeed;
 
     public bool customMovement;
+    public bool hitByPlayerAbility = false;
+
 
     public int damageValue;
     public int moneyValue;
@@ -14,6 +17,7 @@ public class Enemy : MonoBehaviour
     public Type type;
 
     public GameObject deathPrefab;
+    public GameObject explodedPrefab;
     void Update()
     {
         if (!isDead && !customMovement)
@@ -30,9 +34,16 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
-        if (deathPrefab != null)
+        if (deathPrefab != null && explodedPrefab != null)
         {
-            Instantiate(deathPrefab, transform.position, Quaternion.identity);
+            if (hitByPlayerAbility) 
+            { 
+                Instantiate(explodedPrefab, transform.position, Quaternion.identity); 
+            }
+            else 
+            {
+                Instantiate(deathPrefab, transform.position, Quaternion.identity);
+            }
         }
         Destroy(gameObject);
     }

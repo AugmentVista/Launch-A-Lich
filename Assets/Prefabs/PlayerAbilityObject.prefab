@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 8115824477302772797}
   visualTransform: {fileID: 2025406661678878544}
-  abilityStrength: 50
+  abilityStrength: 30
   downForce: 0
 --- !u!114 &9012076962802455315
 MonoBehaviour:
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e749d45e3fa8f48893380f1244bc0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followLag: 8
+  followLag: 5
 --- !u!50 &5127841749025798360
 Rigidbody2D:
   serializedVersion: 5

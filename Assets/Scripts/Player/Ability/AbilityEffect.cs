@@ -4,6 +4,8 @@ public class AbilityEffect : MonoBehaviour
 {
     [SerializeField] private Animator animator;
 
+    [SerializeField] private Animator enemyExpldode;
+
     [SerializeField] private Transform visualTransform;
 
     private bool armed = true; // bool flag to prevent multi hits
@@ -29,11 +31,11 @@ public class AbilityEffect : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerResultsManager.globalPlayerSpeedY < 0 && !downForce)
-        {
-            relativeAbilityStrength = Mathf.Max(abilityStrength, PlayerResultsManager.globalPlayerSpeedY * -0.75f);
-        }
-        else 
+        //if (PlayerResultsManager.globalPlayerSpeedY < 0 && !downForce)
+        //{
+        //    relativeAbilityStrength = Mathf.Max(abilityStrength, PlayerResultsManager.globalPlayerSpeedY * -0.50f);
+        //}
+        //else 
         { 
             relativeAbilityStrength = abilityStrength; 
         }
@@ -59,13 +61,24 @@ public class AbilityEffect : MonoBehaviour
             {
                 if (downForce)
                 {
-                    NegativeLogarithmicBounce(2f, relativeAbilityStrength);
+                    NegativeLogarithmicBounce(6f, relativeAbilityStrength);
                 }
                 else 
                 {
-                    LogarithmicBounce(2f, relativeAbilityStrength); 
+                    LogarithmicBounce(6f, relativeAbilityStrength); 
                 }
             }
+        }
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Enemy enemy = collision.GetComponent<Enemy>();
+
+            if (enemy != null)
+            {
+                enemy.hitByPlayerAbility = true;
+                enemy.isDead = true;
+            }
+
         }
     }
 

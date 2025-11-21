@@ -171,10 +171,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDead: 0
   baseSpeed: 15
+  customMovement: 0
+  hitByPlayerAbility: 0
   damageValue: 8
   moneyValue: 8
   type: 0
   deathPrefab: {fileID: 6063229312718930144, guid: 8e543592794d4c84ba197233b378ade0, type: 3}
+  explodedPrefab: {fileID: 3044282159541186506, guid: b17c7236d34adf14f9525be37bc3368e, type: 3}
 --- !u!95 &4947889251600624796
 Animator:
   serializedVersion: 7
