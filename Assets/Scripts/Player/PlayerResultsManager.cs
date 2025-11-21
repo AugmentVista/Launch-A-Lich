@@ -180,15 +180,9 @@ public class PlayerResultsManager : MonoBehaviour
         }
         else 
         {
-            if (treatManager.CheckVictoryCondition())
-            {
-                StartCoroutine(ResultsDelay());
-                UIManager.SpawnVictoryMeal();
-            }
+            StartCoroutine(ResultsDelay());
         }
     }
-
-   
 
 
     IEnumerator ResultsDelay()
@@ -196,6 +190,8 @@ public class PlayerResultsManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         CalcuateGoldEarned(distanceReached, heightReached);
         UIManager.B_Results();
+        if (treatManager.CheckVictoryCondition()) { UIManager.SpawnVictoryMeal(); }
+            
     }
 
     private void CalcuateGoldEarned(float distance, float height)
