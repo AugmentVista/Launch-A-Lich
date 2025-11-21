@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    [Header("Launcher Visuals")]
-    [SerializeField] Transform launchArrowTransform;
-
     [Header("Trajectory Display")]
     public LineRenderer lineRenderer;
     public int linePoints = 175;
@@ -19,6 +16,8 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] Image gauge;
     [SerializeField] Rigidbody2D playerRb;
     [SerializeField] UIManager UIManager;
+
+    [SerializeField] Transform launchArrowTransform;
 
     [SerializeField] float chargeSpeed;
     [SerializeField]float launchForceMultiplier;
@@ -39,7 +38,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     bool fullyCharged = false;
 
 
-    // Lookup table mapping inputX -> angle above x-axis (logarithmic scaling)
+    // Cheat sheet index inputX -> angle above x-axis (logarithmic scaling)
     private readonly Dictionary<int, float> inputXToAngle = new Dictionary<int, float>()
     {
         {2, 85f}, {3, 81f}, {4, 78f}, {5, 75f}, {6, 72f},
@@ -53,9 +52,6 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {42, 19f}, {43, 18f}, {44, 17f}, {45, 16f}, {46, 15f},
         {47, 14f}, {48, 13f}, {49, 12f}, {50, 10f}
     };
-
-
-
 
     public void UpgradeLauncher(float improvementMod, float purchaseCount)
     {
@@ -84,8 +80,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         angle = Mathf.Clamp(angle, 10f, 85f);
 
-        if (launchArrowTransform != null)
-            launchArrowTransform.rotation = Quaternion.Euler(0f, 180f, 90f - angle);
+        if (launchArrowTransform != null) { launchArrowTransform.rotation = Quaternion.Euler(0f, 180f, 90f - angle); }
 
         if (isCharging && Respawner.hasPlayerReturnedToLaunchpad && !fullyCharged)
         {
@@ -94,8 +89,10 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             chargeAmount += chargeSpeed * Time.deltaTime;
             chargeAmount = Mathf.Clamp01(chargeAmount);
             gauge.fillAmount = chargeAmount;
+
             if (gauge.fillAmount == 1.0) { fullyCharged = true; }
         }
+
         if (isCharging && Respawner.hasPlayerReturnedToLaunchpad && fullyCharged)
         {
             DrawTrajectory();
@@ -103,6 +100,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             chargeAmount -= chargeSpeed * Time.deltaTime;
             chargeAmount = Mathf.Clamp01(chargeAmount);
             gauge.fillAmount = chargeAmount;
+
             if (gauge.fillAmount == 0.0) { fullyCharged = false; }
         }
     }
@@ -111,19 +109,14 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         Vector2 origin = launchPoint.position;
 
-        // Compute the *actual applied force* based on your current charge and upgrades
-        float appliedForce = force * Mathf.Lerp(minChargeMultiplier + ApplyLauncherUpgrade(),
-                                                maxChargeMultiplier + ApplyLauncherUpgrade(),
-                                                chargeAmount);
+        float appliedForce = force * Mathf.Lerp(minChargeMultiplier + ApplyLauncherUpgrade(),maxChargeMultiplier + ApplyLauncherUpgrade(),chargeAmount);
 
         float angle = GetAimAngleFromMouse();
         float inputX = GetClosestInputXForAngle(angle);
         Vector2 direction = GetDirectionFromInputX(inputX);
 
-        // Calculate the *initial velocity* based on the player's Rigidbody2D mass and applied force
         Vector2 startVelocity = (direction * appliedForce) / playerRb.mass;
 
-        // Gravity (use Rigidbody2D gravity scale)
         Vector2 gravity = Physics2D.gravity * playerRb.gravityScale;
 
         // Configure line renderer
@@ -132,13 +125,11 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         float time = 0f;
         for (int i = 0; i < linePoints; i++)
         {
-            // Physics equation: p = p0 + v0 * t + ½ * g * t²
             Vector2 point = origin + startVelocity * time + 0.5f * gravity * (time * time);
             lineRenderer.SetPosition(i, point);
             time += timeIntervalInPoints;
         }
     }
-
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -256,8 +247,6 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         return new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad)).normalized;
     }
 
-
-
     private float GetAimAngleFromMouse()
     {
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
@@ -266,7 +255,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     float GetClosestInputXForAngle(float targetAngle)
     {
-        int closestInputX = 14; // fallback (your current default)
+        int closestInputX = 14;
         float smallestDifference = float.MaxValue;
 
         foreach (var kvp in inputXToAngle)
@@ -278,7 +267,6 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 closestInputX = kvp.Key;
             }
         }
-
         return closestInputX;
     }
 }

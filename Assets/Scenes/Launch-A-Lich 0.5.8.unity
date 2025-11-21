@@ -69913,7 +69913,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24792bc9938c58428c4a1724d17942d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchArrowTransform: {fileID: 214258723679842914}
   lineRenderer: {fileID: 493354457}
   linePoints: 100
   timeIntervalInPoints: 0.25
@@ -69921,6 +69920,7 @@ MonoBehaviour:
   gauge: {fileID: 2489025973959964391}
   playerRb: {fileID: 5196549533379305233}
   UIManager: {fileID: 1044183633}
+  launchArrowTransform: {fileID: 214258723679842914}
   chargeSpeed: 1
   launchForceMultiplier: 1
   force: 50
@@ -82154,9 +82154,9 @@ GameObject:
   - component: {fileID: 3957519688412015200}
   - component: {fileID: 6416790364130522646}
   - component: {fileID: 9018437475600263270}
+  - component: {fileID: 9018437475600263271}
   - component: {fileID: 4276663266226786173}
   - component: {fileID: 981661988552092159}
-  - component: {fileID: 9018437475600263271}
   m_Layer: 0
   m_Name: PLAYER
   m_TagString: Player
