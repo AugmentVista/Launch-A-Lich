@@ -9,8 +9,6 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 offset = new Vector3(5, 4f, -10f);
 
-    
-
     [Header("Lag Settings")]
     [SerializeField] private float baseFollowSpeed = 5f;
     [SerializeField] private float maxFollowLag = 1.5f; // Max distance camera can lag behind
@@ -73,7 +71,7 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        if (playerIsDead) { return; }
+        if (playerIsDead && !PlayerStateMachine.allowCameraFollow) { return; }
 
         if (target == null) { return; }
 

@@ -12,6 +12,8 @@ public class PlayerStateMachine : MonoBehaviour
     private float flyingHeightThreshold = 15f;
     public float playerLinearX;
 
+    public static bool allowCameraFollow = true;
+
     public enum PlayerState
     {
         Inactive, Grounded, Flying, Stopped, ReadyToLaunch
@@ -128,16 +130,25 @@ public class PlayerStateMachine : MonoBehaviour
 
     private IEnumerator FreezeRoutine()
     {
+        // temporarily force the camera to keep following
+        PlayerStateMachine.allowCameraFollow = true;
+
         // HARD STOP THE PLAYER
         playerRb.bodyType = RigidbodyType2D.Kinematic;
         playerRb.linearVelocity = Vector2.zero;
         playerRb.angularVelocity = 0f;
         player.transform.rotation = Quaternion.identity;
 
+        // tiny delay to ensure physics settles
         yield return new WaitForSeconds(0.05f);
-        //Debug.LogWarning("FREEZE ROUTINE CALLED");
-        Vector3 pos = player.transform.position;
-        pos.y = ground.transform.position.y - ground.transform.position.y;
+
+        // move to ground for death animation
+        Vector3 pos = player.transform.position; 
+        pos.y = ground.transform.position.y - ground.transform.position.y; 
         player.transform.position = pos;
+
+        // now the camera may stop
+        yield return new WaitForSeconds(0.25f); // small buffer for animation
+        PlayerStateMachine.allowCameraFollow = false;
     }
 }

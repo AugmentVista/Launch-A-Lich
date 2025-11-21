@@ -99,6 +99,7 @@ public class PlayerInteractionHandler : PlayerBase
 
         if (collision.CompareTag("Item"))
         {
+            if (!healthPositive) { return; }
             Item_World item = collision.GetComponent<Item_World>();
 
             LogarithmicBounce(4, item.supportValue);
@@ -119,6 +120,7 @@ public class PlayerInteractionHandler : PlayerBase
 
         if (collision.CompareTag("Enemy"))
         {
+            if (!healthPositive) { return; }
             Enemy enemy = collision.GetComponent<Enemy>();
 
             TakeDamage(enemy.damageValue);
@@ -165,6 +167,7 @@ public class PlayerInteractionHandler : PlayerBase
         {
             ground = collision.GetComponent<Ground>();
             TakeDamage(ground.damageValue);
+            if (!healthPositive) { return; }
 
             switch (Health)
             {
@@ -193,7 +196,7 @@ public class PlayerInteractionHandler : PlayerBase
         {
             ground = collision.GetComponent<Ground>();
             TakeDamage(ground.damageValue);
-
+            if (!healthPositive) { return; }
             switch (Health)
             {
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.75f):

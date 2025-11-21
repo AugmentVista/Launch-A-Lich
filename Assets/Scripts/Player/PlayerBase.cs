@@ -7,6 +7,8 @@ public class PlayerBase : MonoBehaviour
 
     private const int baseMaxHealth = 100;
 
+    public bool healthPositive = true;
+
     public float maxHealthUpgradeValue;
 
     public float maxHealthUpgradeCount;
@@ -30,6 +32,7 @@ public class PlayerBase : MonoBehaviour
     {
         MaxHealth = baseMaxHealth + (int)ApplyMaxHealthUpgrade();
         Health = MaxHealth;
+        healthPositive = true;
     }
 
     public void UpgradeMaxHealth(float purchaseCount, float improvementMod)
@@ -169,7 +172,6 @@ public class PlayerBase : MonoBehaviour
         Vector2 force = direction * magnitude;
         playerRb.AddForce(force, ForceMode2D.Impulse);
 
-        //Debug.LogWarning($"NegativeLogarithmicBounce: InputX: {inputX}, Y: {y:F2}, Force: {force}");
     }
 
     /// <summary>
@@ -233,8 +235,16 @@ public class PlayerBase : MonoBehaviour
     {
         int newHealth = Health -= damage;
 
-        if (newHealth <= 0f) { Health = 0; }
-        else if (newHealth > 0) { Health = newHealth; }
+        if (newHealth <= 0f) 
+        { 
+            Health = 0;
+            healthPositive = false;
+        }
+        else if (newHealth > 0) 
+        { 
+            Health = newHealth;
+            healthPositive = true;
+        }
 
         if (Health == 0f) { Stop(); }
     }

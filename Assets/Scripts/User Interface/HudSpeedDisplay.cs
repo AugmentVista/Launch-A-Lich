@@ -50,26 +50,29 @@ public class HudSpeedDisplay : MonoBehaviour
 
     public void FillHeight()
     {
-        float currentHeight = Mathf.Lerp(groundHeight, ceilingHeight, PlayerResultsManager.currentHeight);
+        float rawHeight = PlayerResultsManager.currentHeight - groundHeight;
 
-        float normalizedFillValue = Mathf.Clamp01(ceilingHeight / currentHeight);
-        
+        float normalizedFillValue = Mathf.Clamp01(rawHeight / (ceilingHeight - groundHeight));
+
         heightImage.fillAmount = normalizedFillValue;
 
-        if (heightImage.fillAmount < tooLowWarning)
+        if (normalizedFillValue < tooLowWarning)
         {
             warningTextLow.text = "Warning!\nLow Altitude";
+            warningTextHigh.text = "";
         }
-        else if (heightImage.fillAmount > tooHighWarning)
+        else if (normalizedFillValue > tooHighWarning)
         {
             warningTextHigh.text = "Warning!\nHigh Altitude";
+            warningTextLow.text = "";
         }
-        else if (heightImage.fillAmount > tooLowWarning && heightImage.fillAmount < tooHighWarning)
+        else
         {
             warningTextLow.text = "";
             warningTextHigh.text = "";
         }
     }
+
 
     public void MeasureTravel()
     {

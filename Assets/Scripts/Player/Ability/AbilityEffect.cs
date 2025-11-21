@@ -6,7 +6,7 @@ public class AbilityEffect : MonoBehaviour
 
     [SerializeField] private Transform visualTransform;
 
-    private bool armed = true;
+    private bool armed = true; // bool flag to prevent multi hits
 
     private Rigidbody2D playerRb;
 
@@ -16,18 +16,11 @@ public class AbilityEffect : MonoBehaviour
 
     [SerializeField] bool downForce;
 
-    private Transform playerTransform;
-
     private void Start()
     {
         float clipLength = animator.GetCurrentAnimatorStateInfo(0).length;
         Destroy(gameObject, clipLength);
     }
-
-    //public void SetPlayerTransform(Transform transform)
-    //{
-    //    playerTransform = transform;
-    //}
 
     public void SetPlayerRb(Rigidbody2D rb)
     {
@@ -44,13 +37,21 @@ public class AbilityEffect : MonoBehaviour
         { 
             relativeAbilityStrength = abilityStrength; 
         }
-        
     }
 
+    public bool DoesPlayerHaveHealth() // checking if the player has 0 hp
+    {
+        PlayerInteractionHandler player = playerRb.gameObject.GetComponent<PlayerInteractionHandler>();
+        if (player == null) { return false; }
+
+        if (player.healthPositive) { return true; }
+        else { return false; }
+    }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!armed) return; 
+        if (!armed) return;
+        if (!DoesPlayerHaveHealth()) { return; }
 
         if (collision.gameObject.CompareTag("Player"))
         {
