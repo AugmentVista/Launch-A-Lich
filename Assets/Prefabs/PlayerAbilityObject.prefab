@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e749d45e3fa8f48893380f1244bc0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followLag: 4
+  followLag: 2
 --- !u!50 &5127841749025798360
 Rigidbody2D:
   serializedVersion: 5

@@ -76,7 +76,7 @@ public class HudSpeedDisplay : MonoBehaviour
 
     public void MeasureTravel()
     {
-        goalText.text = $"{PlayerResultsManager.currentDistance:F0}";
+        goalText.text = $"{PlayerResultsManager.currentDistance:F0} Traveled";
     }
 
 }

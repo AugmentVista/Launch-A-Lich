@@ -174,19 +174,19 @@ public class PlayerInteractionHandler : PlayerBase
             switch (Health)
             {
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.75f):
-                    ApplyExp2Force(5f, ground.damageValue + Mathf.Abs(playerRb.linearVelocityY)/2  + ApplyBounceyUpgrade());
+                    ApplyExp2Force(5f, ground.damageValue   + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.5f):
-                    ApplyExp2Force(6f, ground.damageValue + Mathf.Abs(playerRb.linearVelocityY)/2  + ApplyBounceyUpgrade());
+                    ApplyExp2Force(6f, ground.damageValue   + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth * 0.5f && i >= MaxHealth * 0.25f):
-                    ApplyExp2Force(7f, ground.damageValue + Mathf.Abs(playerRb.linearVelocityY)/2  + ApplyBounceyUpgrade());
+                    ApplyExp2Force(7f, ground.damageValue   + ApplyBounceyUpgrade());
                     break;
 
                 case int i when (i < MaxHealth * 0.25f && i >= 0f):
-                    ApplyExp2Force(8f, ground.damageValue + Mathf.Abs(playerRb.linearVelocityY)/2  + ApplyBounceyUpgrade());
+                    ApplyExp2Force(8f, ground.damageValue   + ApplyBounceyUpgrade());
                     break;
             }
             if (Health <= 0) { playerAnim.PlayDeath(); }

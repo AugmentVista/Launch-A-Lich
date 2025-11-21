@@ -3,7 +3,7 @@ using UnityEngine;
 public class AbilityFollow : MonoBehaviour
 {
     private Vector3 screenspaceClickPos;
-    [Range(4f, 8f)] public float followLag;
+    [Range(2f, 8f)] public float followLag;
 
     // Called once at spawn arugment provided by PlayerAbility
     public void SetScreenspaceClick(Vector3 screenPos)
