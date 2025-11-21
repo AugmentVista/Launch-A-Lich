@@ -9,7 +9,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 offset = new Vector3(5, 4f, -10f);
 
-    private Vector3 velocity = Vector3.zero; // initalize as zero
+    
 
     [Header("Lag Settings")]
     [SerializeField] private float baseFollowSpeed = 5f;
@@ -34,16 +34,12 @@ public class CameraFollow : MonoBehaviour
     private void OnEnable()
     {
         PlayerStateMachine.OnReadyToLaunch += PlayerAlive;
-        PlayerStateMachine.OnFlying += PlayerAlive;
-        PlayerStateMachine.OnGrounded += PlayerAlive;
         PlayerStateMachine.OnStopped += PlayerDead;
     }
 
     private void OnDisable()
     {
         PlayerStateMachine.OnReadyToLaunch -= PlayerAlive;
-        PlayerStateMachine.OnFlying -= PlayerAlive;
-        PlayerStateMachine.OnGrounded -= PlayerAlive;
         PlayerStateMachine.OnStopped -= PlayerDead;
     }
 
@@ -59,7 +55,6 @@ public class CameraFollow : MonoBehaviour
 
     private void AdjustBackground()
     {
-        if (playerIsDead) { return; }
         if (isBackground)
         {
             transform.position = target.position + offset;
@@ -74,9 +69,13 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
+    private Vector3 velocity = Vector3.zero; // initalize as zero
+
     void LateUpdate()
     {
-        if (playerIsDead || target == null) { return; }
+        if (playerIsDead) { return; }
+
+        if (target == null) { return; }
 
         AdjustBackground();
 

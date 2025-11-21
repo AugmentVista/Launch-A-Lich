@@ -5,8 +5,10 @@ public class SpeedLimit : MonoBehaviour
     [SerializeField] Rigidbody2D playerRb;
 
     public float maxSpeedX;
+    private float baseMaxSpeedX = 50;
 
     public float maxSpeedY;
+    private float baseMaxSpeedY = 50;
 
     [SerializeField] float baseLinearDampeningValue;
 
@@ -21,12 +23,16 @@ public class SpeedLimit : MonoBehaviour
 
     private float fullColorThreshold = 0.25f;
 
-    public bool overSpeed;
+    private float gravityStepFactor = 0.5f;
+
+    private float percentageIncrement = 0.10f;
+
+    public bool overSpeed = false;
 
     void Start()
     {
-        if (playerRb == null)
-            playerRb = GetComponent<Rigidbody2D>();
+        if (playerRb == null) { playerRb = GetComponent<Rigidbody2D>(); }
+            
         baseLinearDampeningValue = playerRb.linearDamping;
         baseGravityScale = playerRb.gravityScale;
     }
@@ -37,7 +43,7 @@ public class SpeedLimit : MonoBehaviour
         maxSpeedUpgradeValue = improvementMod;
     }
 
-    float ApplyMaxSpeedUpgrade()
+    private float ApplyMaxSpeedUpgrade()
     {
         if (maxSpeedUpgradesCount > 0)
             maxSpeedUpgradesActive = maxSpeedUpgradesCount * maxSpeedUpgradeValue;
@@ -47,11 +53,13 @@ public class SpeedLimit : MonoBehaviour
         return maxSpeedUpgradesActive;
     }
 
-
     void Update()
     {
-        float currentSpeedX = Mathf.Abs(playerRb.linearVelocityX);
-        float currentSpeedY = (playerRb.linearVelocityY);
+        maxSpeedX = baseMaxSpeedX + ApplyMaxSpeedUpgrade();
+        maxSpeedY = baseMaxSpeedY + ApplyMaxSpeedUpgrade();
+
+        float currentSpeedX = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
+        float currentSpeedY = (PlayerResultsManager.globalPlayerSpeedY);
 
         float dampX = CalculateDamping(currentSpeedX);
         float gravityY = CalculateGravityDrag(currentSpeedY);
@@ -65,11 +73,11 @@ public class SpeedLimit : MonoBehaviour
 
     private float CalculateGravityDrag(float velocity)
     {
-        if (velocity <= maxSpeedY)
-            return baseGravityScale;
+        if (velocity <= maxSpeedY) { return baseGravityScale; }
 
-        float excessRatio = (velocity - maxSpeedY) / maxSpeedY;
-        float addedGravity = excessRatio * (0.5f / 0.05f);// add 0.5 gravity scale every 5% over maxSpeedY
+        float excessRatio = Mathf.Clamp01((velocity - maxSpeedY) / maxSpeedY);
+
+        float addedGravity = excessRatio * (gravityStepFactor / percentageIncrement);// add 0.5 gravity scale every 10% over maxSpeedY
         return baseGravityScale + addedGravity;
     }
 
@@ -104,7 +112,7 @@ public class SpeedLimit : MonoBehaviour
             hudDisplay.speedText.color = Color.Lerp(currentColor, targetColor, Time.deltaTime * 10f);
 
             if (excess > 0) { overSpeed = true; }
-            else if (excess <= 0) { overSpeed = false; }
+            if (excess <= 0) { overSpeed = false; }
         }
     }
 

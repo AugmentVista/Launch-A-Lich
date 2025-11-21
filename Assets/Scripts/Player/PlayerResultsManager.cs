@@ -12,18 +12,17 @@ public class PlayerResultsManager : MonoBehaviour
 
     [SerializeField] Rigidbody2D playerRb;
 
-    private bool isGameplayHappening;
+    private bool isGameplayHappening = false;
     private bool badValueX = false;
     private bool badValueY = false;
 
-    public static float globalPlayerSpeedX;
-    public static float globalPlayerSpeedY;
-    public static float currentDistance;
+    public static float globalPlayerSpeedX = 0;
+    public static float globalPlayerSpeedY = 0;
+    public static float currentDistance = 0;
+    public static float currentHeight = 0;
 
     public GameObject player;
     public GameObject ground;
-
-    public GameObject ParallaxBackground;
 
     public UIManager UIManager;
 
@@ -31,8 +30,8 @@ public class PlayerResultsManager : MonoBehaviour
 
     public float highScoreX = 0f;
     public float highScoreY = 0f;
-    private float heightReached;
-    private float distanceReached;
+    private float heightReached = 0f;
+    private float distanceReached = 0f;
 
     private int enemyGoldThisRun = 0;
     private int itemGoldThisRun = 0;
@@ -42,10 +41,24 @@ public class PlayerResultsManager : MonoBehaviour
 
     public TextMeshProUGUI goldText;
 
+    void Awake()
+    {
+        globalPlayerSpeedX = 0;
+        globalPlayerSpeedY = 0;
+        currentDistance = 0;
+        currentHeight = 10f;
+
+        heightReached = 0;
+        distanceReached = 0;
+
+        enemyGoldThisRun = 0;
+        itemGoldThisRun = 0;
+
+        isGameplayHappening = false;
+    }
+
     private void Start()
     {
-        ParallaxBackground.SetActive(true);
-
         progressBarFill.fillAmount = 0f;
     }
 
@@ -86,7 +99,7 @@ public class PlayerResultsManager : MonoBehaviour
     public void ScoreTracking()
     {
         currentDistance = player.transform.position.x;
-        float currentHeight = player.transform.position.y;
+        currentHeight = player.transform.position.y;
 
         if (heightReached < currentHeight) { heightReached = currentHeight; if (heightReached > highScoreY) highScoreY = heightReached; }
         if (distanceReached < currentDistance) { distanceReached = currentDistance; if (distanceReached > highScoreX) highScoreX = distanceReached; }
@@ -173,8 +186,7 @@ public class PlayerResultsManager : MonoBehaviour
     IEnumerator ResultsDelay()
     {
         yield return new WaitForSeconds(1.5f);
-        CalcuateGoldEarned(distanceReached, heightReached); // I don't need the last two arguments?
-        // They are already updated acessible variables
+        CalcuateGoldEarned(distanceReached, heightReached);
         UIManager.B_Results();
     }
 
@@ -195,11 +207,12 @@ public class PlayerResultsManager : MonoBehaviour
             $"Total: {bank.Balance - totalRunGold} + {totalRunGold}";
     }
 
-    public void ResetVariables() // was trying to work out the order this should be and when it should be when I discovered everything above that has been commented out
+    public void ResetVariables()
     {
         globalPlayerSpeedX = 0f;
         globalPlayerSpeedY = 0f;
         currentDistance = 0f;
+        currentHeight = 10f;
         ResetResults();
         GamePlayPause();
     }

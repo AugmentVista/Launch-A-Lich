@@ -16,6 +16,7 @@ public class PlayerBase : MonoBehaviour
     public Rigidbody2D playerRb;
 
     [SerializeField] private float maxFallSpeed = -100f;
+    [SerializeField] private float maxAscensionSpeed = 300f;
 
     [SerializeField] private PlayerStateMachine stateMachine;
 
@@ -59,6 +60,7 @@ public class PlayerBase : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
 
         if (playerRb.linearVelocityY < maxFallSpeed) { playerRb.linearVelocityY = maxFallSpeed; }
+        if (playerRb.linearVelocityY > maxAscensionSpeed) { playerRb.linearVelocityY = maxAscensionSpeed; }
     }
 
 

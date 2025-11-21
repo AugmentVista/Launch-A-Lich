@@ -78,7 +78,7 @@ public class PlayerInteractionHandler : PlayerBase
         bouncyUpgradeValue = improvementMod;
     }
 
-    [SerializeField] private float ApplyBounceyUpgrade()
+    [SerializeField]private float ApplyBounceyUpgrade()
     {
         if (bouncyUpgradesCount > 0)
             bouncyUpgradesActive = bouncyUpgradesCount * bouncyUpgradeValue;
