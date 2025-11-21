@@ -6,6 +6,8 @@ public class Enemy : MonoBehaviour
     public bool isDead = false;
     public float baseSpeed;
 
+    public bool customMovement;
+
     public int damageValue;
     public int moneyValue;
     public enum Type {Flying, Grounded };
@@ -14,7 +16,7 @@ public class Enemy : MonoBehaviour
     public GameObject deathPrefab;
     void Update()
     {
-        if (!isDead)
+        if (!isDead && !customMovement)
         {
             float relativeMult = Random.Range(0.5f, 0.8f);
             moveSpeed = Mathf.Max(baseSpeed, PlayerResultsManager.globalPlayerSpeedX * relativeMult);

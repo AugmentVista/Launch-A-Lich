@@ -192,7 +192,7 @@ public class PlayerInteractionHandler : PlayerBase
 
         }
 
-        if (collision.CompareTag("Celling"))
+        if (collision.CompareTag("Ceiling"))
         {
             ground = collision.GetComponent<Ground>();
 

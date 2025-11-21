@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7633461628234730085}
   - component: {fileID: 6506596179576346107}
   - component: {fileID: 7634430687119515579}
+  - component: {fileID: -6355523282046078683}
   m_Layer: 6
   m_Name: Item Ground
   m_TagString: Item
@@ -171,5 +172,17 @@ MonoBehaviour:
   supportValue: 0
   moneyValue: 4
   type: 1
-  tier: 0
+  tier: 1
   deathPrefab: {fileID: 0}
+--- !u!114 &-6355523282046078683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3020272124151466552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39b83ac8b07f3eb46b5928558cad2512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

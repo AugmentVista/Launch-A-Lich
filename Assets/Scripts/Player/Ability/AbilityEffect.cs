@@ -31,7 +31,7 @@ public class AbilityEffect : MonoBehaviour
     {
         if (PlayerResultsManager.globalPlayerSpeedY < 0 && !downForce)
         {
-            relativeAbilityStrength = abilityStrength + PlayerResultsManager.globalPlayerSpeedY * -1;
+            relativeAbilityStrength = Mathf.Max(abilityStrength, PlayerResultsManager.globalPlayerSpeedY * -0.75f);
         }
         else 
         { 

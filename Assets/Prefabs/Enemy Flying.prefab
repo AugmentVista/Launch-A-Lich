@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2900234308310453448}
   - component: {fileID: 8340735773484740312}
   - component: {fileID: 4947889251600624796}
+  - component: {fileID: 5716178792326692795}
+  - component: {fileID: 3410199686108046960}
   m_Layer: 6
   m_Name: Enemy Flying
   m_TagString: Enemy
@@ -195,3 +197,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5716178792326692795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4302006093261710066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39b83ac8b07f3eb46b5928558cad2512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3410199686108046960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4302006093261710066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec8570ec248fb142b174e1c79987d97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snakeFrequency: 2
+  snakeAmplitude: 0.5

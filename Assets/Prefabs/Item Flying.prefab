@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1446005976578240911}
   - component: {fileID: 5945824292595923845}
   - component: {fileID: 354536901746810292}
+  - component: {fileID: -4084754068299243647}
   m_Layer: 6
   m_Name: Item Flying
   m_TagString: Item
@@ -168,8 +169,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treat: {fileID: 11400000, guid: 47af7cb58c9b7bc46a48fe909483413a, type: 2}
   isDead: 0
-  healValue: 8
+  supportValue: 0
   moneyValue: 10
   type: 0
   tier: 0
   deathPrefab: {fileID: 0}
+--- !u!114 &-4084754068299243647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640966646589641564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39b83ac8b07f3eb46b5928558cad2512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

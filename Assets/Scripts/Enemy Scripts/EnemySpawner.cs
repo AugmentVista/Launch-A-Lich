@@ -4,27 +4,24 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
 
-    [SerializeField] GameObject GroundEnemy;
-    [SerializeField] GameObject FlyingEnemy;
-    [SerializeField] GameObject FlyingChargedEnemy;
+    [SerializeField] GameObject[] groundEnemies;
+    [SerializeField] GameObject[] flyingEnemies;
 
     [SerializeField] SpeedLimit speedLimit;
+    [SerializeField] GameObject ceiling;
+
     private float speedLimitX;
     private float spawnInterval = 0.25f;
-    public float spawnY;
-    public float spawnOffset = 2f;  // how far past right edge to spawn
+    private float spawnY;
 
-    [SerializeField] private float minSpawnRate = 0.5f;
-    [SerializeField] private float maxSpawnRate = 0.15f;
+    [SerializeField] float minSpawnRate = 0.5f;
+    [SerializeField] float maxSpawnRate = 0.15f;
 
     private Camera cam;
     private bool canSpawn = false;
     private float timer = 0f;
 
-    void Awake()
-    {
-        cam = Camera.main;
-    }
+    void Awake() { cam = Camera.main; }
 
     void OnEnable()
     {
@@ -35,7 +32,6 @@ public class EnemySpawner : MonoBehaviour
 
         PlayerStateMachine.OnInactive += DisableSpawning;
         PlayerStateMachine.OnStopped += DisableSpawning;
-
     }
 
     void OnDisable()
@@ -51,100 +47,102 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        if (canSpawn)
+        if (!canSpawn) return;
+
+        speedLimitX = speedLimit.maxSpeedX;
+
+        float x = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
+        float y = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedY);
+
+        float effectiveSpeed = (x * 2f + y * 1f) / 3f;
+
+        float speedDeterminedSpawnRange = Mathf.InverseLerp(20f, speedLimitX, effectiveSpeed);
+        float scaledInterval = Mathf.Lerp(0.1f, 1.0f, speedDeterminedSpawnRange);
+
+        spawnInterval = Mathf.Clamp(Mathf.Round(scaledInterval * 10f) / 10f, maxSpawnRate, minSpawnRate);
+
+        if (PlayerResultsManager.globalPlayerSpeedY > 10 || PlayerResultsManager.globalPlayerSpeedY < -10f)
         {
-            speedLimitX = speedLimit.maxSpeedX;
-            float speed = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
+            SpawnFlyingEnemies();
+        }
+        else
+        {
+            SpawnGroundedEnemies();
+        }
 
-            float speedDeterminedSpawnRange = Mathf.InverseLerp(20f, speedLimitX, speed);
-            float scaledInterval = Mathf.Lerp(0.1f, 1.0f, speedDeterminedSpawnRange);
 
-            spawnInterval = Mathf.Clamp((float)Mathf.Round(scaledInterval * 10f) / 10f, maxSpawnRate, minSpawnRate);
+        timer += Time.deltaTime;
 
-            if (PlayerResultsManager.globalPlayerSpeedY > 10 || PlayerResultsManager.globalPlayerSpeedY < -10f)
-            {
-                SpawnFlyingEnemies();
-            }
-            else { SpawnGroundedEnemies(); }
-
-            timer += Time.deltaTime;
-
-            if (timer >= spawnInterval)
-            {
-                SpawnEnemy();
-                timer = 0f;
-            }
+        if (timer >= spawnInterval)
+        {
+            SpawnEnemy();
+            timer = 0f;
         }
     }
 
     void SpawnFlyingEnemies()
     {
+        float dist = PlayerResultsManager.currentDistance;
 
-        // Ternary Operator condition ? valueIfTrue : valueIfFalse;
-        // INCORRECT USAGE if (PlayerResultsManager.currentDistance > 500 ? enemyPrefab = FlyingChargedEnemy : enemyPrefab = FlyingEnemy)
-        // Correct Usage. Variable assigned to an expression that can be true or false followed by a ? followed the true answer separated from the false answer with :
-        enemyPrefab = PlayerResultsManager.currentDistance > 500 ? FlyingChargedEnemy : FlyingEnemy;
+        if (dist < 1000f) enemyPrefab = flyingEnemies[0];
+        else if (dist < 3000f) enemyPrefab = flyingEnemies[1];
+        else enemyPrefab = flyingEnemies[2];
 
-        Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
-        Vector3 topEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, cam.nearClipPlane));
+        Vector3 bottom = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, 0));
+        Vector3 top = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, 0));
 
-        float randomY = Random.Range(bottomEdge.y + Random.Range(10f, 15f), topEdge.y - 1f);
-
-        spawnY = Mathf.Clamp(randomY, 10f, float.MaxValue);
+        float randomY = Random.Range(bottom.y + 5f, top.y - 5f);
+        spawnY = randomY;
     }
 
     void SpawnGroundedEnemies()
     {
-        enemyPrefab = GroundEnemy;
+        float dist = PlayerResultsManager.currentDistance;
+
+        if (dist < 1500f) enemyPrefab = groundEnemies[0];
+        else if (dist < 3000f) enemyPrefab = groundEnemies[1];
+        else enemyPrefab = groundEnemies[2];
 
         spawnY = 0f;
     }
-
 
     private void SpawnEnemy()
     {
         if (enemyPrefab == null) return;
 
         CapsuleCollider2D prefabCollider = enemyPrefab.GetComponent<CapsuleCollider2D>();
-        if (prefabCollider == null)
-        {
-            Debug.LogError("Enemy prefab does not have a BoxCollider2D attached.");
-            return;
-        }
+        if (prefabCollider == null) return;
 
-        Vector2 colliderSize = prefabCollider.size;
-        Vector2 overlapBoxSize = colliderSize * 2f; // Double the size for spacing
-
+        Vector2 overlapSize = prefabCollider.size * 4f;
         Vector2 rightEdge = cam.ViewportToWorldPoint(new Vector3(1, 0.5f, 0));
 
-        const int maxAttempts = 20;
+        const int maxAttempts = 10;
+
         for (int attempt = 0; attempt < maxAttempts; attempt++)
         {
-            float randomSpawnOffset = Random.Range(0.25f, 0.75f);
-            Vector2 spawnPos = new Vector2(rightEdge.x + randomSpawnOffset, spawnY);
+            float offset = Random.Range(0.25f, 10f);
+            Vector2 spawnPos = new Vector2(rightEdge.x + offset, spawnY);
 
-            Collider2D hit = Physics2D.OverlapBox(spawnPos, overlapBoxSize, 0f, LayerMask.GetMask("Enemies"));
+            Collider2D hit = Physics2D.OverlapBox(spawnPos, overlapSize, 0f, LayerMask.GetMask("Enemies", "Item"));
 
-            if (hit == null || !hit.CompareTag("Enemy") && !hit.CompareTag("Item"))
+            if (hit == null)
             {
                 GameObject instance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
 
-                if (enemyPrefab == GroundEnemy)
+                for (int i = 0; i < groundEnemies.Length; i++)
                 {
-                    Vector3 scale = instance.transform.localScale;
-                    scale.x *= -1;
-                    instance.transform.localScale = scale;
+                    if (enemyPrefab == groundEnemies[i])
+                    {
+                        Vector3 scale = instance.transform.localScale;
+                        scale.x *= -1;
+                        instance.transform.localScale = scale;
+                    }
                 }
                 return;
             }
         }
-
-        Debug.LogWarning("EnemySpawner: Could not find valid spawn position after multiple attempts.");
     }
-
-
 
     private void EnableSpawning() => canSpawn = true;
     private void DisableSpawning() => canSpawn = false;
-
 }
