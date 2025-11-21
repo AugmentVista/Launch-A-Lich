@@ -31,7 +31,5 @@ public class TreatPickUp : ScriptableObject
 
     public float improvementModifier;
 
-    public bool hasBeenCollected;
-
     public TreatType treatType;
 }

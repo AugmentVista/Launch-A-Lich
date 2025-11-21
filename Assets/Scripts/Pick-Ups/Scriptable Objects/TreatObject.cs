@@ -16,9 +16,8 @@ public class TreatObject : MonoBehaviour
     public Sprite treatSprite;
 
     [Header("Variables")]
-    public bool hasBeenCollected;
-    public int amountCollected;  // convert this to a TMP_Text.text to update visual count
-    
+    public int amountCollected = 0;  // convert this to a TMP_Text.text to update visual count
+
 
     private void Awake()
     {
@@ -28,9 +27,6 @@ public class TreatObject : MonoBehaviour
 
     public void SetupTreat()
     {
-        Debug.Log("Setup Treat called");
-        hasBeenCollected = false;
-        amountCollected = 0;
         activeSprite.sprite = locked;
         switch (treatPickUp.treatType)
         {
@@ -81,14 +77,15 @@ public class TreatObject : MonoBehaviour
                 break;
         }
         treatSprite = treatPickUp.treatUnlocked;
-        Debug.Log(treatSprite.name.ToString());
+
         UpdateCompendium();
     }
 
-    public void IncrementTotalCollected()
+    public void IncrementTotalCollected(int amountCollectedThisRun)
     {
-        amountCollected += 1;
+        amountCollected += amountCollectedThisRun;
     }
+
 
     private void UpdateCompendium()
     {

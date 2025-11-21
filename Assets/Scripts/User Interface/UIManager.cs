@@ -5,6 +5,7 @@ public class UIManager : MonoBehaviour
 {
 
     [SerializeField] Respawner respawner;
+    [SerializeField] TreatManager treatManager;
 
     [Header("UI Screens")]
     public GameObject Menu;
@@ -178,6 +179,7 @@ public class UIManager : MonoBehaviour
         LastScreenActive = GetCurrentActiveScreen();
 
         SetScreen(Results);
+        treatManager.ApplyRunResultsToTreatObjects();
     }
 
     public void B_Return()

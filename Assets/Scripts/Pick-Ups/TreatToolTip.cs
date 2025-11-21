@@ -17,6 +17,11 @@ public class TreatToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     private void Update()
     {
+        TreatsVisualManagement();
+    }
+
+    public void TreatsVisualManagement()
+    {
         if (treatObject.ConfirmTreatCollection() >= 5)
         {
             treatObject.activeSprite.sprite = treatObject.treatSprite;
@@ -29,12 +34,12 @@ public class TreatToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             hintOnHoverEnabled = true;
             return;
         }
-        else 
+        else
         {
             treatObject.activeSprite.sprite = treatObject.locked;
         }
-        
     }
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -44,19 +49,17 @@ public class TreatToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
         if (statsOnHoverEnabled)
         {
-            infoText.text = treatPickUp.statsText;
+            infoText.text = treatPickUp.statsText + $" collected: {treatObject.amountCollected}";
         }
         else if (hintOnHoverEnabled)
         {
-            infoText.text = treatPickUp.hintText;
+            infoText.text = treatPickUp.hintText + $" Find {5 - treatObject.amountCollected} to unlock";
         }
-
     }
 
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        TreatPickUp treatPickUp = treatObject.treatPickUp;
         infoText.text = "";
         infoText.text = "";
         infoBackgroundImage.gameObject.SetActive(false);
