@@ -59,13 +59,15 @@ public class SpeedLimit : MonoBehaviour
         maxSpeedY = baseMaxSpeedY + ApplyMaxSpeedUpgrade();
 
         float currentSpeedX = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
-        float currentSpeedY = (PlayerResultsManager.globalPlayerSpeedY);
+        float currentSpeedY = PlayerResultsManager.globalPlayerSpeedY;
+
+        // DIRECT overspeed check
+        overSpeed = currentSpeedX > maxSpeedX;
 
         float dampX = CalculateDamping(currentSpeedX);
         float gravityY = CalculateGravityDrag(currentSpeedY);
 
         playerRb.linearDamping = Mathf.Lerp(playerRb.linearDamping, dampX, Time.deltaTime * 5f);
-
         playerRb.gravityScale = Mathf.Lerp(playerRb.gravityScale, gravityY, Time.deltaTime * 5f);
 
         UpdateSpeedTextColor(playerRb.linearDamping);
@@ -110,9 +112,6 @@ public class SpeedLimit : MonoBehaviour
 
             Color currentColor = hudDisplay.speedText.color;
             hudDisplay.speedText.color = Color.Lerp(currentColor, targetColor, Time.deltaTime * 10f);
-
-            if (excess > 0) { overSpeed = true; }
-            if (excess <= 0) { overSpeed = false; }
         }
     }
 

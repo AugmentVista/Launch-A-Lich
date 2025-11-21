@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Jelly
   m_EditorClassIdentifier: 
   nameOfTreat: 
-  hintText: Jelly
+  hintText: Found 4,000+ meters
   statsText: stats for jelly
   allTreatSprites:
   - {fileID: 21300000, guid: 1f7b00790183e42c791ca32bbe933266, type: 3}
@@ -28,5 +28,4 @@ MonoBehaviour:
   treatUnlocked: {fileID: 21300000, guid: 1d6cf6427f9174c38aab25733509b061, type: 3}
   amountCollected: 0
   improvementModifier: 0
-  hasBeenCollected: 0
   treatType: 8

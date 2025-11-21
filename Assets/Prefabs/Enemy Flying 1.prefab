@@ -171,7 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDead: 0
   baseSpeed: 14
-  customMovement: 0
+  customMovement: 1
   hitByPlayerAbility: 0
   damageValue: 6
   moneyValue: 8
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4302006093261710066}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ec8570ec248fb142b174e1c79987d97, type: 3}
   m_Name: 

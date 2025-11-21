@@ -66,7 +66,7 @@ public class UIManager : MonoBehaviour
             float speed = PlayerResultsManager.globalPlayerSpeedX;
 
             // Clamp the raw speed between 25 and 150
-            float clampedSpeed = Mathf.Clamp(speed, 25f, 150f);
+            float clampedSpeed = Mathf.Clamp(speed, 20f, 100f);
 
             // Normalize (100 -> 0, 25 -> 1)
             float normalizedSpeed = Mathf.InverseLerp(100f, 25f, clampedSpeed);

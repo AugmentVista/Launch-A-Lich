@@ -74,7 +74,7 @@ public class InstructionsSpeechBubble : MonoBehaviour
                 HealthBar.SetActive(true);
                 break;
             case 4:
-                speechBubble.setDialogueText("Grab upgrades after each run.");
+                speechBubble.setDialogueText("Cash out for Upgrades after each run");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 HealthBar.SetActive(false);
                 GoldIcon.SetActive(true);

@@ -52,11 +52,11 @@ public class TreatToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
         if (statsOnHoverEnabled)
         {
-            infoText.text = treatPickUp.statsText + $" collected: {treatObject.amountCollected}";
+            infoText.text = treatPickUp.statsText + $" collected: {treatObject.amountCollected} All time";
         }
         else if (hintOnHoverEnabled)
         {
-            infoText.text = treatPickUp.hintText + $" Find {5 - treatObject.amountCollected} to unlock";
+            infoText.text = treatPickUp.hintText + $"Collect {5 - treatObject.amountCollected} more to complete this treat";
         }
     }
 

@@ -41,6 +41,7 @@ public class PlayerAbility : MonoBehaviour
         PlayerStateMachine.OnStopped += DisableAbility;
         PlayerStateMachine.OnInactive += DisableAbility;
         PlayerStateMachine.OnReadyToLaunch += DisableAbility;
+        PlayerStateMachine.OnReadyToLaunch += ResetMana;
     }
 
     private void OnDisable()
@@ -50,6 +51,13 @@ public class PlayerAbility : MonoBehaviour
         PlayerStateMachine.OnStopped -= DisableAbility;
         PlayerStateMachine.OnInactive -= DisableAbility;
         PlayerStateMachine.OnReadyToLaunch -= DisableAbility;
+        PlayerStateMachine.OnReadyToLaunch += ResetMana;
+    }
+
+    public void ResetMana()
+    {
+        currentMana = maxMana;
+        abilityCooldown.UpdateMana(currentMana);
     }
 
     private void Update()

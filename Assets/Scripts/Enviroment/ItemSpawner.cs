@@ -103,7 +103,6 @@ public class ItemSpawner : MonoBehaviour
             case float distance when (distance < 1500f):
                 itemPrefab = flyingItems[1];
                 break;
-
             case float distance when (distance >= 3000f):
                 itemPrefab = flyingItems[2];
                 break;
