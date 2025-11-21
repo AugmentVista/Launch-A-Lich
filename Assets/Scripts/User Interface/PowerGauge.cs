@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -13,11 +14,11 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     Vector2 aimDirection;
 
     [Header("Launcher Variables")]
-    [SerializeField] Image gauge;
     [SerializeField] Rigidbody2D playerRb;
     [SerializeField] UIManager UIManager;
 
-    [SerializeField] Transform launchArrowTransform;
+    [SerializeField] Transform launchCrystalTransform;
+    [SerializeField] bool inverted = true;
 
     [SerializeField] float chargeSpeed;
     [SerializeField]float launchForceMultiplier;
@@ -37,11 +38,20 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     bool fullyCharged = false;
 
+    float finalCharge = 0f;          // Stores charge at release
+    bool isLaunching = false;        // Prevents double-activation
+    [SerializeField] float laserDuration = 3f;
+
+    [SerializeField] Animator laser;
+    [SerializeField] TextMeshProUGUI chargeText;
+    private enum GaugeState { Idle, Charging, Laser, Launching }
+    private GaugeState state = GaugeState.Idle;
+
 
     // Cheat sheet index inputX -> angle above x-axis (logarithmic scaling)
     private readonly Dictionary<int, float> inputXToAngle = new Dictionary<int, float>()
     {
-        {2, 85f}, {3, 81f}, {4, 78f}, {5, 75f}, {6, 72f},
+        //{2, 85f}, {3, 81f}, {4, 78f}, {5, 75f}, {6, 72f},
         {7, 70f}, {8, 67f}, {9, 65f}, {10, 63f}, {11, 61f},
         {12, 59f}, {13, 57f}, {14, 55f}, {15, 53f}, {16, 51f},
         {17, 49f}, {18, 48f}, {19, 46f}, {20, 44f}, {21, 43f},
@@ -71,39 +81,68 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void Update()
     {
-        if (!UIManager.Gameplay.activeSelf) { return; }
-        if (!Respawner.hasPlayerReturnedToLaunchpad) { return; }
+        if (!UIManager.Gameplay.activeSelf) return;
+        if (!Respawner.hasPlayerReturnedToLaunchpad) return;
 
+        if (state == GaugeState.Launching && Respawner.hasPlayerReturnedToLaunchpad)
+        {
+            ResetLauncher();
+            state = GaugeState.Idle;
+        }
+
+        switch (state)
+        {
+            case GaugeState.Charging:
+                UpdateChargePhase();
+                break;
+
+            case GaugeState.Laser:
+                break;
+
+            case GaugeState.Launching:
+                break;
+
+            case GaugeState.Idle:
+            default:
+                break;
+        }
+    }
+
+    private void UpdateChargePhase()
+    {
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         aimDirection = (mouseWorldPos - transform.position).normalized;
 
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         angle = Mathf.Clamp(angle, 10f, 85f);
 
-        if (launchArrowTransform != null) { launchArrowTransform.rotation = Quaternion.Euler(0f, 180f, 90f - angle); }
+        RotateCrystal(angle);
 
-        if (isCharging && Respawner.hasPlayerReturnedToLaunchpad && !fullyCharged)
-        {
-            DrawTrajectory();
-            lineRenderer.enabled = true;
+        DrawTrajectory();
+        lineRenderer.enabled = true;
+
+        if (!fullyCharged)
             chargeAmount += chargeSpeed * Time.deltaTime;
-            chargeAmount = Mathf.Clamp01(chargeAmount);
-            gauge.fillAmount = chargeAmount;
-
-            if (gauge.fillAmount == 1.0) { fullyCharged = true; }
-        }
-
-        if (isCharging && Respawner.hasPlayerReturnedToLaunchpad && fullyCharged)
-        {
-            DrawTrajectory();
-            lineRenderer.enabled = true;
+        else
             chargeAmount -= chargeSpeed * Time.deltaTime;
-            chargeAmount = Mathf.Clamp01(chargeAmount);
-            gauge.fillAmount = chargeAmount;
 
-            if (gauge.fillAmount == 0.0) { fullyCharged = false; }
-        }
+        chargeAmount = Mathf.Clamp01(chargeAmount);
+
+        if (chargeAmount >= 1f) fullyCharged = true;
+        if (chargeAmount <= 0f) fullyCharged = false;
+
+        chargeText.text = Mathf.RoundToInt(chargeAmount * 100f) + "%";
     }
+
+    private void RotateCrystal(float angle)
+    {
+        float spriteOffset = -90f;
+        if (inverted)
+            launchCrystalTransform.rotation = Quaternion.Euler(0, 180, spriteOffset - angle);
+        else
+            launchCrystalTransform.rotation = Quaternion.Euler(0, 0, spriteOffset + angle);
+    }
+
 
     void DrawTrajectory()
     {
@@ -133,33 +172,69 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        isCharging = true;
+        if (state != GaugeState.Idle) return;
+
+        state = GaugeState.Charging;
         chargeAmount = 0f;
-        gauge.fillAmount = 0f;
+        fullyCharged = false;
+        lineRenderer.enabled = true;
+
+        laser.Play("LaserIdle", 0, 0f); // idle animation during charge
     }
+
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (state != GaugeState.Charging) return;
+
+        state = GaugeState.Laser;
         lineRenderer.enabled = false;
-        isCharging = false;
-        launchForceMultiplier = Mathf.Lerp(minChargeMultiplier + ApplyLauncherUpgrade(), maxChargeMultiplier + ApplyLauncherUpgrade(), chargeAmount);
-        gauge.fillAmount = 0;
-        playerRb.bodyType = RigidbodyType2D.Dynamic;
-        Launch();
+
+        finalCharge = chargeAmount;
+
+        StartCoroutine(PlayLaserThenLaunch());
     }
 
-    private void Launch()
+    IEnumerator PlayLaserThenLaunch()
     {
-        if (!Respawner.hasPlayerReturnedToLaunchpad) { return; }
+        laser.Play("LASER", 0, 0f);
 
-        // Always base force (50), scaled by charge percentage value 0% = min 100% = max
-        float appliedForce = force * launchForceMultiplier;
+        float waitTime = laserDuration * finalCharge;
+        yield return new WaitForSeconds(waitTime);
+
+        ApplyLaunchForce();
+
+        laser.Play("LaserIdle", 0, 0f);
+
+        state = GaugeState.Launching;
+    }
+
+    void ApplyLaunchForce()
+    {
+        playerRb.bodyType = RigidbodyType2D.Dynamic;
+
+        float appliedForce = force * Mathf.Lerp(minChargeMultiplier + ApplyLauncherUpgrade(), maxChargeMultiplier + ApplyLauncherUpgrade(), finalCharge );
 
         float angle = GetAimAngleFromMouse();
         float inputX = GetClosestInputXForAngle(angle);
 
         LogarithmicBounce(inputX, appliedForce);
-        
+        ResetLauncher();
+        state = GaugeState.Idle;
+    }
+
+    private void ResetLauncher()
+    {
+        chargeAmount = 0f;
+        finalCharge = 0f;
+        fullyCharged = false;
+
+        chargeText.text = "0%";
+        lineRenderer.enabled = false;
+
+        // Make sure charging phase starts clean next time
+        isCharging = false;
+        isLaunching = false;
     }
 
     /// <summary>
@@ -219,7 +294,6 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     /// <param name="magnitude"></param>
     public virtual void LogarithmicBounce(float inputX, float magnitude)
     {
-        // Prevent domain errors (log of zero or negative)
         if (inputX <= -2f)
         {
             return;
