@@ -1,5 +1,7 @@
-using UnityEngine;
 using System;
+using TMPro;
+using UnityEngine.UI;
+using UnityEngine;
 
 public class TreatManager : MonoBehaviour
 {
@@ -9,6 +11,10 @@ public class TreatManager : MonoBehaviour
     public TreatObject[] allTreatObjects;
 
     public TreatToolTip[] CompletetionCheck;
+
+    [Header("UI")]
+    public Image progressBar;
+    public TMP_Text progressText;
 
 
     private void OnEnable()
@@ -58,6 +64,36 @@ public class TreatManager : MonoBehaviour
 
             obj.IncrementTotalCollected(count);
         }
+        UpdateTreatProgress();
+    }
+
+    public void UpdateTreatProgress()
+    {
+        float fill = 0f;
+
+        for (int i = 0; i < CompletetionCheck.Length; i++)
+        {
+            var tip = CompletetionCheck[i];
+            int collected = tip.treatObject.ConfirmTreatCollection();
+
+            if (collected >= 5)
+            {
+                fill += 0.07f;     // fully discovered
+            }
+            else if (collected >= 1)
+            {
+                fill += 0.04f;     // revealed but not complete
+            }
+        }
+
+        if (fill >= 0.99f)
+            fill = 1f;
+
+        if (progressBar != null)
+            progressBar.fillAmount = fill;
+
+        if (progressText != null)
+            progressText.text = Mathf.RoundToInt(fill * 100f) + "% Treat Completion";
     }
 
 

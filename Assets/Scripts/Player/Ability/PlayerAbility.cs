@@ -15,6 +15,8 @@ public class PlayerAbility : MonoBehaviour
 
     public float LastUseTime => lastUseTime;
 
+    public Vector2 Offset = new Vector2(0f,4f);
+
     public float boostUpgradeValue;
     public float boostUpgradeCount;
     private float boostUpgradesActive = 0;
@@ -92,9 +94,8 @@ public class PlayerAbility : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
         worldPos.z = 0f;
-
+        
         GameObject instance = Instantiate(prefab, worldPos, Quaternion.identity);
-
         AbilityFollow follow = instance.GetComponent<AbilityFollow>();
         if (follow != null)
             follow.SetScreenspaceClick(mousePos);
@@ -106,8 +107,6 @@ public class PlayerAbility : MonoBehaviour
             // Apply the upgrade bonus to ability strength
             ability.abilityStrength += ApplyBoostUpgrade();
             ability.SetPlayerRb(playerRb);
-
-            //ability.SetPlayerTransform(playerRb.transform);
         }
     }
 

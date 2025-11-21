@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -216,14 +216,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDead: 0
-  baseSpeed: 10
+  baseSpeed: 15
   customMovement: 0
   hitByPlayerAbility: 0
-  damageValue: 4
-  moneyValue: 2
+  damageValue: 9
+  moneyValue: 15
   type: 1
   deathPrefab: {fileID: 6063229312718930144, guid: 8e543592794d4c84ba197233b378ade0, type: 3}
-  explodedPrefab: {fileID: 0}
+  explodedPrefab: {fileID: 3044282159541186506, guid: b17c7236d34adf14f9525be37bc3368e, type: 3}
 --- !u!95 &6201012689212626267
 Animator:
   serializedVersion: 7

@@ -14,7 +14,7 @@ public class AbilityEffect : MonoBehaviour
 
     float relativeAbilityStrength;
 
-    [SerializeField] bool downForce;
+    public bool downForce;
 
     private void Start()
     {
