@@ -4,8 +4,6 @@ public class AbilityEffect : MonoBehaviour
 {
     [SerializeField] private Animator animator;
 
-    [SerializeField] private Animator enemyExpldode;
-
     [SerializeField] private Transform visualTransform;
 
     private bool armed = true; // bool flag to prevent multi hits
@@ -31,11 +29,11 @@ public class AbilityEffect : MonoBehaviour
 
     private void Update()
     {
-        //if (PlayerResultsManager.globalPlayerSpeedY < 0 && !downForce)
-        //{
-        //    relativeAbilityStrength = Mathf.Max(abilityStrength, PlayerResultsManager.globalPlayerSpeedY * -0.50f);
-        //}
-        //else 
+        if (PlayerResultsManager.globalPlayerSpeedY < 0 && !downForce)
+        {
+            relativeAbilityStrength = Mathf.Max(abilityStrength, PlayerResultsManager.globalPlayerSpeedY * -0.50f);
+        }
+        else
         { 
             relativeAbilityStrength = abilityStrength; 
         }
