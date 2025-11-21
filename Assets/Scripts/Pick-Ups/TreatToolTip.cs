@@ -7,6 +7,8 @@ public class TreatToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
     public TreatObject treatObject;
 
+    public bool discovered = false;
+
     public Image infoBackgroundImage;
 
     public TMP_Text infoText;
@@ -27,6 +29,7 @@ public class TreatToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             treatObject.activeSprite.sprite = treatObject.treatSprite;
             hintOnHoverEnabled = false;
             statsOnHoverEnabled = true;
+            discovered = true;
         }
         else if (treatObject.ConfirmTreatCollection() >= 1)
         {

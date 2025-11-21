@@ -8,6 +8,8 @@ public class TreatManager : MonoBehaviour
 
     public TreatObject[] allTreatObjects;
 
+    public TreatToolTip[] CompletetionCheck;
+
 
     private void OnEnable()
     {
@@ -20,6 +22,16 @@ public class TreatManager : MonoBehaviour
         PlayerInteractionHandler.OnFlyingItemCollected -= OnTreatCollected;
         PlayerInteractionHandler.OnGroundItemCollected -= OnTreatCollected;
     }
+
+    public bool CheckVictoryCondition()
+    {
+        for (int i = 0; i < CompletetionCheck.Length; i++)
+        {
+            if (!CompletetionCheck[i].discovered) { return false; }
+        }
+        return true;
+    }
+
 
     private void OnTreatCollected(int gold, Enum tierEnum) // Array index of treats to store data run by run
     {

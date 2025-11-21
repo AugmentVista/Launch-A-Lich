@@ -3,9 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-
     [SerializeField] Respawner respawner;
     [SerializeField] TreatManager treatManager;
+
+    public GameObject VictoryMeal;
 
     [Header("UI Screens")]
     public GameObject Menu;
@@ -39,6 +40,11 @@ public class UIManager : MonoBehaviour
     {
         PlayerStateMachine.OnGrounded -= gameTime;
         PlayerStateMachine.OnFlying -= gameTime;
+    }
+
+    public void SpawnVictoryMeal()
+    {
+        VictoryMeal.SetActive(true);
     }
 
     private void Start()

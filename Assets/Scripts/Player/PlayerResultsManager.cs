@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PlayerResultsManager : MonoBehaviour
 {
     public CentralBank bank;
+    public TreatManager treatManager;
 
     public Image progressBarFill;
 
@@ -173,15 +174,22 @@ public class PlayerResultsManager : MonoBehaviour
 
     void ResultsMenu()
     {
-        if (highScoreX < victoryDistance)
+        if (!treatManager.CheckVictoryCondition())
         {
             StartCoroutine(ResultsDelay());
         }
         else 
         {
-            UIManager.SetVictory();
+            if (treatManager.CheckVictoryCondition())
+            {
+                StartCoroutine(ResultsDelay());
+                UIManager.SpawnVictoryMeal();
+            }
         }
     }
+
+   
+
 
     IEnumerator ResultsDelay()
     {
