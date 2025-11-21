@@ -1,10 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerAbility : MonoBehaviour
 {
     public GameObject prefabToSpawn;
     public GameObject prefabToSpawn2;
-    [SerializeField] AbilityCooldownBar abilityCooldown;
+    [SerializeField] ManaPool abilityCooldown;
     [SerializeField] private Rigidbody2D playerRb;
 
     public Camera mainCamera;
@@ -21,16 +21,16 @@ public class PlayerAbility : MonoBehaviour
     public float boostUpgradeCount;
     private float boostUpgradesActive = 0;
 
+    public float maxMana = 1f;     // UI fill amount is 0 → 1
+    public float currentMana = 1f; // starts full
+    public float manaRegenRate = 0.1f; // per second
+    public float manaCost = 1f;    // cost per ability use (full bar)
+
     private void Start()
     {
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
-        }
-
-        if (abilityCooldown == null)
-        {
-            Debug.LogError("Dependency between PlayerAbility and AbilityCooldownBar is broken. Assign it in the inspector.");
         }
     }
 
@@ -56,38 +56,51 @@ public class PlayerAbility : MonoBehaviour
     {
         if (!abilityEnabled) return;
 
+        // Passive regen
+        currentMana += manaRegenRate * Time.deltaTime;
+        currentMana = Mathf.Clamp01(currentMana);
+
+        // UI update
+        if (abilityCooldown != null)
+            abilityCooldown.UpdateMana(currentMana);
+
+        // Left click ability
         if (Input.GetMouseButtonDown(0) && prefabToSpawn != null)
         {
-            if (Time.time >= lastUseTime + cooldown)
-            {
-                SpawnAbility(prefabToSpawn);
-                lastUseTime = Time.time;
-
-                if (abilityCooldown != null)
-                    abilityCooldown.StartCooldown();
-            }
-            else
-            {
-                Debug.Log("Ability is still on cooldown.");
-            }
+            TryUseAbility(prefabToSpawn);
         }
+
+        // Right click ability
         if (Input.GetMouseButtonDown(1) && prefabToSpawn2 != null)
         {
-            if (Time.time >= lastUseTime + cooldown)
-            {
-                SpawnAbility(prefabToSpawn2);
-                lastUseTime = Time.time;
-
-                if (abilityCooldown != null)
-                    abilityCooldown.StartCooldown();
-            }
-            else
-            {
-                Debug.Log("Ability is still on cooldown.");
-            }
+            TryUseAbility(prefabToSpawn2);
         }
-
     }
+
+    public void AddMana(float amount)
+    {
+        currentMana = Mathf.Clamp01(currentMana + amount);
+    }
+
+    private void TryUseAbility(GameObject prefab)
+    {
+        float cost = manaCost;
+
+        AbilityManaCost costComponent = prefab.GetComponent<AbilityManaCost>();
+        if (costComponent != null)
+            cost = costComponent.cost;
+
+        if (currentMana < cost)
+            return;
+
+        currentMana -= cost;
+
+        if (abilityCooldown != null)
+            abilityCooldown.UpdateMana(currentMana);
+
+        SpawnAbility(prefab);
+    }
+
 
     private void SpawnAbility(GameObject prefab)
     {
@@ -117,10 +130,6 @@ public class PlayerAbility : MonoBehaviour
 
         boostUpgradesActive = ApplyBoostUpgrade();
 
-        // Reduce cooldown based on number of upgrades (max 5 upgrades = -1s total)
-        float baseCooldown = 3f;
-        float cooldownReductionPerUpgrade = 0.2f;
-        cooldown = Mathf.Clamp(baseCooldown - (boostUpgradeCount * cooldownReductionPerUpgrade), 1f, baseCooldown);
     }
 
     float ApplyBoostUpgrade()

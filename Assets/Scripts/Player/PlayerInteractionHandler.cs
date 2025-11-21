@@ -103,6 +103,8 @@ public class PlayerInteractionHandler : PlayerBase
             Item_World item = collision.GetComponent<Item_World>();
 
             LogarithmicBounce(4, item.supportValue);
+            PlayerAbility playerAbility = GetComponentInChildren<PlayerAbility>();
+            if (playerAbility != null) { playerAbility.AddMana(item.supportValue); }
 
             if (item.type == Item_World.Type.Flying)
             {

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7468112318458110027}
   - component: {fileID: 9012076962802455315}
   - component: {fileID: 5127841749025798360}
+  - component: {fileID: 3728184538063690571}
   m_Layer: 0
   m_Name: DownForce
   m_TagString: P_Ability
@@ -92,6 +93,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &3728184538063690571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5276539905045720938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73d59d104658f5b4cbfc3297ace4dc7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 0.25
 --- !u!1 &7252168108408301344
 GameObject:
   m_ObjectHideFlags: 0

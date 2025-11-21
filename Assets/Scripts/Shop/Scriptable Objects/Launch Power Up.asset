@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Launch Power Up
   m_EditorClassIdentifier: 
   title: Launch Power Up
-  description: Launch Power +25%
+  description: Launch Power +30%
   itemImage: {fileID: 21300000, guid: db56e418bc31f664e9c451615957e7af, type: 3}
   price: 800
-  improvementModifier: 0.25
+  improvementModifier: 0.3
   maxPurchases: 5
   upgradeType: 2

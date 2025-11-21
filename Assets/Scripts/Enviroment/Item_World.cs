@@ -8,7 +8,7 @@ public class Item_World : MonoBehaviour
     private float moveSpeed;
     private float baseSpeed;
 
-    public int supportValue;
+    public float supportValue;
     public int moneyValue;
     public enum Type { Flying, Grounded };
     public Type type;

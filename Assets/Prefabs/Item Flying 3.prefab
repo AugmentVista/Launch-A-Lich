@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treat: {fileID: 11400000, guid: 84b318603bed0564e9ce7b6c00c5a452, type: 2}
   isDead: 0
-  supportValue: 0
+  supportValue: 0.05
   moneyValue: 4
   type: 0
   tier: 4

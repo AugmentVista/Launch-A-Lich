@@ -1,16 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ManaPool : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public Image manaFill; // your red rectangles or blue bar
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateMana(float fillAmount)
     {
-        
+        manaFill.fillAmount = fillAmount;
     }
 }
