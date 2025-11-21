@@ -70676,7 +70676,6 @@ GameObject:
   - component: {fileID: 635227603}
   - component: {fileID: 635227602}
   - component: {fileID: 635227601}
-  - component: {fileID: 635227600}
   m_Layer: 0
   m_Name: Solid Ground
   m_TagString: Untagged
@@ -70699,19 +70698,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 450923827}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &635227600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 635227598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b75692208c051848aaa3990f6240bf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageValue: 100
 --- !u!50 &635227601
 Rigidbody2D:
   serializedVersion: 5
@@ -74235,7 +74221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawner: {fileID: 1902506032}
-  treatManager: {fileID: 0}
+  treatManager: {fileID: 616449985}
   Menu: {fileID: 1683774342}
   Instructions: {fileID: 7055022681745409945}
   Options: {fileID: 1285052789}
@@ -82237,19 +82223,6 @@ MonoBehaviour:
   maxSpeedUpgradeValue: 0
   maxSpeedUpgradesCount: 0
   overSpeed: 0
---- !u!114 &3978147266495990829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6382124581476268986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b75692208c051848aaa3990f6240bf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageValue: 100
 --- !u!4 &4065697032545255981
 Transform:
   m_ObjectHideFlags: 0
@@ -150295,7 +150268,6 @@ GameObject:
   - component: {fileID: 3102116439075039183}
   - component: {fileID: 7313965267268654593}
   - component: {fileID: 310439928231949609}
-  - component: {fileID: 3978147266495990829}
   m_Layer: 0
   m_Name: Solid Celling
   m_TagString: Untagged
@@ -150406,7 +150378,7 @@ PrefabInstance:
     - target: {fileID: 2437548230403582811, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
       propertyPath: treatObject
       value: 
-      objectReference: {fileID: 555925336}
+      objectReference: {fileID: 1966878426}
     - target: {fileID: 4279593648256099752, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
       propertyPath: m_text
       value: "10% Treat \nCompletion"
@@ -150414,19 +150386,19 @@ PrefabInstance:
     - target: {fileID: 4843090237470534880, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
       propertyPath: treatObject
       value: 
-      objectReference: {fileID: 555925336}
+      objectReference: {fileID: 1520955860}
     - target: {fileID: 5565153418869902092, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
       propertyPath: treatObject
       value: 
-      objectReference: {fileID: 555925336}
+      objectReference: {fileID: 724051737}
     - target: {fileID: 5709422014931916676, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
       propertyPath: treatObject
       value: 
-      objectReference: {fileID: 555925336}
+      objectReference: {fileID: 1937928682}
     - target: {fileID: 5798720021803338372, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
       propertyPath: treatObject
       value: 
-      objectReference: {fileID: 555925336}
+      objectReference: {fileID: 1148122995}
     - target: {fileID: 5924833624051542153, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -150434,15 +150406,15 @@ PrefabInstance:
     - target: {fileID: 6105023206525876965, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
       propertyPath: treatObject
       value: 
-      objectReference: {fileID: 555925336}
+      objectReference: {fileID: 1129727266}
     - target: {fileID: 6753909255555102998, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
       propertyPath: treatObject
       value: 
-      objectReference: {fileID: 555925336}
+      objectReference: {fileID: 977976878}
     - target: {fileID: 6937305398609998687, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
       propertyPath: treatObject
       value: 
-      objectReference: {fileID: 555925336}
+      objectReference: {fileID: 781481254}
     - target: {fileID: 7593533706712096025, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

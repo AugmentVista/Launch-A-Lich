@@ -195,24 +195,27 @@ public class PlayerInteractionHandler : PlayerBase
         if (collision.CompareTag("Celling"))
         {
             ground = collision.GetComponent<Ground>();
+
             TakeDamage(ground.damageValue);
+
             if (!healthPositive) { return; }
+
             switch (Health)
             {
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.75f):
-                    NegativeLogarithmicBounce(2f , Mathf.Abs(playerRb.linearVelocityY) * 0.95f + ApplyBounceyUpgrade());
+                    NegativeLogarithmicBounce(2f , Mathf.Min(Mathf.Abs(playerRb.linearVelocityY) * 0.60f, 15f));
                     break;
 
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.5f):
-                    NegativeLogarithmicBounce(2f , Mathf.Abs(playerRb.linearVelocityY) * 0.90f + ApplyBounceyUpgrade());
+                    NegativeLogarithmicBounce(2f , Mathf.Min(Mathf.Abs(playerRb.linearVelocityY) * 0.70f, 20f));
                     break;
 
                 case int i when (i < MaxHealth * 0.5f && i >= MaxHealth * 0.25f):
-                    NegativeLogarithmicBounce(2f , Mathf.Abs(playerRb.linearVelocityY) * 0.85f + ApplyBounceyUpgrade());
+                    NegativeLogarithmicBounce(2f , Mathf.Min(Mathf.Abs(playerRb.linearVelocityY) * 0.80f, 25f));
                     break;
 
                 case int i when (i < MaxHealth * 0.25f && i >= 0f):
-                    NegativeLogarithmicBounce(2f , Mathf.Abs(playerRb.linearVelocityY) * 0.80f + ApplyBounceyUpgrade());
+                    NegativeLogarithmicBounce(2f , Mathf.Min(Mathf.Abs(playerRb.linearVelocityY) * 0.90f, 30f));
                     break;
             }
             if (Health <= 0) { playerAnim.PlayDeath(); }

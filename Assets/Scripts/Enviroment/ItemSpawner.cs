@@ -101,9 +101,7 @@ public class ItemSpawner : MonoBehaviour
             itemPrefab = flyingItem;
         }
 
-
-
-            Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
+        Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
         Vector3 topEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, cam.nearClipPlane));
 
         float randomY = Random.Range(bottomEdge.y + 10f, topEdge.y - 1f);
