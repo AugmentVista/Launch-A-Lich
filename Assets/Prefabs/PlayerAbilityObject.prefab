@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7896529137193263045}
   - component: {fileID: 7468112318458110027}
   - component: {fileID: 5127841749025798360}
+  - component: {fileID: 9012076962802455315}
   m_Layer: 0
   m_Name: PlayerAbilityObject
   m_TagString: P_Ability
@@ -28,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 15, y: 15, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3466520298705022319}
@@ -51,7 +52,6 @@ MonoBehaviour:
   visualTransform: {fileID: 2025406661678878544}
   abilityStrength: 50
   downForce: 0
-  followPlayer: 1
 --- !u!50 &5127841749025798360
 Rigidbody2D:
   serializedVersion: 5
@@ -77,8 +77,21 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &9012076962802455315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5276539905045720938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e749d45e3fa8f48893380f1244bc0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followLag: 8
 --- !u!1 &7252168108408301344
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,4 +269,4 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1.5
+  m_Radius: 0.3

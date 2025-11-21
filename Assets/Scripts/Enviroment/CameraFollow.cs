@@ -9,6 +9,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 offset = new Vector3(5, 4f, -10f);
 
+    private Vector3 velocity = Vector3.zero; // initalize as zero
 
     [Header("Lag Settings")]
     [SerializeField] private float baseFollowSpeed = 5f;
@@ -19,11 +20,11 @@ public class CameraFollow : MonoBehaviour
 
     [Header("Vertical Lag")]
     [SerializeField] private float verticalLerpSpeed = 2f;
-    [SerializeField] private float riseThreshold = 25f;      // rising faster than this → move camera down
-    [SerializeField] private float fallThreshold = -25f;     // falling faster than this → move camera up
+    [SerializeField] private float riseThreshold = 25f;      // if vertical gain < this: move camera down
+    [SerializeField] private float fallThreshold = -25f;     // if vertical gain > this: move camera up
     [SerializeField] private float maxUpOffset = 6f;         // camera shows more ground
     [SerializeField] private float maxDownOffset = 2f;       // camera shows more sky
-    [SerializeField] private float neutralOffsetY = 4f;      // default mid offset
+    [SerializeField] private float neutralOffsetY = 4f;      // default
 
     [Header("Predictive Bias")]
     [SerializeField] private float maxForwardBias = 15f;
@@ -33,12 +34,16 @@ public class CameraFollow : MonoBehaviour
     private void OnEnable()
     {
         PlayerStateMachine.OnReadyToLaunch += PlayerAlive;
+        PlayerStateMachine.OnFlying += PlayerAlive;
+        PlayerStateMachine.OnGrounded += PlayerAlive;
         PlayerStateMachine.OnStopped += PlayerDead;
     }
 
     private void OnDisable()
     {
         PlayerStateMachine.OnReadyToLaunch -= PlayerAlive;
+        PlayerStateMachine.OnFlying -= PlayerAlive;
+        PlayerStateMachine.OnGrounded -= PlayerAlive;
         PlayerStateMachine.OnStopped -= PlayerDead;
     }
 
@@ -54,6 +59,7 @@ public class CameraFollow : MonoBehaviour
 
     private void AdjustBackground()
     {
+        if (playerIsDead) { return; }
         if (isBackground)
         {
             transform.position = target.position + offset;
@@ -68,11 +74,10 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
-    private Vector3 velocity = Vector3.zero;
-
     void LateUpdate()
     {
-        if (target == null) return;
+        if (playerIsDead || target == null) { return; }
+
         AdjustBackground();
 
         if (isBackground) { return; }
@@ -83,16 +88,15 @@ public class CameraFollow : MonoBehaviour
         //  X axis lag 
         float speedFactorX = Mathf.InverseLerp(speedThreshold, maxPlayerSpeed, playerSpeedX);
 
-        // Apply a nonlinear curve to bias intensity (Camera Lerp Blending Curve)
+        // Apply a nonlinear curve using ^1.5 to create a scaling curve to account for unrestrained speeds
         float curvedSpeedFactor = Mathf.Pow(speedFactorX, biasEasePower);
 
-        // Calculate forward bias based on curved factor
         float biasOffsetX = Mathf.Lerp(0f, maxForwardBias, curvedSpeedFactor);
 
         float lagOffsetX = Mathf.Lerp(0f, maxFollowLag, speedFactorX) * Mathf.Sign(PlayerResultsManager.globalPlayerSpeedX);
         float followSpeedX = Mathf.Lerp(baseFollowSpeed, baseFollowSpeed * maxCameraLagX, speedFactorX);
 
-        //  Vertical lag (simplified) 
+        //  Y axis lag 
         float targetOffsetY = neutralOffsetY;
 
         if (playerSpeedY > fallThreshold) // rising fast
@@ -100,18 +104,14 @@ public class CameraFollow : MonoBehaviour
         else if (playerSpeedY < riseThreshold) // falling fast
             targetOffsetY = Mathf.Lerp(targetOffsetY, maxUpOffset, (playerSpeedY - fallThreshold) / (maxPlayerSpeed - fallThreshold)); 
 
-        // Smoothly return toward target vertical offset
         offset.y = Mathf.Lerp(offset.y, targetOffsetY, Time.deltaTime * verticalLerpSpeed);
-
         
-        // Combine the camera foward offsets
         float combinedOffsetX = biasOffsetX - lagOffsetX;
         // Aggregate both offsets into a Vector3, z doesn't matter.
         Vector3 targetOffset = new Vector3(combinedOffsetX, offset.y, offset.z);
         Vector3 targetPos = target.position + targetOffset;
 
-        Vector3 smoothPos = new Vector3(
-            Mathf.SmoothDamp(transform.position.x, targetPos.x, ref velocity.x, 1f / followSpeedX),
+        Vector3 smoothPos = new Vector3(Mathf.SmoothDamp(transform.position.x, targetPos.x, ref velocity.x, 1f / followSpeedX),
             Mathf.SmoothDamp(transform.position.y, targetPos.y, ref velocity.y, 1f / baseFollowSpeed), targetPos.z);
 
         transform.position = smoothPos;
@@ -119,13 +119,12 @@ public class CameraFollow : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (target == null || isBackground) return;
+        if (target == null || isBackground || playerIsDead) return;
 
         // Draw the camera’s current position
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, 0.3f);
 
-        // Compute horizontal offset factors (same logic as LateUpdate)
         float playerSpeedX = Application.isPlaying ? Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX) : 0f;
         float speedFactorX = Mathf.InverseLerp(speedThreshold, maxPlayerSpeed, playerSpeedX);
 
@@ -138,19 +137,15 @@ public class CameraFollow : MonoBehaviour
         Vector3 lagPos = playerPos - new Vector3(lagOffsetX, 0f, 0f);
         Vector3 biasPos = playerPos + new Vector3(biasOffsetX, 0f, 0f);
 
-        // Draw lag line (red)
+        // Red line is drag
         Gizmos.color = Color.red;
         Gizmos.DrawLine(playerPos, lagPos);
         Gizmos.DrawWireSphere(lagPos, 0.15f);
 
-        // Draw forward bias line (green)
+        // Green line is rubberbanding follow line
         Gizmos.color = Color.green;
         Gizmos.DrawLine(playerPos, biasPos);
         Gizmos.DrawWireSphere(biasPos, 0.15f);
-
-        // Optional: draw camera target line (blue)
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawLine(transform.position, playerPos);
     }
 
 }

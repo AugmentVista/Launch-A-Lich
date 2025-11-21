@@ -94,6 +94,11 @@ public class PlayerAbility : MonoBehaviour
         worldPos.z = 0f;
 
         GameObject instance = Instantiate(prefab, worldPos, Quaternion.identity);
+
+        AbilityFollow follow = instance.GetComponent<AbilityFollow>();
+        if (follow != null)
+            follow.SetScreenspaceClick(mousePos);
+
         AbilityEffect ability = instance.GetComponent<AbilityEffect>();
 
         if (ability != null)
@@ -102,7 +107,7 @@ public class PlayerAbility : MonoBehaviour
             ability.abilityStrength += ApplyBoostUpgrade();
             ability.SetPlayerRb(playerRb);
 
-            ability.SetPlayerTransform(playerRb.transform);
+            //ability.SetPlayerTransform(playerRb.transform);
         }
     }
 

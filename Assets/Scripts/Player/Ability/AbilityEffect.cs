@@ -16,8 +16,6 @@ public class AbilityEffect : MonoBehaviour
 
     [SerializeField] bool downForce;
 
-    public bool followPlayer = true;
-
     private Transform playerTransform;
 
     private void Start()
@@ -26,10 +24,10 @@ public class AbilityEffect : MonoBehaviour
         Destroy(gameObject, clipLength);
     }
 
-    public void SetPlayerTransform(Transform transform)
-    {
-        playerTransform = transform;
-    }
+    //public void SetPlayerTransform(Transform transform)
+    //{
+    //    playerTransform = transform;
+    //}
 
     public void SetPlayerRb(Rigidbody2D rb)
     {
@@ -47,14 +45,6 @@ public class AbilityEffect : MonoBehaviour
             relativeAbilityStrength = abilityStrength; 
         }
         
-    }
-
-    private void LateUpdate()
-    {
-        if (followPlayer && playerTransform != null)
-        {
-            visualTransform.position = playerTransform.position;
-        }
     }
 
 

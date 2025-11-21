@@ -45,23 +45,18 @@ public class PlayerStateMachine : MonoBehaviour
         {
             case PlayerState.Inactive:
                 OnInactive?.Invoke();
-                //Debug.Log("Player is Inactive");
                 break;
             case PlayerState.Grounded:
                 OnGrounded?.Invoke();
-                //Debug.Log("Player is Grounded");
                 break;
             case PlayerState.Flying:
                 OnFlying?.Invoke();
-                //Debug.Log("Player is flying");
                 break;
             case PlayerState.Stopped:
                 OnStopped?.Invoke();
-                //Debug.Log("Player has stopped");
                 break;
             case PlayerState.ReadyToLaunch:
                 OnReadyToLaunch?.Invoke();
-                //Debug.Log("Player is Ready To Launch");
                 break;
         }
     }

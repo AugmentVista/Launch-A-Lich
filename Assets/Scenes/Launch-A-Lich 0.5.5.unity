@@ -748,7 +748,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &236726157
 RectTransform:
   m_ObjectHideFlags: 0
@@ -80732,17 +80732,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c10d583a970e4c49b4b9a4fe1e44242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawner: {fileID: 1902506032}
   bank: {fileID: 595240228}
   progressBarFill: {fileID: 2133831118}
   playerRb: {fileID: 5196549533379305233}
-  globalPlayerSpeedV2: {x: 0, y: 0}
   player: {fileID: 3345542736358294528}
   ground: {fileID: 1042105322}
   ParallaxBackground: {fileID: 1528213152}
-  ParallaxBackground2: {fileID: 0}
   UIManager: {fileID: 1044183633}
-  nextButton: {fileID: 1292216580}
   highScoreX: 0
   highScoreY: 0
   incomeUpgradeValue: 0
@@ -151610,7 +151606,7 @@ MonoBehaviour:
   abilityCooldown: {fileID: 1605341350}
   playerRb: {fileID: 5196549533379305233}
   mainCamera: {fileID: 330585545}
-  cooldown: 3
+  cooldown: 0
   boostUpgradeValue: 0
   boostUpgradeCount: 0
 --- !u!1 &8778212554082915685
