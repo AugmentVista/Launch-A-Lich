@@ -9,18 +9,14 @@ public class GlobalSoundManager : MonoBehaviour
     [SerializeField] private AudioSource backgroundAudioSource;
 
 
-    [Header("Volume Controls")]
-    [SerializeField][Range(0f, 1f)] float playerVolume;
-    [SerializeField][Range(0f, 1f)] float backgroundVolume;
+    [Header("Volume Values")]
+    public float playerVolume;
+    public float musicVolume;
 
 
     void Update()
     {
-
-
-
-
-        backgroundAudioSource.volume = backgroundVolume;
+        backgroundAudioSource.volume = musicVolume;
         playerAudioSource.volume = playerVolume;
     }
 }
