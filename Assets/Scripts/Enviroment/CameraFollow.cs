@@ -4,14 +4,21 @@ public class CameraFollow : MonoBehaviour
 {
     public bool isBackground;
 
-    public bool playerIsDead = false;
+    public bool playerIsDead;
+
+    public bool applyLeftOffsetBias = false;
+
+    [Header("Debug")]
+    public bool isCameraToldToFollow;
 
     [SerializeField] private Transform target;
-    [SerializeField] private Vector3 offset = new Vector3(5, 4f, -10f);
+    [SerializeField] private Vector3 offset = new Vector3(5, 4f, -10f); // active offset
+    [SerializeField] private Vector3 offsetDefault = new Vector3(5, 4f, -10f); // offset value to default back to
+    [SerializeField] private Vector3 offsetLeftBias = new Vector3(-3, 4f, -10f); // offset value while player is at launch site
 
     [Header("Lag Settings")]
-    [SerializeField] private float baseFollowSpeed = 5f;
-    [SerializeField] private float maxFollowLag = 1.5f; // Max distance camera can lag behind
+    [SerializeField] private float baseFollowSpeed = 41f;
+    [SerializeField] private float maxFollowLag = 1.5f;     // Max distance camera can lag behind
     [SerializeField] private float speedThreshold = 40f;
     [SerializeField] private float maxPlayerSpeed = 100f;
     [SerializeField] private float maxCameraLagX = 0.3f;
@@ -28,17 +35,23 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float maxForwardBias = 15f;
     [SerializeField] private float biasEasePower = 1.5f;
 
-
     private void OnEnable()
     {
         PlayerStateMachine.OnReadyToLaunch += PlayerAlive;
+        PlayerStateMachine.OnFlying += PlayerAlive;
         PlayerStateMachine.OnStopped += PlayerDead;
     }
 
     private void OnDisable()
     {
         PlayerStateMachine.OnReadyToLaunch -= PlayerAlive;
+        PlayerStateMachine.OnFlying -= PlayerAlive;
         PlayerStateMachine.OnStopped -= PlayerDead;
+    }
+
+    private void Start()
+    {
+        if (applyLeftOffsetBias) { transform.position = target.position + offsetLeftBias; }
     }
 
     void PlayerDead()
@@ -49,6 +62,7 @@ public class CameraFollow : MonoBehaviour
     void PlayerAlive()
     {
         playerIsDead = false;
+        
     }
 
     private void AdjustBackground()
@@ -69,16 +83,32 @@ public class CameraFollow : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero; // initalize as zero
 
+    public void debugCameraPerms()
+    {
+        if (!playerIsDead && PlayerStateMachine.allowCameraFollow) // player is alive, camera can follow
+        {
+            isCameraToldToFollow = true;
+        }
+        else { isCameraToldToFollow = false; }
+    }
+
     void LateUpdate()
     {
-        if (playerIsDead && !PlayerStateMachine.allowCameraFollow) { return; }
+        debugCameraPerms();
+
+        if (playerIsDead && !PlayerStateMachine.allowCameraFollow) // player is dead, camera can't follow
+        { 
+            return; 
+        }
 
         if (target == null) { return; }
 
         AdjustBackground();
 
         if (isBackground) { return; }
-        
+
+        if (applyLeftOffsetBias) { offset = offsetLeftBias; } else { offset = offsetDefault; }
+
         float playerSpeedX = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
         float playerSpeedY = PlayerResultsManager.globalPlayerSpeedY;
 
@@ -88,7 +118,7 @@ public class CameraFollow : MonoBehaviour
         // Apply a nonlinear curve using ^1.5 to create a scaling curve to account for unrestrained speeds
         float curvedSpeedFactor = Mathf.Pow(speedFactorX, biasEasePower);
 
-        float biasOffsetX = Mathf.Lerp(0f, maxForwardBias, curvedSpeedFactor);
+        float biasOffsetX = Mathf.Lerp(offset.x, maxForwardBias, curvedSpeedFactor);
 
         float lagOffsetX = Mathf.Lerp(0f, maxFollowLag, speedFactorX) * Mathf.Sign(PlayerResultsManager.globalPlayerSpeedX);
         float followSpeedX = Mathf.Lerp(baseFollowSpeed, baseFollowSpeed * maxCameraLagX, speedFactorX);

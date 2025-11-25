@@ -24,11 +24,13 @@ public class UIManager : MonoBehaviour
     [Range(0.25f, 1f)]
     public float time;
 
+    public float trueTime;
+
     private float minTime = 0.25f;
 
     private float maxTime = 1f;
 
-    bool gaming = false;
+    public bool gaming = false;
 
     private void OnEnable()
     {
@@ -49,9 +51,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        SetUIFalse();
-        Time.timeScale = 0;
-        Menu.gameObject.SetActive(true);
+        B_ToMainMenu();
+        trueTime = Time.timeScale;
     }
 
     private void gameTime()
@@ -61,6 +62,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+       
         if (Gameplay.gameObject.activeSelf && gaming) 
         {
             float speed = PlayerResultsManager.globalPlayerSpeedX;
@@ -90,6 +92,7 @@ public class UIManager : MonoBehaviour
         {
             Time.timeScale = 1f;
         }
+        trueTime = Time.timeScale;
     }
 
     public void SetUIFalse()
