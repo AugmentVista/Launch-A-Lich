@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
@@ -34,24 +35,25 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private float launcherUpgradesActive = 0;
 
-    bool isCharging = false;
-
     bool fullyCharged = false;
 
+    private float smoothedAngle = 45f;
+    private int lastInputX = 14;
+
     float finalCharge = 0f;          // Stores charge at release
-    bool isLaunching = false;        // Prevents double-activation
     [SerializeField] float laserDuration = 3f;
 
     [SerializeField] Animator laser;
     [SerializeField] TextMeshProUGUI chargeText;
+    [SerializeField] Image chargeMeter;
     private enum GaugeState { Idle, Charging, Laser, Launching }
-    private GaugeState state = GaugeState.Idle;
+    [SerializeField] private GaugeState state = GaugeState.Idle;
 
 
     // Cheat sheet index inputX -> angle above x-axis (logarithmic scaling)
     private readonly Dictionary<int, float> inputXToAngle = new Dictionary<int, float>()
     {
-        //{2, 85f}, {3, 81f}, {4, 78f}, {5, 75f}, {6, 72f},
+        {2, 85f}, {3, 81f}, {4, 78f}, {5, 75f}, {6, 72f},
         {7, 70f}, {8, 67f}, {9, 65f}, {10, 63f}, {11, 61f},
         {12, 59f}, {13, 57f}, {14, 55f}, {15, 53f}, {16, 51f},
         {17, 49f}, {18, 48f}, {19, 46f}, {20, 44f}, {21, 43f},
@@ -83,7 +85,11 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         if (!UIManager.Gameplay.activeSelf) return;
         if (!Respawner.hasPlayerReturnedToLaunchpad) return;
+        LauncherStateMachine();
+    }
 
+    public void LauncherStateMachine()
+    {
         if (state == GaugeState.Launching && Respawner.hasPlayerReturnedToLaunchpad)
         {
             ResetLauncher();
@@ -116,8 +122,6 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         angle = Mathf.Clamp(angle, 10f, 85f);
 
-        RotateCrystal(angle);
-
         DrawTrajectory();
         lineRenderer.enabled = true;
 
@@ -131,18 +135,9 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (chargeAmount >= 1f) fullyCharged = true;
         if (chargeAmount <= 0f) fullyCharged = false;
 
+        chargeMeter.fillAmount = chargeAmount;
         chargeText.text = Mathf.RoundToInt(chargeAmount * 100f) + "%";
     }
-
-    private void RotateCrystal(float angle)
-    {
-        float spriteOffset = -90f;
-        if (inverted)
-            launchCrystalTransform.rotation = Quaternion.Euler(0, 180, spriteOffset - angle);
-        else
-            launchCrystalTransform.rotation = Quaternion.Euler(0, 0, spriteOffset + angle);
-    }
-
 
     void DrawTrajectory()
     {
@@ -151,7 +146,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         float appliedForce = force * Mathf.Lerp(minChargeMultiplier + ApplyLauncherUpgrade(),maxChargeMultiplier + ApplyLauncherUpgrade(),chargeAmount);
 
         float angle = GetAimAngleFromMouse();
-        float inputX = GetClosestInputXForAngle(angle);
+        float inputX = GetStableSnappedInputX();
         Vector2 direction = GetDirectionFromInputX(inputX);
 
         Vector2 startVelocity = (direction * appliedForce) / playerRb.mass;
@@ -181,7 +176,6 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         laser.Play("LaserIdle", 0, 0f); // idle animation during charge
     }
-
 
     public void OnPointerUp(PointerEventData eventData)
     {
@@ -216,7 +210,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         float appliedForce = force * Mathf.Lerp(minChargeMultiplier + ApplyLauncherUpgrade(), maxChargeMultiplier + ApplyLauncherUpgrade(), finalCharge );
 
         float angle = GetAimAngleFromMouse();
-        float inputX = GetClosestInputXForAngle(angle);
+        float inputX = GetStableSnappedInputX();
 
         LogarithmicBounce(inputX, appliedForce);
         ResetLauncher();
@@ -231,10 +225,6 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         chargeText.text = "0%";
         lineRenderer.enabled = false;
-
-        // Make sure charging phase starts clean next time
-        isCharging = false;
-        isLaunching = false;
     }
 
     /// <summary>
@@ -292,7 +282,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     /// </summary>
     /// <param name="inputX"></param>
     /// <param name="magnitude"></param>
-    public virtual void LogarithmicBounce(float inputX, float magnitude)
+    public void LogarithmicBounce(float inputX, float magnitude)
     {
         if (inputX <= -2f)
         {
@@ -303,7 +293,6 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         Vector2 force = direction * magnitude;
         playerRb.AddForce(force, ForceMode2D.Impulse);
-
     }
 
     public Vector2 GetDirectionFromInputX(float inputX)
@@ -323,8 +312,38 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private float GetAimAngleFromMouse()
     {
-        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-        return Mathf.Clamp(angle, 10f, 85f);
+        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 aimDir = (mouseWorld - launchPoint.position).normalized;
+
+        float rawAngle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
+        rawAngle = Mathf.Clamp(rawAngle, 10f, 85f);
+
+        // Smooth out tiny fluctuations
+        smoothedAngle = Mathf.Lerp(smoothedAngle, rawAngle, Time.deltaTime * 20f);
+
+        return smoothedAngle;
+    }
+    float GetStableSnappedInputX()
+    {
+        float angle = smoothedAngle;
+
+        float smallestDiff = float.MaxValue;
+        int bestKey = lastInputX;
+
+        foreach (var kvp in inputXToAngle)
+        {
+            float diff = Mathf.Abs(kvp.Value - angle);
+
+            // Hysteresis: require significantly better match to switch keys
+            if (diff + 0.35f < smallestDiff)
+            {
+                smallestDiff = diff;
+                bestKey = kvp.Key;
+            }
+        }
+
+        lastInputX = bestKey;
+        return bestKey;
     }
 
     float GetClosestInputXForAngle(float targetAngle)

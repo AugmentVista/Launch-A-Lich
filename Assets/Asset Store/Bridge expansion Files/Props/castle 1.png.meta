@@ -115,7 +115,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 115
+        width: 104
         height: 288
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -135,9 +135,9 @@ TextureImporter:
       name: castle_window
       rect:
         serializedVersion: 2
-        x: 124
+        x: 133
         y: 0
-        width: 36
+        width: 27
         height: 288
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -157,9 +157,9 @@ TextureImporter:
       name: castle_wall
       rect:
         serializedVersion: 2
-        x: 115
+        x: 104
         y: 0
-        width: 9
+        width: 29
         height: 288
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

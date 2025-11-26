@@ -8,6 +8,7 @@ public class PlayerStateMachine : MonoBehaviour
     public GameObject ground;
     public Rigidbody2D playerRb;
 
+    private bool groundWasSearched = false;
     private float speedToStopAt = 4f;
     private float flyingHeightThreshold = 15f;
     public float playerLinearX;
@@ -33,6 +34,11 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Start()
     {
+        if (ground == null)
+        {
+            ground = GameObject.FindGameObjectWithTag("Ground");
+            groundWasSearched = true;
+        }
         playerState = PlayerState.ReadyToLaunch;
     }
 
@@ -143,8 +149,10 @@ public class PlayerStateMachine : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
 
         // move to ground for death animation
-        Vector3 pos = player.transform.position; 
-        pos.y = ground.transform.position.y - ground.transform.position.y; 
+        Vector3 pos = player.transform.position;
+
+        if (groundWasSearched) { pos.y = 2.5f; } else { pos.y = 0f; }
+
         player.transform.position = pos;
 
         // now the camera may stop

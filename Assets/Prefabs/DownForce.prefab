@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73d59d104658f5b4cbfc3297ace4dc7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 0.25
+  cost: 0.05
 --- !u!1 &7252168108408301344
 GameObject:
   m_ObjectHideFlags: 0

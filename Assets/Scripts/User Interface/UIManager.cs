@@ -198,21 +198,25 @@ public class UIManager : MonoBehaviour
 
     public void B_ToMainMenu()
     {
+        LastScreenActive = GetCurrentActiveScreen();
         SetScreen(Menu);
     }
 
     public void B_OpenShop()
     {
+        LastScreenActive = GetCurrentActiveScreen();
         SetScreen(Shop);
 
         if (respawner != null)
         {
             respawner.RespawnPlayer();
         }
+        else if (respawner == null) { Debug.LogWarning("WHY IS THIS NULL -> RESPAWNER"); }
         
     }
     public void B_Resume()
     {
+        LastScreenActive = GetCurrentActiveScreen();
         SetScreen(Gameplay);
     }
 

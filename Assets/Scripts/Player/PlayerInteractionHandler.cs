@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerInteractionHandler : PlayerBase
 {
     #region Variable Declarations
-    [SerializeField] Player_Anim_Manager playerAnim;
+    [SerializeField] Player_DarkWizard_Anim_Manager playerAnim;
 
     public int forceMult;
     public int enemyImpactVelocityGain;
