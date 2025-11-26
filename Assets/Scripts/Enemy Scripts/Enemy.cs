@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Enemy : MonoBehaviour
 {
@@ -10,7 +9,6 @@ public class Enemy : MonoBehaviour
     public bool customMovement;
     public bool hitByPlayerAbility = false;
 
-
     public int damageValue;
     public int moneyValue;
     public enum Type {Flying, Grounded };
@@ -18,12 +16,12 @@ public class Enemy : MonoBehaviour
 
     public GameObject deathPrefab;
     public GameObject explodedPrefab;
-    void Update()
+    void FixedUpdate()
     {
         if (!isDead && !customMovement)
         {
             float relativeMult = Random.Range(0.5f, 0.8f);
-            moveSpeed = Mathf.Max(baseSpeed, PlayerResultsManager.globalPlayerSpeedX * relativeMult);
+            moveSpeed = (PlayerResultsManager.globalPlayerSpeedX * relativeMult);
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         }
         if (isDead)

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6201012689212626267}
   - component: {fileID: -7294817139093224048}
   m_Layer: 6
-  m_Name: Ground_Ghoul
+  m_Name: Enemy_BurningGhoul
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -219,6 +219,7 @@ MonoBehaviour:
   baseSpeed: 15
   customMovement: 0
   hitByPlayerAbility: 0
+  relativeMult: 0.8
   damageValue: 9
   moneyValue: 15
   type: 1

@@ -171,8 +171,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDead: 0
   baseSpeed: 14
-  customMovement: 1
+  customMovement: 0
   hitByPlayerAbility: 0
+  relativeMult: 0.8
   damageValue: 6
   moneyValue: 8
   type: 0
