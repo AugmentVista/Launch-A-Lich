@@ -120,8 +120,15 @@ public class EnemySpawner : MonoBehaviour
 
         for (int attempt = 0; attempt < maxAttempts; attempt++)
         {
-            float offset = Random.Range(0.25f, 10f);
-            Vector2 spawnPos = new Vector2(rightEdge.x + offset, spawnY);
+            float playerX = PlayerResultsManager.currentDistance;
+            float roundedPlayerSpeed = Mathf.RoundToInt(PlayerResultsManager.globalPlayerSpeedX /10f);
+
+            float minLead = 5f;
+            float maxLead = Mathf.Max(10f, roundedPlayerSpeed);
+
+            float lead = Random.Range(minLead, maxLead);
+
+            Vector2 spawnPos = new Vector2(playerX + lead, spawnY);
 
             Collider2D hit = Physics2D.OverlapBox(spawnPos, overlapSize, 0f, LayerMask.GetMask("Enemies", "Item"));
 

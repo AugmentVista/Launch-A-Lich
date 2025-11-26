@@ -14,16 +14,7 @@ public class SnakeTypeBeat : MonoBehaviour
 
     private void Update()
     {
-        MoveRight();
         SnakeWave();
-    }
-
-    private void MoveRight()
-    {
-        float xSpeed = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
-        float speed = Mathf.Min(10f, xSpeed * 0.5f);
-
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
     }
 
     private void SnakeWave()

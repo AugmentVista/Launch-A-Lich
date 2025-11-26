@@ -6,7 +6,6 @@ public class Enemy : MonoBehaviour
     public bool isDead = false;
     public float baseSpeed;
 
-    public bool customMovement;
     public bool hitByPlayerAbility = false;
 
     public int damageValue;
@@ -16,19 +15,42 @@ public class Enemy : MonoBehaviour
 
     public GameObject deathPrefab;
     public GameObject explodedPrefab;
+
+    public float targetOffset = 8f;
+    public float followStrength = 2f;
+    public float maxSpeed = 12f;
+
+    private float smoothSpeed = 0;
     void FixedUpdate()
     {
-        if (!isDead && !customMovement)
+        if (!isDead )
         {
-            float relativeMult = Random.Range(0.5f, 0.8f);
-            moveSpeed = (PlayerResultsManager.globalPlayerSpeedX * relativeMult);
-            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+            RelativeMovement();
         }
         if (isDead)
         {
             Die();
         }
     }
+
+    public void RelativeMovement()
+    {
+        float playerX = PlayerResultsManager.currentDistance;
+        float enemyX = transform.position.x;
+
+        float playerSpeed = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
+
+        float currentOffset = enemyX - playerX;
+        float offsetError = targetOffset - currentOffset;
+
+        float desiredSpeed = playerSpeed + offsetError * followStrength;
+        desiredSpeed = Mathf.Clamp(desiredSpeed, 0, maxSpeed);
+
+        smoothSpeed = Mathf.Lerp(smoothSpeed, desiredSpeed, Time.deltaTime * 5f);
+
+        transform.Translate(Vector2.right * smoothSpeed * Time.deltaTime);
+    }
+
 
     public void Die()
     {
