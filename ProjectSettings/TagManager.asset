@@ -10,6 +10,8 @@ TagManager:
   - P_Ability
   - Item
   - Ceiling
+  - Pink_Pod_Zones
+  - Purple_Pod_Zones
   layers:
   - Default
   - TransparentFX

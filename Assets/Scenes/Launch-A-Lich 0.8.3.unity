@@ -262,6 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6289907}
   - component: {fileID: 6289908}
+  - component: {fileID: 6289909}
   m_Layer: 0
   m_Name: Spawn Pod Blue (8)
   m_TagString: Untagged
@@ -339,6 +340,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6289909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6289906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c7a5b73b769589843b65472a21ed9717, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &14680446
 GameObject:
   m_ObjectHideFlags: 0
@@ -1469,9 +1485,10 @@ GameObject:
   m_Component:
   - component: {fileID: 146551307}
   - component: {fileID: 146551308}
+  - component: {fileID: 146551309}
   m_Layer: 0
   m_Name: Spawn Pod Yellow (2)
-  m_TagString: Untagged
+  m_TagString: Pink_Pod_Zones
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1546,6 +1563,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &146551309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146551306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 3924ee055ea3c4341afdf2e7c1ae9072, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &179678300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1631,9 +1663,10 @@ GameObject:
   m_Component:
   - component: {fileID: 198884606}
   - component: {fileID: 198884607}
+  - component: {fileID: 198884608}
   m_Layer: 0
   m_Name: Spawn Pod Blue (3)
-  m_TagString: Untagged
+  m_TagString: Purple_Pod_Zones
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1708,6 +1741,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &198884608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198884605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c7a5b73b769589843b65472a21ed9717, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &210341120
 GameObject:
   m_ObjectHideFlags: 0
@@ -1718,9 +1766,10 @@ GameObject:
   m_Component:
   - component: {fileID: 210341121}
   - component: {fileID: 210341122}
+  - component: {fileID: 210341123}
   m_Layer: 0
   m_Name: Spawn Pod Blue (5)
-  m_TagString: Untagged
+  m_TagString: Pink_Pod_Zones
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1795,6 +1844,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &210341123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210341120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c7a5b73b769589843b65472a21ed9717, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &221828045
 GameObject:
   m_ObjectHideFlags: 0
@@ -69622,6 +69686,7 @@ GameObject:
   m_Component:
   - component: {fileID: 269576157}
   - component: {fileID: 269576158}
+  - component: {fileID: 269576159}
   m_Layer: 0
   m_Name: Spawn Pod Red (1)
   m_TagString: Untagged
@@ -69699,6 +69764,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &269576159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269576156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 01a3ed1427c90fd45a9203fd096e329a, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!114 &299332074 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7177281599248740517, guid: c1b2475634be1bc4582a58358f1314e9, type: 3}
@@ -69720,6 +69800,7 @@ GameObject:
   m_Component:
   - component: {fileID: 313952894}
   - component: {fileID: 313952895}
+  - component: {fileID: 313952896}
   m_Layer: 0
   m_Name: Spawn Pod Green (1)
   m_TagString: Untagged
@@ -69797,6 +69878,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &313952896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313952893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 975b6e233831938419ae27cde554b792, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &326860228
 GameObject:
   m_ObjectHideFlags: 0
@@ -71127,9 +71223,10 @@ GameObject:
   m_Component:
   - component: {fileID: 442254105}
   - component: {fileID: 442254106}
+  - component: {fileID: 442254107}
   m_Layer: 0
   m_Name: Spawn Pod Blue (7)
-  m_TagString: Untagged
+  m_TagString: Purple_Pod_Zones
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71204,6 +71301,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &442254107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442254104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c7a5b73b769589843b65472a21ed9717, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &450923826
 GameObject:
   m_ObjectHideFlags: 0
@@ -71570,9 +71682,10 @@ GameObject:
   m_Component:
   - component: {fileID: 478643434}
   - component: {fileID: 478643435}
+  - component: {fileID: 478643436}
   m_Layer: 0
   m_Name: Spawn Pod Blue (6)
-  m_TagString: Untagged
+  m_TagString: Purple_Pod_Zones
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71647,6 +71760,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &478643436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478643433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c7a5b73b769589843b65472a21ed9717, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &493354455
 GameObject:
   m_ObjectHideFlags: 0
@@ -71964,7 +72092,6 @@ MonoBehaviour:
   - {fileID: 4302006093261710066, guid: cdceb1a385beaa945ab86858ac50c555, type: 3}
   - {fileID: 4302006093261710066, guid: 86ca036d65b8ec34a8f4d541e9a89f79, type: 3}
   speedLimit: {fileID: 7587690105007918345}
-  ceiling: {fileID: 0}
   minSpawnRate: 0.4
   maxSpawnRate: 0.1
 --- !u!1 &548166135
@@ -74219,9 +74346,10 @@ GameObject:
   m_Component:
   - component: {fileID: 729144854}
   - component: {fileID: 729144855}
+  - component: {fileID: 729144856}
   m_Layer: 0
   m_Name: Spawn Pod Blue
-  m_TagString: Untagged
+  m_TagString: Purple_Pod_Zones
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74296,6 +74424,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &729144856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729144853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c7a5b73b769589843b65472a21ed9717, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &735760803
 GameObject:
   m_ObjectHideFlags: 0
@@ -74306,9 +74449,10 @@ GameObject:
   m_Component:
   - component: {fileID: 735760804}
   - component: {fileID: 735760805}
+  - component: {fileID: 735760806}
   m_Layer: 0
   m_Name: Spawn Pod Blue (2)
-  m_TagString: Untagged
+  m_TagString: Purple_Pod_Zones
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74383,6 +74527,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &735760806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735760803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c7a5b73b769589843b65472a21ed9717, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &743730862
 GameObject:
   m_ObjectHideFlags: 0
@@ -74954,6 +75113,7 @@ GameObject:
   m_Component:
   - component: {fileID: 813020074}
   - component: {fileID: 813020075}
+  - component: {fileID: 813020076}
   m_Layer: 0
   m_Name: Spawn Pod Green
   m_TagString: Untagged
@@ -75031,6 +75191,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &813020076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813020073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 975b6e233831938419ae27cde554b792, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &824816702
 GameObject:
   m_ObjectHideFlags: 0
@@ -77053,9 +77228,10 @@ GameObject:
   m_Component:
   - component: {fileID: 993226494}
   - component: {fileID: 993226495}
+  - component: {fileID: 993226496}
   m_Layer: 0
   m_Name: Spawn Pod Yellow
-  m_TagString: Untagged
+  m_TagString: Pink_Pod_Zones
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77130,6 +77306,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &993226496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993226493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 3924ee055ea3c4341afdf2e7c1ae9072, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &995886836
 GameObject:
   m_ObjectHideFlags: 0
@@ -78242,9 +78433,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1051953737}
   - component: {fileID: 1051953738}
+  - component: {fileID: 1051953739}
   m_Layer: 0
   m_Name: Spawn Pod Yellow (1)
-  m_TagString: Untagged
+  m_TagString: Purple_Pod_Zones
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78319,6 +78511,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1051953739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051953736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 3924ee055ea3c4341afdf2e7c1ae9072, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &1052082133
 GameObject:
   m_ObjectHideFlags: 0
@@ -80097,9 +80304,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawner: {fileID: 541541012}
-  spawnPods: []
   target: {fileID: 178082488495594062}
   offset: {x: 55, y: 5, z: 0}
+  lowMax: 30
+  mediumMax: 80
+  highMax: 150
 --- !u!212 &1284307910
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -84854,9 +85063,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1811654742}
   - component: {fileID: 1811654743}
+  - component: {fileID: 1811654744}
   m_Layer: 0
   m_Name: Spawn Pod Blue (1)
-  m_TagString: Untagged
+  m_TagString: Pink_Pod_Zones
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84931,6 +85141,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1811654744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811654741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c7a5b73b769589843b65472a21ed9717, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &1820004737
 GameObject:
   m_ObjectHideFlags: 0
@@ -85697,9 +85922,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1936090379}
   - component: {fileID: 1936090380}
+  - component: {fileID: 1936090381}
   m_Layer: 0
   m_Name: Spawn Pod Blue (4)
-  m_TagString: Untagged
+  m_TagString: Purple_Pod_Zones
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85774,6 +86000,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1936090381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936090378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c7a5b73b769589843b65472a21ed9717, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!114 &1937928681 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5709422014931916676, guid: e6cb6294405f88440a658c6894b210b3, type: 3}
@@ -86041,9 +86282,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1972806355}
   - component: {fileID: 1972806356}
+  - component: {fileID: 1972806357}
   m_Layer: 0
   m_Name: Spawn Pod Yellow (3)
-  m_TagString: Untagged
+  m_TagString: Purple_Pod_Zones
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86118,6 +86360,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1972806357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972806354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 3924ee055ea3c4341afdf2e7c1ae9072, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &1974711749
 GameObject:
   m_ObjectHideFlags: 0
@@ -86284,6 +86541,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1977372343}
   - component: {fileID: 1977372344}
+  - component: {fileID: 1977372345}
   m_Layer: 0
   m_Name: Spawn Pod Red
   m_TagString: Untagged
@@ -86361,6 +86619,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1977372345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977372342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 01a3ed1427c90fd45a9203fd096e329a, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &1978273032
 GameObject:
   m_ObjectHideFlags: 0
@@ -87456,9 +87729,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2071186300}
   - component: {fileID: 2071186301}
+  - component: {fileID: 2071186302}
   m_Layer: 0
   m_Name: Spawn Pod Green (2)
-  m_TagString: Untagged
+  m_TagString: Pink_Pod_Zones
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87533,6 +87807,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2071186302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071186299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 975b6e233831938419ae27cde554b792, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &2075411156
 GameObject:
   m_ObjectHideFlags: 0
@@ -88380,6 +88669,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2138958974}
   - component: {fileID: 2138958975}
+  - component: {fileID: 2138958976}
   m_Layer: 0
   m_Name: Spawn Pod Blue (9)
   m_TagString: Untagged
@@ -88457,6 +88747,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2138958976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138958973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8ec8050e28ed4db2da265465f5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c7a5b73b769589843b65472a21ed9717, type: 2}
+  debugName: 
+  cooldownRemaining: 0
 --- !u!1 &2147117354
 GameObject:
   m_ObjectHideFlags: 0
