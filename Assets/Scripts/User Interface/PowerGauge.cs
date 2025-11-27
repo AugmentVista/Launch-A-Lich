@@ -109,6 +109,8 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 break;
 
             case GaugeState.Idle:
+                break;
+
             default:
                 break;
         }
@@ -136,7 +138,10 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (chargeAmount <= 0f) fullyCharged = false;
 
         chargeMeter.fillAmount = chargeAmount;
-        chargeText.text = Mathf.RoundToInt(chargeAmount * 100f) + "%";
+        if (chargeMeter.fillAmount != 0f)
+        { 
+            chargeText.text = Mathf.RoundToInt(chargeAmount * 100f) + "%";
+        }
     }
 
     void DrawTrajectory()
@@ -172,7 +177,6 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         state = GaugeState.Charging;
         chargeAmount = 0f;
         fullyCharged = false;
-        lineRenderer.enabled = true;
 
         laser.Play("LaserIdle", 0, 0f); // idle animation during charge
     }
@@ -197,9 +201,10 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         yield return new WaitForSeconds(waitTime);
 
         ApplyLaunchForce();
-
+        chargeMeter.fillAmount = 0f;
+        chargeText.text = "";
         laser.Play("LaserIdle", 0, 0f);
-
+        
         state = GaugeState.Launching;
     }
 
@@ -223,7 +228,7 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         finalCharge = 0f;
         fullyCharged = false;
 
-        chargeText.text = "0%";
+        chargeText.text = "";
         lineRenderer.enabled = false;
     }
 

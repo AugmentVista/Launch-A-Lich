@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private SpeedLimit speedLimit;
 
-    [SerializeField] private float minSpawnRate = 1.5f;
+    [SerializeField] private float minSpawnRate = 2f;
     [SerializeField] private float maxSpawnRate = 5.0f;
 
     private bool canSpawn = false;

@@ -81,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 0046e6c9bd0864d4a8f6fc6e04c9e21c, type: 3}
   m_Color: {r: 1, g: 0.84629023, b: 0.6367924, a: 1}
   m_FlipX: 0
@@ -128,7 +128,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.8, y: 3}
+  m_Size: {x: 0.3, y: 0.5}
   m_Direction: 0
 --- !u!50 &2900234308310453448
 Rigidbody2D:
@@ -169,17 +169,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9a3be55128d9b4b95bab6f7d126b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDead: 0
-  baseSpeed: 15
+  deathPrefab: {fileID: 6063229312718930144, guid: 8e543592794d4c84ba197233b378ade0, type: 3}
+  explodedPrefab: {fileID: 3044282159541186506, guid: b17c7236d34adf14f9525be37bc3368e, type: 3}
   hitByPlayerAbility: 0
+  isDead: 0
   damageValue: 8
   moneyValue: 12
   type: 0
-  deathPrefab: {fileID: 6063229312718930144, guid: 8e543592794d4c84ba197233b378ade0, type: 3}
-  explodedPrefab: {fileID: 3044282159541186506, guid: b17c7236d34adf14f9525be37bc3368e, type: 3}
-  targetOffset: 8
-  followStrength: 2
-  maxSpeed: 12
 --- !u!95 &4947889251600624796
 Animator:
   serializedVersion: 7

@@ -81,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 175e865d42b5b6146bc44b9d73735eb9, type: 3}
   m_Color: {r: 0.6361571, g: 1, b: 0.6084906, a: 1}
   m_FlipX: 0
@@ -127,8 +127,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 2.5, y: 2.5}
+  m_Offset: {x: -0.015, y: -0.05}
+  m_Size: {x: 0.35, y: 0.45}
   m_Direction: 0
 --- !u!61 &7649482451868897205
 BoxCollider2D:
@@ -137,7 +137,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4302006093261710066}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 1f037c552529d344dab9c4bed6720ea9, type: 2}
@@ -215,17 +215,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9a3be55128d9b4b95bab6f7d126b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDead: 0
-  baseSpeed: 10
+  deathPrefab: {fileID: 6063229312718930144, guid: 8e543592794d4c84ba197233b378ade0, type: 3}
+  explodedPrefab: {fileID: 3044282159541186506, guid: b17c7236d34adf14f9525be37bc3368e, type: 3}
   hitByPlayerAbility: 0
+  isDead: 0
   damageValue: 4
   moneyValue: 2
   type: 1
-  deathPrefab: {fileID: 6063229312718930144, guid: 8e543592794d4c84ba197233b378ade0, type: 3}
-  explodedPrefab: {fileID: 3044282159541186506, guid: b17c7236d34adf14f9525be37bc3368e, type: 3}
-  targetOffset: 8
-  followStrength: 2
-  maxSpeed: 12
 --- !u!95 &6201012689212626267
 Animator:
   serializedVersion: 7

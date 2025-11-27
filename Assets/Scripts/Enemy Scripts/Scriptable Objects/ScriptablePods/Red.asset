@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Red
   m_EditorClassIdentifier: 
   zone: 0
-  baseWeight: 1
+  baseWeight: 4
   cooldown: 0.5

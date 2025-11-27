@@ -2,55 +2,32 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private float moveSpeed;
-    public bool isDead = false;
-    public float baseSpeed;
-
-    public bool hitByPlayerAbility = false;
-
-    public int damageValue;
-    public int moneyValue;
-    public enum Type {Flying, Grounded };
-    public Type type;
-
     public GameObject deathPrefab;
     public GameObject explodedPrefab;
 
-    public float targetOffset = 8f;
-    public float followStrength = 2f;
-    public float maxSpeed = 12f;
+    public bool hitByPlayerAbility = false;
+    public bool isDead = false;
 
-    private float smoothSpeed = 0;
-    void FixedUpdate()
+    private float moveSpeed = 15f;
+
+    public int damageValue;
+    public int moneyValue;
+
+    public enum Type {Flying, Grounded };
+    public Type type;
+
+
+    void Update()
     {
-        if (!isDead )
+        if (!isDead)
         {
-            RelativeMovement();
+            transform.Translate(Vector3.left * moveSpeed * Time.deltaTime, Space.World);
         }
-        if (isDead)
+        else if (isDead)
         {
             Die();
         }
     }
-
-    public void RelativeMovement()
-    {
-        float playerX = PlayerResultsManager.currentDistance;
-        float enemyX = transform.position.x;
-
-        float playerSpeed = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
-
-        float currentOffset = enemyX - playerX;
-        float offsetError = targetOffset - currentOffset;
-
-        float desiredSpeed = playerSpeed + offsetError * followStrength;
-        desiredSpeed = Mathf.Clamp(desiredSpeed, 0, maxSpeed);
-
-        smoothSpeed = Mathf.Lerp(smoothSpeed, desiredSpeed, Time.deltaTime * 5f);
-
-        transform.Translate(Vector2.right * smoothSpeed * Time.deltaTime);
-    }
-
 
     public void Die()
     {

@@ -7,6 +7,7 @@ public class ManaPool : MonoBehaviour
 
     public void UpdateMana(float fillAmount)
     {
-        manaFill.fillAmount = fillAmount;
+        if (manaFill != null) { manaFill.fillAmount = fillAmount; }
+        
     }
 }

@@ -151,7 +151,7 @@ public class PlayerStateMachine : MonoBehaviour
         // move to ground for death animation
         Vector3 pos = player.transform.position;
 
-        if (groundWasSearched) { pos.y = 2.5f; } else { pos.y = 0f; }
+        if (groundWasSearched) { pos.y = 4f; } else { pos.y = 0f; }
 
         player.transform.position = pos;
 
