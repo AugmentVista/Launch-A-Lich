@@ -208,7 +208,7 @@ public class PlayerResultsManager : MonoBehaviour
             $"Treats = ${itemGoldThisRun}\n" +
             $"Income Multiplier {ApplyIncomeUpgrade()}x\n\n" +
             $"Earned This Run: ${totalRunGold}\n\n" +
-            $"New Balace: ${bank.Balance - totalRunGold} + ${totalRunGold}";
+            $"New Balace:\n ${bank.Balance - totalRunGold} + ${totalRunGold}";
     }
 
     public void ResetVariables()

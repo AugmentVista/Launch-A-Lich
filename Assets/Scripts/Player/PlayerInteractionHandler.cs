@@ -199,7 +199,7 @@ public class PlayerInteractionHandler : PlayerBase
             }
             if (Health <= 0) { playerAnim.PlayDeath(); }
             else { playerAnim.PlayTakeHit(); }
-
+            Debug.LogWarning("HITTING GROUND DAMAGE");
         }
 
         if (collision.CompareTag("Ceiling"))
@@ -246,9 +246,14 @@ public class PlayerInteractionHandler : PlayerBase
             if (groundedTimer > 0.5f)
             {
                 groundedTimer = 0f;
-                GetComponent<Player_Anim_Manager>()?.PlayTakeHit();
+                //GetComponent<Player_Anim_Manager>()?.PlayTakeHit();
                 TakeDamage(ground.damageValue);
+
                 ApplyExp2Force(2f, ground.damageValue + ApplyBounceyUpgrade());
+
+                if (Health <= 0) { playerAnim.PlayDeath(); }
+                else { playerAnim.PlayTakeHit(); }
+                Debug.LogWarning("Touching ground damage");
             }
         }
     }

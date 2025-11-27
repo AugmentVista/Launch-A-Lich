@@ -106,7 +106,10 @@ public class Player_DarkWizard_Anim_Manager : MonoBehaviour
     }
     public void PlayTakeHit()
     {
-        StartCoroutine(PlayAndLockRoutine("WizardDark_TakeDamage_Anim"));
+        if (dead || Time.timeScale == 0) return;
+
+        LockAnimationNow();
+        StartCoroutine(PlayPriorityAnimation("WizardDark_TakeDamage_Anim"));
     }
 
     public void PlayDeath()
@@ -120,7 +123,7 @@ public class Player_DarkWizard_Anim_Manager : MonoBehaviour
         if (dead || Time.timeScale == 0) return;
 
         LockAnimationNow();
-        StartCoroutine(PlayAttackRoutine("WizardDark_AttackDOWN_Anim"));
+        StartCoroutine(PlayPriorityAnimation("WizardDark_AttackDOWN_Anim"));
     }
 
     public void PlayAttackUp()
@@ -128,7 +131,7 @@ public class Player_DarkWizard_Anim_Manager : MonoBehaviour
         if (dead || Time.timeScale == 0) return;
 
         LockAnimationNow();
-        StartCoroutine(PlayAttackRoutine("WizardDark_AttackUP_Anim"));
+        StartCoroutine(PlayPriorityAnimation("WizardDark_AttackUP_Anim"));
     }
 
     private void LockAnimationNow()
@@ -137,7 +140,7 @@ public class Player_DarkWizard_Anim_Manager : MonoBehaviour
         lockTimer = 999f;  // placeholder, will be corrected in coroutine
     }
 
-    private IEnumerator PlayAttackRoutine(string anim)
+    private IEnumerator PlayPriorityAnimation(string anim)
     {
         animator.Play(anim);
 
