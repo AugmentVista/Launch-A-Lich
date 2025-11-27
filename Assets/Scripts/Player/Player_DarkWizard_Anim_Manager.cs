@@ -1,9 +1,10 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class Player_DarkWizard_Anim_Manager : MonoBehaviour
 {
     private Animator animator;
+    private bool dead = true;
 
     private bool animationLocked = false;
     private float lockTimer = 0f;
@@ -23,7 +24,9 @@ public class Player_DarkWizard_Anim_Manager : MonoBehaviour
         PlayerStateMachine.OnReadyToLaunch += PlayIdle;
         PlayerStateMachine.OnStopped += PlayDeath;
         PlayerStateMachine.OnFlying += EvaluateFlyingState;
+        PlayerStateMachine.OnFlying += Alive;
         PlayerStateMachine.OnGrounded += EvaluateFlyingState;
+        PlayerStateMachine.OnGrounded += Alive;
     }
 
     private void OnDisable()
@@ -31,7 +34,14 @@ public class Player_DarkWizard_Anim_Manager : MonoBehaviour
         PlayerStateMachine.OnReadyToLaunch -= PlayIdle;
         PlayerStateMachine.OnStopped -= PlayDeath;
         PlayerStateMachine.OnFlying -= EvaluateFlyingState;
+        PlayerStateMachine.OnFlying -= Alive;
         PlayerStateMachine.OnGrounded -= EvaluateFlyingState;
+        PlayerStateMachine.OnGrounded -= Alive;
+    }
+
+    public void Alive()
+    {
+        dead = false;
     }
 
     private void Update()
@@ -39,15 +49,16 @@ public class Player_DarkWizard_Anim_Manager : MonoBehaviour
         if (animationLocked)
         {
             lockTimer -= Time.deltaTime;
-
             if (lockTimer <= 0f)
                 animationLocked = false;
 
-            return;
+            return; // skip flight animation entirely while locked
         }
-        // Only evaluate rising/falling if the animation is not locked
+
+        // Only run flying logic if NOT attacking or hit-stunned
         EvaluateFlyingState();
     }
+
 
     private IEnumerator PlayAndLockRoutine(string anim)
     {
@@ -55,7 +66,7 @@ public class Player_DarkWizard_Anim_Manager : MonoBehaviour
 
         // Wait 1 frame so animator updates current state
         yield return null;
-
+        
         float clipLength = animator.GetCurrentAnimatorStateInfo(0).length;
 
         animationLocked = true;
@@ -92,21 +103,48 @@ public class Player_DarkWizard_Anim_Manager : MonoBehaviour
     public void PlayRolling()
     {
         StartCoroutine(PlayAndLockRoutine("WizardDark_Jump_Anim"));
-        //animator.Play("Player_Rolling");
     }
     public void PlayTakeHit()
     {
         StartCoroutine(PlayAndLockRoutine("WizardDark_TakeDamage_Anim"));
-        //animator.Play("Player_Take_Hit");
     }
 
     public void PlayDeath()
     {
-        animator.Play("WizardDark_Death_Anim");
+        dead = true;
+        StartCoroutine(PlayAndLockRoutine("WizardDark_Death_Anim"));
     }
 
-    public void PlayAttack()
+    public void PlayAttackDown()
     {
-        throw new System.Exception("Attack animation not implemented in Animator.");
+        if (dead || Time.timeScale == 0) return;
+
+        LockAnimationNow();
+        StartCoroutine(PlayAttackRoutine("WizardDark_AttackDOWN_Anim"));
+    }
+
+    public void PlayAttackUp()
+    {
+        if (dead || Time.timeScale == 0) return;
+
+        LockAnimationNow();
+        StartCoroutine(PlayAttackRoutine("WizardDark_AttackUP_Anim"));
+    }
+
+    private void LockAnimationNow()
+    {
+        animationLocked = true;
+        lockTimer = 999f;  // placeholder, will be corrected in coroutine
+    }
+
+    private IEnumerator PlayAttackRoutine(string anim)
+    {
+        animator.Play(anim);
+
+        yield return null; // let animator switch states this frame
+
+        float clip = animator.GetCurrentAnimatorStateInfo(0).length;
+
+        lockTimer = clip;
     }
 }

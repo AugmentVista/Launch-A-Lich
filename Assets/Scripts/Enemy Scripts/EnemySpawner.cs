@@ -3,6 +3,7 @@
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    private EnemyPlacement placement;       
 
     [SerializeField] private GameObject[] groundEnemies;
     [SerializeField] private GameObject[] flyingEnemies;
@@ -14,14 +15,11 @@ public class EnemySpawner : MonoBehaviour
 
     private bool canSpawn = false;
     private float timer = 0f;
-    private float spawnInterval = 0.25f;
+    private float spawnInterval;
 
-    private EnemyPlacement placement;       // << NEW
-    private Camera cam;
 
     void Awake()
     {
-        cam = Camera.main;
         placement = GetComponentInChildren<EnemyPlacement>();
     }
 

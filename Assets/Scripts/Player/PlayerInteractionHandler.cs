@@ -68,7 +68,20 @@ public class PlayerInteractionHandler : PlayerBase
 
     private void Update()
     {
+        DetectPlayerAttacking();
         ApplyTouchingGroundDamage();
+    }
+
+    public void DetectPlayerAttacking()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            playerAnim.PlayAttackDown();
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            playerAnim.PlayAttackUp();
+        }
     }
 
     #region Upgrade Section

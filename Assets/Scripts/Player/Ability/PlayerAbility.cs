@@ -62,7 +62,7 @@ public class PlayerAbility : MonoBehaviour
 
     private void Update()
     {
-        if (!abilityEnabled) return;
+        if (!abilityEnabled || Time.timeScale == 0) return;
 
         // Passive regen
         currentMana += manaRegenRate * Time.deltaTime;
