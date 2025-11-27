@@ -202,13 +202,13 @@ public class PlayerResultsManager : MonoBehaviour
         bank.DepositRunEarnings(deposit);
 
         goldText.text =
-            $"Height = {height:F0}\n" +
-            $"Distance = {distance / 2:F0}\n" +
-            $"Enemies = {enemyGoldThisRun}\n" +
-            $"Treats = {itemGoldThisRun}\n" +
+            $"Height = ${height:F0}\n" +
+            $"Distance = ${distance / 2:F0}\n" +
+            $"Enemies = ${enemyGoldThisRun}\n" +
+            $"Treats = ${itemGoldThisRun}\n" +
             $"Income Multiplier {ApplyIncomeUpgrade()}x\n\n" +
-            $"Earned This Run: {totalRunGold}\n\n" +
-            $"Total: {bank.Balance - totalRunGold} + {totalRunGold}";
+            $"Earned This Run: ${totalRunGold}\n\n" +
+            $"New Balace: ${bank.Balance - totalRunGold} + ${totalRunGold}";
     }
 
     public void ResetVariables()

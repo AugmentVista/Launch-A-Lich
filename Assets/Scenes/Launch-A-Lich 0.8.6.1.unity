@@ -70270,12 +70270,12 @@ MonoBehaviour:
   isCameraToldToFollow: 0
   target: {fileID: 6767656424831670586}
   offset: {x: 5, y: 4, z: -10}
-  offsetDefault: {x: 4, y: 4, z: -10}
-  offsetLeftBias: {x: 8, y: 4, z: -10}
-  baseFollowSpeed: 41
-  maxFollowLag: 3
+  offsetDefault: {x: 15, y: 4, z: -10}
+  offsetLeftBias: {x: 12, y: 4, z: -10}
+  baseFollowSpeed: 51
+  maxFollowLag: 5
   speedThreshold: 40
-  maxPlayerSpeed: 100
+  maxPlayerSpeed: 150
   maxCameraLagX: 0.3
   verticalLerpSpeed: 1.5
   riseThreshold: 25
@@ -70283,7 +70283,7 @@ MonoBehaviour:
   maxUpOffset: 8
   maxDownOffset: -4
   neutralOffsetY: 4
-  maxForwardBias: 4
+  maxForwardBias: 3
   biasEasePower: 0.5
 --- !u!1 &338580183
 GameObject:
