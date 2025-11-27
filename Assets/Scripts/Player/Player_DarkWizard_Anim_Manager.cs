@@ -52,7 +52,7 @@ public class Player_DarkWizard_Anim_Manager : MonoBehaviour
             if (lockTimer <= 0f)
                 animationLocked = false;
 
-            return; // skip flight animation entirely while locked
+            return; // skip flight animation when locked
         }
 
         // Only run flying logic if NOT attacking or hit-stunned
@@ -104,12 +104,21 @@ public class Player_DarkWizard_Anim_Manager : MonoBehaviour
     {
         StartCoroutine(PlayAndLockRoutine("WizardDark_Jump_Anim"));
     }
-    public void PlayTakeHit()
+
+    public void PlayTakeHitBig()
     {
         if (dead || Time.timeScale == 0) return;
 
         LockAnimationNow();
-        StartCoroutine(PlayPriorityAnimation("WizardDark_TakeDamage_Anim"));
+        StartCoroutine(PlayPriorityAnimation("WizardDark_TakeHitBig_Anim"));
+    }
+
+    public void PlayTakeHitSmall()
+    {
+        if (dead || Time.timeScale == 0) return;
+
+        LockAnimationNow();
+        StartCoroutine(PlayPriorityAnimation("WizardDark_TakeHitSmall_Anim"));
     }
 
     public void PlayDeath()

@@ -135,37 +135,31 @@ public class PlayerInteractionHandler : PlayerBase
         if (collision.CompareTag("Enemy"))
         {
             if (!healthPositive) { return; }
-            Enemy enemy = collision.GetComponent<Enemy>();
 
+            Enemy enemy = collision.GetComponent<Enemy>();
             TakeDamage(enemy.damageValue);
 
-            if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
+            if (Health <= MaxHealth && Health > 0 && enemy.type == Enemy.Type.Flying)
             {
                 LogarithmicBounce(4f, enemyImpactVelocityGain * forceMult);
 
                 OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
             }
-            else if (Health >= MaxHealth * 0.5f && Health > 0 && enemy.type == Enemy.Type.Flying)
-            {
-                LogarithmicBounce(2f, enemyImpactVelocityGain * forceMult);
-
-                OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
-            }
-            else if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Grounded)
+            if (Health <= MaxHealth && Health > 0 && enemy.type == Enemy.Type.Grounded)
             {
                 LogarithmicBounce(4f, enemyImpactVelocityGain * forceMult);
+
                 OnGroundEnemyDefeated?.Invoke(enemy.moneyValue);
             }
-            else if (Health >= MaxHealth * 0.5f && Health > 0 && enemy.type == Enemy.Type.Grounded)
+            if (Health <= 0) // if this hit would kill player, downward spike
             {
-                LogarithmicBounce(4f, enemyImpactVelocityGain * forceMult);
-                OnGroundEnemyDefeated?.Invoke(enemy.moneyValue);
+                { NegativeLogarithmicBounce(2f, 50f); }
             }
 
-            if (Health - enemy.damageValue > 0) { GetComponent<Player_Anim_Manager>()?.PlayRolling(); }
+            if (Health <= 0) { playerAnim.PlayDeath(); }
+            else { playerAnim.PlayTakeHitSmall(); }
 
-
-            if (Health <= 0) { NegativeLogarithmicBounce(2f, 100f); }
+            Debug.LogWarning("HITTING ENEMY DAMAGE");
 
             if (enemy != null) enemy.isDead = true;
         }
@@ -198,7 +192,7 @@ public class PlayerInteractionHandler : PlayerBase
                     break;
             }
             if (Health <= 0) { playerAnim.PlayDeath(); }
-            else { playerAnim.PlayTakeHit(); }
+            else { playerAnim.PlayTakeHitBig(); }
             Debug.LogWarning("HITTING GROUND DAMAGE");
         }
 
@@ -229,7 +223,7 @@ public class PlayerInteractionHandler : PlayerBase
                     break;
             }
             if (Health <= 0) { playerAnim.PlayDeath(); }
-            else { playerAnim.PlayTakeHit(); }
+            else { playerAnim.PlayTakeHitBig(); }
 
         }
 #endregion
@@ -239,20 +233,20 @@ public class PlayerInteractionHandler : PlayerBase
 
     private void ApplyTouchingGroundDamage()
     {
-        if (grounded && PlayerResultsManager.globalPlayerSpeedX > 4f)
+        if (grounded && PlayerResultsManager.globalPlayerSpeedX > 4f && healthPositive)
         {
             groundedTimer += Time.deltaTime;
 
             if (groundedTimer > 0.5f)
             {
                 groundedTimer = 0f;
-                //GetComponent<Player_Anim_Manager>()?.PlayTakeHit();
+
                 TakeDamage(ground.damageValue);
 
                 ApplyExp2Force(2f, ground.damageValue + ApplyBounceyUpgrade());
 
                 if (Health <= 0) { playerAnim.PlayDeath(); }
-                else { playerAnim.PlayTakeHit(); }
+                else { playerAnim.PlayTakeHitBig(); }
                 Debug.LogWarning("Touching ground damage");
             }
         }

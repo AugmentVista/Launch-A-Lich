@@ -72097,7 +72097,7 @@ MonoBehaviour:
   - {fileID: 4302006093261710066, guid: 86ca036d65b8ec34a8f4d541e9a89f79, type: 3}
   speedLimit: {fileID: 7587690105007918345}
   minSpawnRate: 1
-  maxSpawnRate: 2
+  maxSpawnRate: 5
 --- !u!1 &548166135
 GameObject:
   m_ObjectHideFlags: 0
