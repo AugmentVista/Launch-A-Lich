@@ -5,12 +5,7 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] PlayerResultsManager results;
 
     public GameObject itemPrefab;
-
-    [SerializeField] GameObject[] groundItems;
     [SerializeField] GameObject[] flyingItems;
-
-    [SerializeField] GameObject flyingItem2;
-    [SerializeField] GameObject flyingItem3;
 
     [SerializeField] SpeedLimit speedLimit;
     [SerializeField] GameObject ceiling;
@@ -18,7 +13,6 @@ public class ItemSpawner : MonoBehaviour
     private float speedLimitX;
     private float spawnInterval = 0.25f;
     public float spawnY;
-    public float spawnOffset = 2f;  // how far past right edge to spawn
 
     [SerializeField] private float minSpawnRate = 1.5f;
     [SerializeField] private float maxSpawnRate = 0.5f;
@@ -36,7 +30,6 @@ public class ItemSpawner : MonoBehaviour
     {
         PlayerStateMachine.OnGrounded += EnableSpawning;
         PlayerStateMachine.OnFlying += EnableSpawning;
-        PlayerStateMachine.OnGrounded += SpawnGroundedItems;
         PlayerStateMachine.OnFlying += SpawnFlyingItems;
 
         PlayerStateMachine.OnInactive += DisableSpawning;
@@ -47,7 +40,6 @@ public class ItemSpawner : MonoBehaviour
     {
         PlayerStateMachine.OnGrounded -= EnableSpawning;
         PlayerStateMachine.OnFlying -= EnableSpawning;
-        PlayerStateMachine.OnGrounded -= SpawnGroundedItems;
         PlayerStateMachine.OnFlying -= SpawnFlyingItems;
 
         PlayerStateMachine.OnInactive -= DisableSpawning;
@@ -73,13 +65,9 @@ public class ItemSpawner : MonoBehaviour
 
         spawnInterval = Mathf.Clamp(Mathf.Round(scaledInterval * 10f) / 10f,maxSpawnRate, minSpawnRate);
 
-        if (PlayerResultsManager.globalPlayerSpeedY > 10f || PlayerResultsManager.globalPlayerSpeedY < -10f)
+        if (PlayerResultsManager.currentHeight >= 10)
         {
             SpawnFlyingItems();
-        }
-        else
-        {
-            SpawnGroundedItems();
         }
 
         timer += Time.deltaTime;
@@ -103,52 +91,40 @@ public class ItemSpawner : MonoBehaviour
             case float distance when (distance < 1500f):
                 itemPrefab = flyingItems[1];
                 break;
-            case float distance when (distance >= 3000f):
+            case float distance when (distance <= 3000f):
                 itemPrefab = flyingItems[2];
                 break;
-            case float distance when (distance >= 4000f):
+            case float distance when (distance <= 4000f):
                 itemPrefab = flyingItems[3];
                 break;
-            case float distance when (distance >= 5000f):
+            case float distance when (distance <= 5000f):
                 itemPrefab = flyingItems[4];
                 break;
-            default:
-                itemPrefab = flyingItems[0];
+            case float distance when (distance <= 6000f):
+                itemPrefab = flyingItems[5];
                 break;
+            case float distance when (distance <= 7000f):
+                itemPrefab = flyingItems[6];
+                break;
+            case float distance when (distance <= 8000f):
+                itemPrefab = flyingItems[7];
+                break;
+            case float distance when (distance <= 9000f):
+                itemPrefab = flyingItems[8];
+                break;
+            default:
+                int randomTreat = Random.Range(0, 9);
+                itemPrefab = flyingItems[randomTreat];
+            break;
         }
         Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
         Vector3 topEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, cam.nearClipPlane));
 
         float randomY = Random.Range(bottomEdge.y + 10f, topEdge.y - 1f);
 
-        spawnY = Mathf.Clamp(randomY, 10f, ceiling.transform.position.y - 5);
+        spawnY = Mathf.Clamp(randomY, 10f, ceiling.transform.position.y - 8);
     }
 
-    void SpawnGroundedItems()
-    {
-        float dist = PlayerResultsManager.currentDistance;
-
-        switch (dist)
-        {
-            case float distance when (distance > 0 && distance < 800f):
-                itemPrefab = groundItems[0];
-                break;
-            case float distance when (distance > 800 && distance < 1500f):
-                itemPrefab = groundItems[1];
-                break;
-            case float distance when (distance > 1500 && distance < 2500f):
-                itemPrefab = groundItems[2];
-                break;
-            case float distance when (distance > 2500 && distance < 4000f):
-                itemPrefab = groundItems[3];
-                break;
-            default:
-                int surpriseSpawn = Random.Range(1, 4);
-                itemPrefab = groundItems[surpriseSpawn];
-                break;
-        }
-        spawnY = 0f;
-    }
 
     private void SpawnItem()
     {
@@ -168,28 +144,18 @@ public class ItemSpawner : MonoBehaviour
         const int maxAttempts = 10;
         for (int attempt = 0; attempt < maxAttempts; attempt++)
         {
-            float randomSpawnOffset = Random.Range(0.25f, 10f);
+            float randomSpawnOffset = Random.Range(4f, 15f);
             Vector2 spawnPos = new Vector2(rightEdge.x + randomSpawnOffset, spawnY);
 
             Collider2D hit = Physics2D.OverlapBox(spawnPos, overlapBoxSize, 0f, LayerMask.GetMask("Enemies", "Item"));
 
-            if (hit == null || !hit.CompareTag("Enemy") && !hit.CompareTag("Item"))
+            if (hit == null || !hit.CompareTag("Enemy") && !hit.CompareTag("Item") && !hit.CompareTag("Ground") && !hit.CompareTag("Ceiling"))
             {
                 GameObject instance = Instantiate(itemPrefab, spawnPos, Quaternion.identity);
 
-                for (int i = 0; i < groundItems.Length; i++)
-                {
-                    if (itemPrefab == groundItems[i])
-                    {
-                        Vector3 scale = instance.transform.localScale;
-                        scale.x *= -1;
-                        instance.transform.localScale = scale;
-                    }
-                }
                 return;
             }
         }
-
     }
 
     private void EnableSpawning() => canSpawn = true;

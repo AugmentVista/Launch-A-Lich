@@ -6,9 +6,6 @@ public class PlayerInteractionHandler : PlayerBase
     #region Variable Declarations
     [SerializeField] Player_DarkWizard_Anim_Manager playerAnim;
 
-    public int forceMult;
-    public int enemyImpactVelocityGain;
-
     private float groundedTimer = 0f;
 
     private float bouncyUpgradesActive = 0;
@@ -101,6 +98,13 @@ public class PlayerInteractionHandler : PlayerBase
         return bouncyUpgradesActive;
     }
 
+    public void EnemySlayed(Enemy enemy)
+    {
+        if (!healthPositive) { return; }
+
+        OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
+    }
+
     #endregion
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -139,17 +143,11 @@ public class PlayerInteractionHandler : PlayerBase
             Enemy enemy = collision.GetComponent<Enemy>();
             TakeDamage(enemy.damageValue);
 
-            if (Health <= MaxHealth && Health > 0 && enemy.type == Enemy.Type.Flying)
+            if (Health <= MaxHealth && Health > 0)
             {
-                LogarithmicBounce(4f, enemyImpactVelocityGain * forceMult);
+                NegativeLogarithmicBounce(4f, enemy.damageValue * 2f);
 
                 OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
-            }
-            if (Health <= MaxHealth && Health > 0 && enemy.type == Enemy.Type.Grounded)
-            {
-                LogarithmicBounce(4f, enemyImpactVelocityGain * forceMult);
-
-                OnGroundEnemyDefeated?.Invoke(enemy.moneyValue);
             }
             if (Health <= 0) // if this hit would kill player, downward spike
             {
@@ -193,7 +191,6 @@ public class PlayerInteractionHandler : PlayerBase
             }
             if (Health <= 0) { playerAnim.PlayDeath(); }
             else { playerAnim.PlayTakeHitBig(); }
-            Debug.LogWarning("HITTING GROUND DAMAGE");
         }
 
         if (collision.CompareTag("Ceiling"))
@@ -254,7 +251,7 @@ public class PlayerInteractionHandler : PlayerBase
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ground"))
+        if (collision.CompareTag("Ground") || collision.CompareTag("Ceiling"))
         {
             ground = collision.GetComponent<Ground>();
             grounded = true;
@@ -263,7 +260,7 @@ public class PlayerInteractionHandler : PlayerBase
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ground"))
+        if (collision.CompareTag("Ground") || collision.CompareTag("Ceiling"))
         {
             grounded = false;
         }

@@ -9,16 +9,10 @@ public class EnemyPlacement : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 offset = new Vector3(55f, 5f, 0f);
 
-    // All pods detected under this parent at Awake()
     [SerializeField] private List<SpawnPod> allPods = new List<SpawnPod>();
 
-    // Pods filtered according to speed rules (pink/purple removal)
     [SerializeField] private List<SpawnPod> activePods = new List<SpawnPod>();
 
-
-    // -----------------------------
-    // Speed Category Breakpoints
-    // -----------------------------
     public float lowMax = 30f;
     public float mediumMax = 80f;
     public float highMax = 150f;
@@ -31,9 +25,6 @@ public class EnemyPlacement : MonoBehaviour
         VeryHigh
     }
 
-    // -----------------------------
-    // Color priority lists
-    // -----------------------------
     private readonly Dictionary<SpeedCategory, PodZone[]> colorPriority = new Dictionary<SpeedCategory, PodZone[]>()
     {
         // Low speed → Blue → Yellow → Green → Red
@@ -49,11 +40,6 @@ public class EnemyPlacement : MonoBehaviour
         { SpeedCategory.VeryHigh, new[] { PodZone.Green, PodZone.Red, PodZone.Blue } },
     };
 
-
-
-    // ---------------------------------------------------------
-    // Speed Category Calculation
-    // ---------------------------------------------------------
     public SpeedCategory CurrentCategory
     {
         get
@@ -76,20 +62,18 @@ public class EnemyPlacement : MonoBehaviour
         }
     }
 
-
-    // ---------------------------------------------------------
-    // BuildActivePodList – Pink / Purple tag filtering
-    // ---------------------------------------------------------
     private void BuildActivePodList(SpeedCategory speedCategory)
     {
         activePods = new List<SpawnPod>(allPods);
+
+        // REMOVE pods above the ceiling (in world space)
+        activePods.RemoveAll(pod => pod.transform.position.y > 100f);
 
         switch (speedCategory)
         {
             case SpeedCategory.Low:
             case SpeedCategory.Medium:
-                return; // no exclusions
-
+                return;
             case SpeedCategory.High:
                 RemovePodsWithTag("Pink_Pod_Zones");
                 break;
@@ -97,9 +81,10 @@ public class EnemyPlacement : MonoBehaviour
             case SpeedCategory.VeryHigh:
                 RemovePodsWithTag("Pink_Pod_Zones");
                 RemovePodsWithTag("Purple_Pod_Zones");
-                break;
+            break;
         }
     }
+
 
     private void RemovePodsWithTag(string tagToRemove)
     {
@@ -110,10 +95,6 @@ public class EnemyPlacement : MonoBehaviour
         }
     }
 
-
-    // ---------------------------------------------------------
-    // CalculatePriorityWeights – 5/4/2/1 based on priority order
-    // ---------------------------------------------------------
     private Dictionary<SpawnPod, float> CalculatePriorityWeights(SpeedCategory category)
     {
         Dictionary<SpawnPod, float> weighted = new Dictionary<SpawnPod, float>();
@@ -142,10 +123,6 @@ public class EnemyPlacement : MonoBehaviour
         return weighted;
     }
 
-
-    // ---------------------------------------------------------
-    // Public API – Main weighting + cooldown-aware selection
-    // ---------------------------------------------------------
     public Transform GetNextPod()
     {
         SpeedCategory category = CurrentCategory;

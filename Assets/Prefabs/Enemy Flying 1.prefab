@@ -173,6 +173,7 @@ MonoBehaviour:
   explodedPrefab: {fileID: 3044282159541186506, guid: b17c7236d34adf14f9525be37bc3368e, type: 3}
   hitByPlayerAbility: 0
   isDead: 0
+  moveSpeed: 10
   damageValue: 6
   moneyValue: 8
   type: 0

@@ -54,7 +54,7 @@ public class AbilityMeleeEffect : MonoBehaviour
     {
         if (PlayerResultsManager.globalPlayerSpeedY < 0 && !downForce)
         {
-            relativeStrength = Mathf.Max(abilityStrength, PlayerResultsManager.globalPlayerSpeedY * -0.50f);
+            relativeStrength = Mathf.Max(abilityStrength, PlayerResultsManager.currentHeight);
         }
         else
         {
@@ -62,25 +62,15 @@ public class AbilityMeleeEffect : MonoBehaviour
         }
     }
 
-    public bool DoesPlayerHaveHealth() // checking if the player has 0 hp
-    {
-        PlayerInteractionHandler player = playerRb.gameObject.GetComponent<PlayerInteractionHandler>();
-        if (player == null) { return false; }
-
-        if (player.healthPositive) { return true; }
-        else { return false; }
-    }
-
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!DoesPlayerHaveHealth()) { return; }
-
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = collision.GetComponent<Enemy>();
-
             if (enemy != null)
             {
+                PlayerAbility playerAbility = GetComponentInParent<PlayerAbility>();
+                playerAbility.KillConfirmed(enemy);
                 enemy.hitByPlayerAbility = true;
                 enemy.isDead = true;
             }
@@ -135,7 +125,7 @@ public class AbilityMeleeEffect : MonoBehaviour
     private Vector2 CalculateLogarithmicDirection()
     {
         float x = 15f;
-
+        if (downForce) { x = 30f; }
         float y = downForce ? -5f * Mathf.Log(x + 2f) : 5f * Mathf.Log(x + 2f);
 
         return new Vector2(x, y).normalized;

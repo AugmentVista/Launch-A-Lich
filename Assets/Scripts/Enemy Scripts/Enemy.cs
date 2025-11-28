@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     public Type type;
 
 
-    void Update()
+    void LateUpdate()
     {
         if (!isDead)
         {

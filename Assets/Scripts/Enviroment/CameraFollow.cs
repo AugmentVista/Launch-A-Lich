@@ -17,7 +17,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private Vector3 offsetLeftBias = new Vector3(-3, 4f, -10f); // offset value while player is at launch site
 
     [Header("Lag Settings")]
-    [SerializeField] private float baseFollowSpeed = 41f;
+    [SerializeField] private float baseFollowSpeed = 51f;
     [SerializeField] private float maxFollowLag = 1.5f;     // Max distance camera can lag behind
     [SerializeField] private float speedThreshold = 40f;
     [SerializeField] private float maxPlayerSpeed = 100f;
@@ -109,7 +109,16 @@ public class CameraFollow : MonoBehaviour
 
         if (applyLeftOffsetBias) { offset = offsetLeftBias; } else { offset = offsetDefault; }
 
-        float playerSpeedX = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
+        if (PlayerResultsManager.globalPlayerSpeedX > maxPlayerSpeed)
+        {
+            baseFollowSpeed = PlayerResultsManager.globalPlayerSpeedX / 2;
+        }
+        else 
+        {
+            baseFollowSpeed = 51f;
+        }
+
+            float playerSpeedX = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
         float playerSpeedY = PlayerResultsManager.globalPlayerSpeedY;
 
         //  X axis lag 

@@ -5,7 +5,6 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemyPrefab;
     private EnemyPlacement placement;       
 
-    [SerializeField] private GameObject[] groundEnemies;
     [SerializeField] private GameObject[] flyingEnemies;
 
     [SerializeField] private SpeedLimit speedLimit;
@@ -25,29 +24,21 @@ public class EnemySpawner : MonoBehaviour
 
     void OnEnable()
     {
-        PlayerStateMachine.OnGrounded += EnableSpawning;
         PlayerStateMachine.OnFlying += EnableSpawning;
-        PlayerStateMachine.OnGrounded += PickGroundPrefab;
-        PlayerStateMachine.OnFlying += PickFlyingPrefab;
-
         PlayerStateMachine.OnInactive += DisableSpawning;
         PlayerStateMachine.OnStopped += DisableSpawning;
     }
 
     void OnDisable()
     {
-        PlayerStateMachine.OnGrounded -= EnableSpawning;
         PlayerStateMachine.OnFlying -= EnableSpawning;
-        PlayerStateMachine.OnGrounded -= PickGroundPrefab;
-        PlayerStateMachine.OnFlying -= PickFlyingPrefab;
-
         PlayerStateMachine.OnInactive -= DisableSpawning;
         PlayerStateMachine.OnStopped -= DisableSpawning;
     }
+
     void Update()
     {
-        if (!canSpawn)
-            return;
+        if (!canSpawn) { return; }
 
         float playerSpeedX = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
         float playerSpeedY = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedY);
@@ -55,8 +46,7 @@ public class EnemySpawner : MonoBehaviour
 
         float effectiveSpeed = (playerSpeedX * 2f + playerSpeedY) / 3f;
 
-        float playerSpeedNormalized =
-            Mathf.InverseLerp(playerSpeedFloor, speedLimit.maxSpeedX, effectiveSpeed);
+        float playerSpeedNormalized = Mathf.InverseLerp(playerSpeedFloor, speedLimit.maxSpeedX, effectiveSpeed);
 
         // get enemies per second
         float spawnRate = Mathf.Lerp(minSpawnRate, maxSpawnRate, playerSpeedNormalized);
@@ -65,8 +55,7 @@ public class EnemySpawner : MonoBehaviour
         spawnRate = Mathf.Round(spawnRate);
 
         // Prevent invalid spawn rates
-        if (spawnRate < 1f)
-            spawnRate = 1f;
+        if (spawnRate < 1f) { spawnRate = 1f; }
 
         // convert enemies/sec -> seconds/enemy
         spawnInterval = 1f / spawnRate;
@@ -80,28 +69,11 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    void PickFlyingPrefab()
-    {
-        float dist = PlayerResultsManager.currentDistance;
-
-        if (dist < 1000f) enemyPrefab = flyingEnemies[0];
-        else if (dist < 3000f) enemyPrefab = flyingEnemies[1];
-        else enemyPrefab = flyingEnemies[2];
-    }
-
-    void PickGroundPrefab()
-    {
-        float dist = PlayerResultsManager.currentDistance;
-
-        if (dist < 1500f) enemyPrefab = groundEnemies[0];
-        else if (dist < 3000f) enemyPrefab = groundEnemies[1];
-        else enemyPrefab = groundEnemies[2];
-    }
-
     private void SpawnEnemy()
     {
         if (EnemyCountTracker.EnemyCount >= maxEnemyAmount) { return; }
 
+        DetermineFlyingPrefab();
         if (enemyPrefab == null) return;
 
         Transform pod = placement.GetNextPod();
@@ -109,6 +81,15 @@ public class EnemySpawner : MonoBehaviour
 
         // Spawn as a child of that pod 
         GameObject instance = Instantiate(enemyPrefab, pod.position, Quaternion.identity, pod);
+    }
+
+    private void DetermineFlyingPrefab()
+    {
+        float dist = PlayerResultsManager.currentDistance;
+
+        if (dist < 1000f) enemyPrefab = flyingEnemies[0];
+        else if (dist < 3000f) enemyPrefab = flyingEnemies[1];
+        else { enemyPrefab = flyingEnemies[2]; }
     }
 
     // Called from EnemyPlacement when it retries after pod cooldown

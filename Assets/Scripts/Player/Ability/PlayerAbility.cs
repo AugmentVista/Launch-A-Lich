@@ -6,6 +6,7 @@ public class PlayerAbility : MonoBehaviour
     public GameObject prefabToSpawn2;
     [SerializeField] ManaPool abilityCooldown;
     [SerializeField] private Rigidbody2D playerRb;
+    [SerializeField] private PlayerInteractionHandler interactionHandler;
 
     public Camera mainCamera;
 
@@ -88,8 +89,14 @@ public class PlayerAbility : MonoBehaviour
         currentMana = Mathf.Clamp01(currentMana + amount);
     }
 
+    public void KillConfirmed(Enemy enemy)
+    {
+        interactionHandler.EnemySlayed(enemy);
+    }
+
     private void TryUseAbility(GameObject prefab)
     {
+        if (!interactionHandler.healthPositive) { return; }
         float cost = manaCost;
 
         AbilityManaCost costComponent = prefab.GetComponent<AbilityManaCost>();
@@ -109,17 +116,6 @@ public class PlayerAbility : MonoBehaviour
 
     private void SpawnAbility(GameObject prefab)
     {
-        //Vector3 mousePos = Input.mousePosition;
-        //Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
-        //worldPos.z = 0f;
-
-        //GameObject instance = Instantiate(prefab, worldPos, Quaternion.identity);
-        //AbilityFollow follow = instance.GetComponent<AbilityFollow>();
-        //if (follow != null)
-        //    follow.SetScreenspaceClick(mousePos);
-
-        //AbilityEffect ability = instance.GetComponent<AbilityEffect>();
-
         GameObject instance = Instantiate(prefab, transform.position, Quaternion.identity, transform);
 
         AbilityMeleeEffect ability = instance.GetComponent<AbilityMeleeEffect>();
