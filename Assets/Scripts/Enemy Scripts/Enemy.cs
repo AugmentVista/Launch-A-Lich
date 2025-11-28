@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     public bool hitByPlayerAbility = false;
     public bool isDead = false;
 
-    private float moveSpeed = 15f;
+    [SerializeField]private float moveSpeed = 15f;
 
     public int damageValue;
     public int moneyValue;

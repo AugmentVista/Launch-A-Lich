@@ -70,13 +70,13 @@ public class PlayerAbility : MonoBehaviour
         if (abilityCooldown != null)
             abilityCooldown.UpdateMana(currentMana);
 
-        // Left click ability
+        // Left click ability UP
         if (Input.GetMouseButtonDown(0) && prefabToSpawn != null)
         {
             TryUseAbility(prefabToSpawn);
         }
 
-        // Right click ability
+        // Right click ability DOWN
         if (Input.GetMouseButtonDown(1) && prefabToSpawn2 != null)
         {
             TryUseAbility(prefabToSpawn2);
@@ -109,17 +109,20 @@ public class PlayerAbility : MonoBehaviour
 
     private void SpawnAbility(GameObject prefab)
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
-        worldPos.z = 0f;
-        
-        GameObject instance = Instantiate(prefab, worldPos, Quaternion.identity);
-        AbilityFollow follow = instance.GetComponent<AbilityFollow>();
-        if (follow != null)
-            follow.SetScreenspaceClick(mousePos);
+        //Vector3 mousePos = Input.mousePosition;
+        //Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos);
+        //worldPos.z = 0f;
 
-        AbilityEffect ability = instance.GetComponent<AbilityEffect>();
+        //GameObject instance = Instantiate(prefab, worldPos, Quaternion.identity);
+        //AbilityFollow follow = instance.GetComponent<AbilityFollow>();
+        //if (follow != null)
+        //    follow.SetScreenspaceClick(mousePos);
 
+        //AbilityEffect ability = instance.GetComponent<AbilityEffect>();
+
+        GameObject instance = Instantiate(prefab, transform.position, Quaternion.identity, transform);
+
+        AbilityMeleeEffect ability = instance.GetComponent<AbilityMeleeEffect>();
         if (ability != null)
         {
             // Apply the upgrade bonus to ability strength

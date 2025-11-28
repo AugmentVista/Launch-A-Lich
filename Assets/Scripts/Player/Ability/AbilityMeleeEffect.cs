@@ -1,3 +1,4 @@
+ï»¿using System.Collections;
 using UnityEngine;
 
 public class AbilityMeleeEffect : MonoBehaviour
@@ -5,31 +6,43 @@ public class AbilityMeleeEffect : MonoBehaviour
     private Animator parentAnimator;
     private Rigidbody2D playerRb;
 
-    [Header("Ability Strength")]
-    public float abilityStrength;
-    public bool downForce;
+    [Header("Movement Curve")]
+    public AnimationCurve movementCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    [Header("Strength Settings")]
+    public float abilityStrength = 10f;
+    public bool downForce = false;
+
+    private float animDuration;
+    private float elapsed;
+    private bool pushing;
 
     private float relativeStrength;
-    private bool armed = true;
 
     private void Start()
     {
-        // Get the parent's animator (the player)
-        // Fires off from start as this object is spawned in on ability use
+        StartCoroutine(InitializeAfterAnimatorUpdates());
+    }
+
+    private IEnumerator InitializeAfterAnimatorUpdates()
+    {
         parentAnimator = GetComponentInParent<Animator>();
+
+        // Wait 1 frame so animator switches to newly played animation
+        yield return null;
 
         if (parentAnimator != null)
         {
-            float clipLength =
-                parentAnimator.GetCurrentAnimatorStateInfo(0).length;
-
-            Destroy(gameObject, clipLength);
+            animDuration = parentAnimator.GetCurrentAnimatorStateInfo(0).length;
+            pushing = true;
         }
         else
         {
-            Debug.LogWarning("Player animator missing");
-            Destroy(gameObject, 0.2f); // fallback
+            Debug.LogWarning("Parent animator not found, destroying after 0.6667 seconds");
+            animDuration = 0.667f;
         }
+
+        Destroy(gameObject, animDuration);
     }
 
     public void SetPlayerRb(Rigidbody2D rb)
@@ -39,7 +52,6 @@ public class AbilityMeleeEffect : MonoBehaviour
 
     private void Update()
     {
-        // Adjust magnitude depending on whether player is falling
         if (PlayerResultsManager.globalPlayerSpeedY < 0 && !downForce)
         {
             relativeStrength = Mathf.Max(abilityStrength, PlayerResultsManager.globalPlayerSpeedY * -0.50f);
@@ -50,12 +62,20 @@ public class AbilityMeleeEffect : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public bool DoesPlayerHaveHealth() // checking if the player has 0 hp
     {
-        if (!armed) return;
+        PlayerInteractionHandler player = playerRb.gameObject.GetComponent<PlayerInteractionHandler>();
+        if (player == null) { return false; }
 
-        // Enemy hit only — no more Player tag checks
-        if (collision.CompareTag("Enemy"))
+        if (player.healthPositive) { return true; }
+        else { return false; }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!DoesPlayerHaveHealth()) { return; }
+
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = collision.GetComponent<Enemy>();
 
@@ -65,103 +85,59 @@ public class AbilityMeleeEffect : MonoBehaviour
                 enemy.isDead = true;
             }
         }
-
-        // Apply player bounce direction on ANY hit that should push the player
-        if (playerRb != null)
-        {
-            if (downForce)
-                NegativeLogarithmicBounce(6f, relativeStrength);
-            else
-                LogarithmicBounce(6f, relativeStrength);
-        }
-
-        armed = false; // prevent multiple hits
     }
 
-    /// <summary>
-    /// if inputX = 2, Angle Above X-Axis = 73.8°
-    /// if inputX = 3, Angle Above X-Axis = 69.2°
-    /// if inputX = 4, Angle Above X-Axis = 66.1°
-    /// if inputX = 5, Angle Above X-Axis = 62.7°
-    /// if inputX = 6, Angle Above X-Axis = 60.1°
-    /// if inputX = 7, Angle Above X-Axis = 57.6°
-    /// if inputX = 8, Angle Above X-Axis = 55.0°
-    /// if inputX = 9, Angle Above X-Axis = 53.1°
-    /// if inputX = 10, Angle Above X-Axis = 51.4°
-    /// if inputX = 11, Angle Above X-Axis = 49.8°
-    /// if inputX = 12, Angle Above X-Axis = 48.3°
-    /// if inputX = 13, Angle Above X-Axis = 47.0°
-    /// if inputX = 14, Angle Above X-Axis = 45.8°
-    /// if inputX = 15, Angle Above X-Axis = 44.7°
-    /// if inputX = 16, Angle Above X-Axis = 42.1°
-    /// if inputX = 17, Angle Above X-Axis = 40.1°
-    /// if inputX = 18, Angle Above X-Axis = 39.8°
-    /// if inputX = 19, Angle Above X-Axis = 38.7°
-    /// if inputX = 20, Angle Above X-Axis = 37.8°
-    /// if inputX = 21, Angle Above X-Axis = 36.7°
-    /// if inputX = 22, Angle Above X-Axis = 35.8°
-    /// if inputX = 23, Angle Above X-Axis = 35.0°
-    /// if inputX = 24, Angle Above X-Axis = 34.2°
-    /// if inputX = 25, Angle Above X-Axis = 33.4°
-    /// if inputX = 26, Angle Above X-Axis = 32.6°
-    /// if inputX = 27, Angle Above X-Axis = 32.0°
-    /// if inputX = 28, Angle Above X-Axis = 31.3°
-    /// if inputX = 29, Angle Above X-Axis = 30.6°
-    /// if inputX = 30, Angle Above X-Axis = 30.0°
-    /// </summary>
-    public void LogarithmicBounce(float inputX, float magnitude)
+    private void FixedUpdate()
     {
-        if (inputX <= -2f) return;
+        if (!pushing || playerRb == null) { return; }
 
-        float y = 5f * Mathf.Log(inputX + 2f);
-        Vector2 direction = new Vector2(inputX, y).normalized;
+        elapsed += Time.fixedDeltaTime;
+        float time = Mathf.Clamp01(elapsed / animDuration);
 
-        Vector2 force = direction * magnitude;
-        playerRb.AddForce(force, ForceMode2D.Impulse);
+        float multiplier = movementCurve.Evaluate(time);
+
+        Vector2 dir = CalculateLogarithmicDirection();
+        Vector2 force = dir * relativeStrength * multiplier;
+
+        // Apply continuous force
+        playerRb.AddForce(force, ForceMode2D.Force);
+
+        if (time >= 1.0f) { pushing = false; }
     }
 
     /// <summary>
-    /// Negative Logarithmic Bounce (Right/Down direction)
+    /// Logarithmic Direction (Up-Right or Down-Right depending on downForce)
     ///
-    /// if inputX = 2, Angle Below X-Axis = -73.8°
-    /// if inputX = 3, Angle Below X-Axis = -69.2°
-    /// if inputX = 4, Angle Below X-Axis = -66.1°
-    /// if inputX = 5, Angle Below X-Axis = -62.7°
-    /// if inputX = 6, Angle Below X-Axis = -60.1°
-    /// if inputX = 7, Angle Below X-Axis = -57.6°
-    /// if inputX = 8, Angle Below X-Axis = -55.0°
-    /// if inputX = 9, Angle Below X-Axis = -53.1°
-    /// if inputX = 10, Angle Below X-Axis = -51.4°
-    /// if inputX = 11, Angle Below X-Axis = -49.8°
-    /// if inputX = 12, Angle Below X-Axis = -48.3°
-    /// if inputX = 13, Angle Below X-Axis = -47.0°
-    /// if inputX = 14, Angle Below X-Axis = -45.8°
-    /// if inputX = 15, Angle Below X-Axis = -44.7°
-    /// if inputX = 16, Angle Below X-Axis = -42.1°
-    /// if inputX = 17, Angle Below X-Axis = -40.1°
-    /// if inputX = 18, Angle Below X-Axis = -39.8°
-    /// if inputX = 19, Angle Below X-Axis = -38.7°
-    /// if inputX = 20, Angle Below X-Axis = -37.8°
-    /// if inputX = 21, Angle Below X-Axis = -36.7°
-    /// if inputX = 22, Angle Below X-Axis = -35.8°
-    /// if inputX = 23, Angle Below X-Axis = -35.0°
-    /// if inputX = 24, Angle Below X-Axis = -34.2°
-    /// if inputX = 25, Angle Below X-Axis = -33.4°
-    /// if inputX = 26, Angle Below X-Axis = -32.6°
-    /// if inputX = 27, Angle Below X-Axis = -32.0°
-    /// if inputX = 28, Angle Below X-Axis = -31.3°
-    /// if inputX = 29, Angle Below X-Axis = -30.6°
-    /// if inputX = 30, Angle Below X-Axis = -30.0°
+    /// Direction is based entirely on inputX:
+    ///
+    /// Up-Right angles (downForce = false):
+    ///  x = 2  â†’  +73.8Â°
+    ///  x = 3  â†’  +69.2Â°
+    ///  x = 4  â†’  +66.1Â°
+    ///  x = 5  â†’  +62.7Â°
+    ///  x = 6  â†’  +60.1Â°
+    ///  x = 7  â†’  +57.6Â°
+    ///  x = 8  â†’  +55.0Â°
+    ///  x = 9  â†’  +53.1Â°
+    ///  x = 10 â†’  +51.4Â°
+    ///  x = 12 â†’  +48.3Â°
+    ///  x = 15 â†’  +44.7Â°
+    ///  x = 20 â†’  +37.8Â°
+    ///  x = 25 â†’  +33.4Â°
+    ///  x = 30 â†’  +30.0Â°
+    ///
+    /// Down-Right angles (downForce = true):
+    ///  Same angles as above, but negative.
+    ///  Example: x = 6 â†’ -60.1Â°
+    ///
+    /// Use higher X for flatter arcs, lower X for steeper arcs.
     /// </summary>
-    public void NegativeLogarithmicBounce(float inputX, float magnitude)
+    private Vector2 CalculateLogarithmicDirection()
     {
-        if (inputX <= -2f) return;
+        float x = 15f;
 
-        float y = -5f * Mathf.Log(inputX + 2f);
-        Vector2 direction = new Vector2(inputX, y).normalized;
+        float y = downForce ? -5f * Mathf.Log(x + 2f) : 5f * Mathf.Log(x + 2f);
 
-        Vector2 force = direction * magnitude;
-        playerRb.AddForce(force, ForceMode2D.Impulse);
+        return new Vector2(x, y).normalized;
     }
-
 }
