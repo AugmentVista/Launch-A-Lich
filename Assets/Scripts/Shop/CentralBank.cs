@@ -97,8 +97,7 @@ public class CentralBank : MonoBehaviour
 
     private void UpdateBalanceUI()
     {
-        if (balanceText != null)
-            balanceText.text = $"${balance}";
+        if (balanceText != null) { balanceText.text = $"{balance}"; }
 
         BalanceChanged?.Invoke(balance);
     }
