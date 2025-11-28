@@ -12,11 +12,11 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private float minSpawnRate = 2f;
     [SerializeField] private float maxSpawnRate = 5.0f;
+    [SerializeField] private int maxEnemyAmount;
 
     private bool canSpawn = false;
     private float timer = 0f;
     private float spawnInterval;
-
 
     void Awake()
     {
@@ -44,7 +44,6 @@ public class EnemySpawner : MonoBehaviour
         PlayerStateMachine.OnInactive -= DisableSpawning;
         PlayerStateMachine.OnStopped -= DisableSpawning;
     }
-
     void Update()
     {
         if (!canSpawn)
@@ -59,7 +58,7 @@ public class EnemySpawner : MonoBehaviour
         float playerSpeedNormalized =
             Mathf.InverseLerp(playerSpeedFloor, speedLimit.maxSpeedX, effectiveSpeed);
 
-        // get a spawn RATE (enemies per second)
+        // get enemies per second
         float spawnRate = Mathf.Lerp(minSpawnRate, maxSpawnRate, playerSpeedNormalized);
 
         // Round to whole numbers
@@ -101,15 +100,15 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
+        if (EnemyCountTracker.EnemyCount >= maxEnemyAmount) { return; }
+
         if (enemyPrefab == null) return;
 
         Transform pod = placement.GetNextPod();
-        if (pod == null) return;     // placement will retry automatically
+        if (pod == null) return;
 
         // Spawn as a child of that pod 
-        GameObject instance = Instantiate(enemyPrefab, pod.position, Quaternion.identity, pod); // where is the enemy being assigned as a child object?
-
-        
+        GameObject instance = Instantiate(enemyPrefab, pod.position, Quaternion.identity, pod);
     }
 
     // Called from EnemyPlacement when it retries after pod cooldown
@@ -118,7 +117,6 @@ public class EnemySpawner : MonoBehaviour
         if (enemyPrefab == null) return;
         Instantiate(enemyPrefab, pod.position, Quaternion.identity, pod);
     }
-
 
     private void EnableSpawning() => canSpawn = true;
     private void DisableSpawning() => canSpawn = false;

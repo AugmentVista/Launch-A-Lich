@@ -8,11 +8,9 @@ public class PlayerAbility : MonoBehaviour
     [SerializeField] private Rigidbody2D playerRb;
 
     public Camera mainCamera;
-    public float cooldown = 3f;
 
     private bool abilityEnabled = false;
     private float lastUseTime = -Mathf.Infinity;
-
     public float LastUseTime => lastUseTime;
 
     public Vector2 Offset = new Vector2(0f,4f);
@@ -109,7 +107,6 @@ public class PlayerAbility : MonoBehaviour
         SpawnAbility(prefab);
     }
 
-
     private void SpawnAbility(GameObject prefab)
     {
         Vector3 mousePos = Input.mousePosition;
@@ -137,7 +134,6 @@ public class PlayerAbility : MonoBehaviour
         boostUpgradeValue = improvementMod;
 
         boostUpgradesActive = ApplyBoostUpgrade();
-
     }
 
     float ApplyBoostUpgrade()
