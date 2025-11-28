@@ -279,7 +279,7 @@ Transform:
   m_GameObject: {fileID: 6289906}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12, y: 4, z: 0}
+  m_LocalPosition: {x: 15, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1680,7 +1680,7 @@ Transform:
   m_GameObject: {fileID: 198884605}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: -12, z: 0}
+  m_LocalPosition: {x: 4, y: -15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -71103,7 +71103,7 @@ Transform:
   m_GameObject: {fileID: 442254104}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 12, z: 0}
+  m_LocalPosition: {x: 4, y: 15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -71560,7 +71560,7 @@ Transform:
   m_GameObject: {fileID: 478643433}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4, y: 12, z: 0}
+  m_LocalPosition: {x: -4, y: 15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74267,7 +74267,7 @@ Transform:
   m_GameObject: {fileID: 735760803}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4, y: -12, z: 0}
+  m_LocalPosition: {x: -4, y: -15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -79892,7 +79892,7 @@ Transform:
   m_GameObject: {fileID: 1284307907}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 55, y: 15, z: 0}
+  m_LocalPosition: {x: 55, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -79931,7 +79931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawner: {fileID: 541541012}
   target: {fileID: 178082488495594062}
-  offset: {x: 55, y: 5, z: 20}
+  offset: {x: 55, y: 0, z: 20}
   allPods:
   - {fileID: 1977372345}
   - {fileID: 269576159}
@@ -83046,25 +83046,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   results: {fileID: 1998686133}
   itemPrefab: {fileID: 3020272124151466552, guid: 702f72092f4ff3f4ea160392e8a1bb66, type: 3}
-  groundItems:
-  - {fileID: 3020272124151466552, guid: 702f72092f4ff3f4ea160392e8a1bb66, type: 3}
-  - {fileID: 3020272124151466552, guid: 9b4129b08fc11354e9233f1bd5d9b827, type: 3}
-  - {fileID: 3020272124151466552, guid: d5ece7a923f0fb74f8b4d8b8caf02a21, type: 3}
-  - {fileID: 3020272124151466552, guid: b50e50a737fcef24c805b9da1e5a6198, type: 3}
   flyingItems:
   - {fileID: 1640966646589641564, guid: c639c116b99f72240872b1d67454ac9b, type: 3}
   - {fileID: 1640966646589641564, guid: 5d8287fb92f783847b3216b82198dbe3, type: 3}
   - {fileID: 1640966646589641564, guid: 164171b4b23e6804a8a7119de2df85e9, type: 3}
   - {fileID: 1640966646589641564, guid: cc9eb4d72281e944886c8df9f1d968a8, type: 3}
   - {fileID: 1640966646589641564, guid: 129593df04bc1e24e94bca50b05d3167, type: 3}
-  flyingItem2: {fileID: 1640966646589641564, guid: 5d8287fb92f783847b3216b82198dbe3, type: 3}
-  flyingItem3: {fileID: 1640966646589641564, guid: 164171b4b23e6804a8a7119de2df85e9, type: 3}
+  - {fileID: 3020272124151466552, guid: 702f72092f4ff3f4ea160392e8a1bb66, type: 3}
+  - {fileID: 3020272124151466552, guid: 9b4129b08fc11354e9233f1bd5d9b827, type: 3}
+  - {fileID: 3020272124151466552, guid: d5ece7a923f0fb74f8b4d8b8caf02a21, type: 3}
+  - {fileID: 3020272124151466552, guid: b50e50a737fcef24c805b9da1e5a6198, type: 3}
   speedLimit: {fileID: 7587690105007918345}
   ceiling: {fileID: 7353836940653077388}
   spawnY: 0
-  spawnOffset: 2
-  minSpawnRate: 0.4
-  maxSpawnRate: 0.15
+  minSpawnRate: 0.75
+  maxSpawnRate: 0.25
 --- !u!1 &1605341346
 GameObject:
   m_ObjectHideFlags: 0
@@ -88103,7 +88099,7 @@ Transform:
   m_GameObject: {fileID: 2138958973}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12, y: -4, z: 0}
+  m_LocalPosition: {x: 15, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -89493,9 +89489,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0.1
+  m_LinearDamping: 0.15
   m_AngularDamping: 10000
-  m_GravityScale: 3
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -157436,7 +157432,7 @@ MonoBehaviour:
   prefabToSpawn2: {fileID: 5689676143509331682, guid: 5dd4179d096ef5c449ffd34bab42a00d, type: 3}
   abilityCooldown: {fileID: 1605341350}
   playerRb: {fileID: 3155154026618892269}
-  interactionHandler: {fileID: 0}
+  interactionHandler: {fileID: 1439705320272653479}
   mainCamera: {fileID: 330585545}
   Offset: {x: 0, y: 0}
   boostUpgradeValue: 0
