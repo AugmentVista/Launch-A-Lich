@@ -12,6 +12,8 @@ public class PlayerInteractionHandler : PlayerBase
     public float bouncyUpgradeValue;
     public float bouncyUpgradesCount;
 
+    public bool outOfMana = false;
+
     [SerializeField] private bool grounded = false;
     private Ground ground;
 
@@ -71,12 +73,15 @@ public class PlayerInteractionHandler : PlayerBase
 
     public void DetectPlayerAttacking()
     {
+        
         if (Input.GetMouseButtonDown(1))
         {
+            if (!healthPositive || outOfMana) { return; }
             playerAnim.PlayAttackDown();
         }
         else if (Input.GetMouseButtonDown(0))
         {
+            if (!healthPositive || outOfMana) { return; }
             playerAnim.PlayAttackUp();
         }
     }
@@ -157,8 +162,6 @@ public class PlayerInteractionHandler : PlayerBase
             if (Health <= 0) { playerAnim.PlayDeath(); }
             else { playerAnim.PlayTakeHitSmall(); }
 
-            Debug.LogWarning("HITTING ENEMY DAMAGE");
-
             if (enemy != null) enemy.isDead = true;
         }
 
@@ -234,17 +237,16 @@ public class PlayerInteractionHandler : PlayerBase
         {
             groundedTimer += Time.deltaTime;
 
-            if (groundedTimer > 0.5f)
+            if (groundedTimer > 1.0f)
             {
                 groundedTimer = 0f;
 
-                TakeDamage(ground.damageValue);
+                TakeDamage(ground.damageValue - Mathf.RoundToInt(ApplyBounceyUpgrade()/2));
 
                 ApplyExp2Force(2f, ground.damageValue + ApplyBounceyUpgrade());
 
                 if (Health <= 0) { playerAnim.PlayDeath(); }
                 else { playerAnim.PlayTakeHitBig(); }
-                Debug.LogWarning("Touching ground damage");
             }
         }
     }

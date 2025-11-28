@@ -9,6 +9,6 @@ public class LifeSpan : MonoBehaviour
 
     public void SelfDestruct()
     {
-        Destroy(gameObject, 60);
+        Destroy(gameObject, 30f);
     }
 }

@@ -115,7 +115,7 @@ public class CameraFollow : MonoBehaviour
         }
         else 
         {
-            baseFollowSpeed = 51f;
+            baseFollowSpeed = 41f;
         }
 
             float playerSpeedX = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);

@@ -174,8 +174,8 @@ MonoBehaviour:
   hitByPlayerAbility: 0
   isDead: 0
   moveSpeed: 5
-  damageValue: 8
-  moneyValue: 12
+  damageValue: 15
+  moneyValue: 40
   type: 0
 --- !u!95 &4947889251600624796
 Animator:
@@ -223,5 +223,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec8570ec248fb142b174e1c79987d97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeFrequency: 5
-  snakeAmplitude: 1.5
+  snakeFrequency: 1
+  snakeAmplitude: 6

@@ -78,7 +78,7 @@ public class TreatManager : MonoBehaviour
 
             if (collected >= 5)
             {
-                fill += 0.07f;     // fully discovered
+                fill += 0.11f;     // fully discovered
             }
             else if (collected >= 1)
             {

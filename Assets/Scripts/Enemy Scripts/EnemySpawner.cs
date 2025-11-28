@@ -87,9 +87,9 @@ public class EnemySpawner : MonoBehaviour
     {
         float dist = PlayerResultsManager.currentDistance;
 
-        if (dist < 1000f) enemyPrefab = flyingEnemies[0];
-        else if (dist < 3000f) enemyPrefab = flyingEnemies[1];
-        else { enemyPrefab = flyingEnemies[2]; }
+        if (dist < 2000f) enemyPrefab = flyingEnemies[0];
+        else if (dist < 4000f) enemyPrefab = flyingEnemies[1];
+        else if (dist >= 4000){ enemyPrefab = flyingEnemies[2]; }
     }
 
     // Called from EnemyPlacement when it retries after pod cooldown

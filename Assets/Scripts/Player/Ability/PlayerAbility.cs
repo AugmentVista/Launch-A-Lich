@@ -104,9 +104,17 @@ public class PlayerAbility : MonoBehaviour
             cost = costComponent.cost;
 
         if (currentMana < cost)
+        {
+            interactionHandler.outOfMana = true;
             return;
+        }
+        else 
+        {
+            interactionHandler.outOfMana = false;
+        }
 
-        currentMana -= cost;
+
+            currentMana -= cost;
 
         if (abilityCooldown != null)
             abilityCooldown.UpdateMana(currentMana);
