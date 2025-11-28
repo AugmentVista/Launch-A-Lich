@@ -9,6 +9,8 @@ public class PlayerResultsManager : MonoBehaviour
     public CentralBank bank;
     public TreatManager treatManager;
 
+    public Transform Environment;
+
     public Image progressBarFill;
 
     [SerializeField] Rigidbody2D playerRb;
@@ -102,6 +104,11 @@ public class PlayerResultsManager : MonoBehaviour
         currentDistance = player.transform.position.x;
         currentHeight = player.transform.position.y;
 
+        if (currentDistance > 5000 + Environment.position.x)
+        {
+            Environment.position += new Vector3(2000f, 0f, 0f);
+        }
+
         if (heightReached < currentHeight) { heightReached = currentHeight; if (heightReached > highScoreY) highScoreY = heightReached; }
         if (distanceReached < currentDistance) { distanceReached = currentDistance; if (distanceReached > highScoreX) highScoreX = distanceReached; }
 
@@ -188,27 +195,26 @@ public class PlayerResultsManager : MonoBehaviour
     IEnumerator ResultsDelay()
     {
         yield return new WaitForSeconds(1.5f);
-        CalcuateGoldEarned(distanceReached, heightReached);
+        CalcuateGoldEarned(distanceReached);
         UIManager.B_Results();
         if (treatManager.CheckVictoryCondition()) { UIManager.SpawnVictoryMeal(); }
-            
     }
 
-    private void CalcuateGoldEarned(float distance, float height)
+    private void CalcuateGoldEarned(float distance)
     {
-        int totalRunGold = Mathf.RoundToInt(distance / 2 + height + enemyGoldThisRun + itemGoldThisRun);
-
-        int deposit = Mathf.RoundToInt(distance / 2 + height * ApplyIncomeUpgrade());
+        int totalRunGold = Mathf.RoundToInt(distance + enemyGoldThisRun + itemGoldThisRun);
+        float enemyGoldAfterIncomeMult = (enemyGoldThisRun * ApplyIncomeUpgrade() - enemyGoldThisRun);
+        float itemGoldAfterIncomeMult = (itemGoldThisRun * ApplyIncomeUpgrade() - itemGoldThisRun);
+        int deposit = Mathf.RoundToInt(distance * ApplyIncomeUpgrade() + itemGoldAfterIncomeMult + enemyGoldAfterIncomeMult);
         bank.DepositRunEarnings(deposit);
 
         goldText.text =
-            $"Height = ${height:F0}\n" +
-            $"Distance = ${distance / 2:F0}\n" +
+            $"Distance = ${distance:F0}\n" +
             $"Enemies = ${enemyGoldThisRun}\n" +
             $"Treats = ${itemGoldThisRun}\n" +
             $"Income Multiplier {ApplyIncomeUpgrade()}x\n\n" +
-            $"Earned This Run: ${totalRunGold}\n\n" +
-            $"New Balace:\n ${bank.Balance - totalRunGold} + ${totalRunGold}";
+            $"Earned This Run: ${deposit + enemyGoldThisRun + itemGoldThisRun}\n\n" +
+            $"New Balance: ${bank.Balance - (deposit + enemyGoldThisRun + itemGoldThisRun)} + ${deposit + enemyGoldThisRun + itemGoldThisRun}";
     }
 
     public void ResetVariables()
@@ -219,6 +225,7 @@ public class PlayerResultsManager : MonoBehaviour
         currentHeight = 10f;
         ResetResults();
         GamePlayPause();
+        Environment.position = new Vector3(0f, 0f, 0f);
     }
 
     void ResetResults()
