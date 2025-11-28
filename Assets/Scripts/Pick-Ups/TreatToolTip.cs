@@ -48,6 +48,8 @@ public class TreatToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         TreatPickUp treatPickUp = treatObject.treatPickUp;
 
+        if (!hintOnHoverEnabled && !statsOnHoverEnabled) { return; }
+
         infoBackgroundImage.gameObject.SetActive(true);
 
         if (statsOnHoverEnabled)
@@ -60,12 +62,12 @@ public class TreatToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
     }
 
-
     public void OnPointerExit(PointerEventData eventData)
     {
         infoText.text = "";
         infoText.text = "";
-        infoBackgroundImage.gameObject.SetActive(false);
+
+        if (infoBackgroundImage.gameObject.activeSelf) { infoBackgroundImage.gameObject.SetActive(false); }
     }
 
 }
