@@ -106,7 +106,7 @@ public class PlayerInteractionHandler : PlayerBase
     public void EnemySlayed(Enemy enemy)
     {
         if (!healthPositive) { return; }
-        Debug.LogError($"KILL {enemy.ID}");
+        //Debug.LogError($"KILL {enemy.ID}");
         OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
     }
 

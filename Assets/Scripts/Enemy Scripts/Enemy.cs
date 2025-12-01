@@ -37,7 +37,6 @@ public class Enemy : MonoBehaviour
         {
             if (hitByPlayerAbility) 
             {
-                //Debug.LogError($"KILL {ID}");
                 Instantiate(explodedPrefab, transform.position, Quaternion.identity); 
             }
             else 

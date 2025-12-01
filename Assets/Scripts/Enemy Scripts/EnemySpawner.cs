@@ -81,7 +81,7 @@ public class EnemySpawner : MonoBehaviour
         // Spawn as a child of that pod 
         GameObject instance = Instantiate(enemyPrefab, pod.position, Quaternion.identity, pod);
         count++;
-        instance.GetComponent<Enemy>().ID = (pod.gameObject.GetComponent<SpawnPod>().debugName + $"{count}");
+        //instance.GetComponent<Enemy>().ID = (pod.gameObject.GetComponent<SpawnPod>().debugName + $"{count}");
     }
 
     private void DetermineFlyingPrefab()

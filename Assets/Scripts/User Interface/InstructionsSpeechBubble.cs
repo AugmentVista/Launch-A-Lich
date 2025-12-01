@@ -68,7 +68,7 @@ public class InstructionsSpeechBubble : MonoBehaviour
                 BoostIcon.SetActive(true);
                 break;
             case 3:
-                speechBubble.setDialogueText("Mind the ground and ceiling");
+                speechBubble.setDialogueText("Avoid getting hurt \n\n Health = 0 \n Run over.");
                 speechBubble.setBubbleType(SpeechBubbleType.Yell);
                 BoostIcon.SetActive(false);
                 HealthBar.SetActive(true);

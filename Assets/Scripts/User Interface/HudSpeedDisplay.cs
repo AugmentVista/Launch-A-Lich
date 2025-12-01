@@ -8,7 +8,6 @@ public class HudSpeedDisplay : MonoBehaviour
 
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI heightText;
-    public TextMeshProUGUI goalText;
 
     public TextMeshProUGUI warningTextLow;
     public TextMeshProUGUI warningTextHigh;
@@ -26,14 +25,13 @@ public class HudSpeedDisplay : MonoBehaviour
         MeasurePlayerSpeed();
         MeasurePlayerHeight();
         FillHeight();
-        MeasureTravel();
     }
 
     public void MeasurePlayerSpeed()
     {
         if (speedLimit.overSpeed) 
         {
-            speedText.text = $"Beyond Speed Limt: \n{PlayerResultsManager.globalPlayerSpeedX:F2} meters"; 
+            speedText.text = $"Beyond Speed Limt: \n{PlayerResultsManager.globalPlayerSpeedX:F2} meters!"; 
         }
 
         if (!speedLimit.overSpeed) 
@@ -45,6 +43,7 @@ public class HudSpeedDisplay : MonoBehaviour
     public void MeasurePlayerHeight()
     {
         float currentHeight = PlayerResultsManager.currentHeight - groundHeight;
+        if (currentHeight <= 0) { currentHeight = 0f; }
         heightText.text = $"Height\n{currentHeight:F1}";
     }
 
@@ -72,11 +71,4 @@ public class HudSpeedDisplay : MonoBehaviour
             warningTextHigh.text = "";
         }
     }
-
-
-    public void MeasureTravel()
-    {
-        goalText.text = $"{PlayerResultsManager.currentDistance:F0} Traveled";
-    }
-
 }

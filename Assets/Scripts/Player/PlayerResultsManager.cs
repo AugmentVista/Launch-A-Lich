@@ -11,8 +11,6 @@ public class PlayerResultsManager : MonoBehaviour
 
     public Transform Environment;
 
-    public Image progressBarFill;
-
     [SerializeField] Rigidbody2D playerRb;
 
     private bool isGameplayHappening = false;
@@ -59,12 +57,6 @@ public class PlayerResultsManager : MonoBehaviour
 
         isGameplayHappening = false;
     }
-
-    private void Start()
-    {
-        progressBarFill.fillAmount = 0f;
-    }
-
     private void Update()
     {
         if (!isGameplayHappening) { return; }
@@ -111,9 +103,6 @@ public class PlayerResultsManager : MonoBehaviour
 
         if (heightReached < currentHeight) { heightReached = currentHeight; if (heightReached > highScoreY) highScoreY = heightReached; }
         if (distanceReached < currentDistance) { distanceReached = currentDistance; if (distanceReached > highScoreX) highScoreX = distanceReached; }
-
-        float fillAmount = Mathf.Clamp01(currentDistance / victoryDistance);
-        progressBarFill.fillAmount = fillAmount;
     }
 
     private void GamePlayResume()
