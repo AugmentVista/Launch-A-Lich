@@ -4,7 +4,6 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
     private EnemyPlacement placement;
-    public EnemyCountTracker enemyCounter;
 
     int count = 0;
     [SerializeField] private GameObject[] flyingEnemies;
@@ -73,8 +72,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        if (enemyCounter.enemyCount >= maxEnemyAmount) { return; }
-
         DetermineFlyingPrefab();
         if (enemyPrefab == null) return;
 

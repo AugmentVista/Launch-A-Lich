@@ -12,6 +12,7 @@ TagManager:
   - Ceiling
   - Pink_Pod_Zones
   - Purple_Pod_Zones
+  - EnemyAttack
   layers:
   - Default
   - TransparentFX

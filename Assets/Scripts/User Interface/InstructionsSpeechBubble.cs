@@ -56,13 +56,13 @@ public class InstructionsSpeechBubble : MonoBehaviour
                 speechBubble.setBubbleType(SpeechBubbleType.Stress);
                 break;
             case 1:
-                speechBubble.setDialogueText("Click and hold to charge the crystal \n Release to LAUNCH");
+                speechBubble.setDialogueText("Hold to charge\n Release to fire");
                 speechBubble.setBubbleType(SpeechBubbleType.Yell);
                 LaunchIcon.SetActive(true);
                 BoostIcon.SetActive(false);
                 break;
             case 2:
-                speechBubble.setDialogueText("Click anywhere to cast Flambé \n Use to Flame-jump or burn through foes");
+                speechBubble.setDialogueText("Deflect & Dash with Right Mouse \n\n Sweep and Soar with Left Mouse");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 LaunchIcon.SetActive(false);
                 BoostIcon.SetActive(true);

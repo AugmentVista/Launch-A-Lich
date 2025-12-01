@@ -68,6 +68,7 @@ public class PlayerStateMachine : MonoBehaviour
                 break;
         }
     }
+
     private void Update()
     {
         playerLinearX = playerRb.linearVelocityX;

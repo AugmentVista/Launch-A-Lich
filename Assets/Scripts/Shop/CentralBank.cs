@@ -27,7 +27,6 @@ public class CentralBank : MonoBehaviour
     private void OnEnable()
     {
         PlayerInteractionHandler.OnFlyingEnemyDefeated += AddMoneyEnemy;
-        PlayerInteractionHandler.OnGroundEnemyDefeated += AddMoneyEnemy;
         PlayerInteractionHandler.OnFlyingItemCollected += AddMoneyItem;
         PlayerInteractionHandler.OnGroundItemCollected += AddMoneyItem;
     }
@@ -35,7 +34,6 @@ public class CentralBank : MonoBehaviour
     private void OnDisable()
     {
         PlayerInteractionHandler.OnFlyingEnemyDefeated -= AddMoneyEnemy;
-        PlayerInteractionHandler.OnGroundEnemyDefeated -= AddMoneyEnemy;
         PlayerInteractionHandler.OnFlyingItemCollected -= AddMoneyItem;
         PlayerInteractionHandler.OnGroundItemCollected -= AddMoneyItem;
     }

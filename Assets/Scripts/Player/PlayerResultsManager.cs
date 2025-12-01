@@ -129,7 +129,6 @@ public class PlayerResultsManager : MonoBehaviour
     private void OnEnable()
     {
         PlayerInteractionHandler.OnFlyingEnemyDefeated += TrackEnemyMoneyGain;
-        PlayerInteractionHandler.OnGroundEnemyDefeated += TrackEnemyMoneyGain;
         PlayerInteractionHandler.OnGroundItemCollected += TrackItemMoneyGain;
         PlayerInteractionHandler.OnFlyingItemCollected += TrackItemMoneyGain;
 
@@ -142,7 +141,6 @@ public class PlayerResultsManager : MonoBehaviour
     private void OnDisable()
     {
         PlayerInteractionHandler.OnFlyingEnemyDefeated -= TrackEnemyMoneyGain;
-        PlayerInteractionHandler.OnGroundEnemyDefeated -= TrackEnemyMoneyGain;
         PlayerInteractionHandler.OnGroundItemCollected -= TrackItemMoneyGain;
         PlayerInteractionHandler.OnFlyingItemCollected -= TrackItemMoneyGain;
 
