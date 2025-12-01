@@ -64,12 +64,13 @@ public class PlayerAbility : MonoBehaviour
         if (!abilityEnabled || Time.timeScale == 0) return;
 
         // Passive regen
-        currentMana += manaRegenRate * Time.deltaTime;
+        if (PlayerResultsManager.currentHeight <= 25f) { currentMana += 2 * manaRegenRate * Time.deltaTime;}
+        else { currentMana += manaRegenRate * Time.deltaTime; }
+
         currentMana = Mathf.Clamp01(currentMana);
 
         // UI update
-        if (abilityCooldown != null)
-            abilityCooldown.UpdateMana(currentMana);
+        if (abilityCooldown != null) { abilityCooldown.UpdateMana(currentMana); }
 
         // Left click ability UP
         if (Input.GetMouseButtonDown(0) && prefabToSpawn != null)

@@ -3,8 +3,10 @@
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    private EnemyPlacement placement;       
+    private EnemyPlacement placement;
+    public EnemyCountTracker enemyCounter;
 
+    int count = 0;
     [SerializeField] private GameObject[] flyingEnemies;
 
     [SerializeField] private SpeedLimit speedLimit;
@@ -71,7 +73,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        if (EnemyCountTracker.EnemyCount >= maxEnemyAmount) { return; }
+        if (enemyCounter.enemyCount >= maxEnemyAmount) { return; }
 
         DetermineFlyingPrefab();
         if (enemyPrefab == null) return;
@@ -81,6 +83,8 @@ public class EnemySpawner : MonoBehaviour
 
         // Spawn as a child of that pod 
         GameObject instance = Instantiate(enemyPrefab, pod.position, Quaternion.identity, pod);
+        count++;
+        instance.GetComponent<Enemy>().ID = (pod.gameObject.GetComponent<SpawnPod>().debugName + $"{count}");
     }
 
     private void DetermineFlyingPrefab()

@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a56e6968bd66bda4ba6406b0ef03b6c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  treat: {fileID: 11400000, guid: 6248f43484b0a90479216db24e98810b, type: 2}
+  treat: {fileID: 11400000, guid: 89780434b9bd3e548ad1ba36ef1d207a, type: 2}
   isDead: 0
   supportValue: 0.5
   moneyValue: 18

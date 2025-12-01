@@ -2,32 +2,30 @@ using UnityEngine;
 
 public class EnemyCountTracker : MonoBehaviour
 {
-    public static int EnemyCount = 0;
+    public int enemyCount = 0;
 
-    [SerializeField] private bool increments = true;
+    public GameObject CheckIn;
+    public GameObject CheckOut;
 
     private void OnEnable()
     {
+        PlayerInteractionHandler.OnFlyingEnemyDefeated += LogEnemyKilled;
         PlayerStateMachine.OnStopped += ResetCount;
     }
 
     private void OnDisable()
     {
+        PlayerInteractionHandler.OnFlyingEnemyDefeated -= LogEnemyKilled;
         PlayerStateMachine.OnStopped -= ResetCount;
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
+    public void LogEnemyKilled(int amount)
     {
-        if (!col.CompareTag("Enemy")) return;
-
-        if (increments)
-            EnemyCount++;
-        else
-            EnemyCount--;
+        enemyCount--;
     }
 
     public void ResetCount()
     {
-        EnemyCount = 0;
+        enemyCount = 0;
     }
 }

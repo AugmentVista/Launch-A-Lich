@@ -3,7 +3,6 @@
 public class PlayerAfterImageTrail : MonoBehaviour
 {
     public GameObject afterImagePrefab;
-    private float spawnInterval = 0.05f;
 
     public float maxSpawnRatePerSecond; // 0.1
     public float minSpawnRatePerSecond; // 0.25

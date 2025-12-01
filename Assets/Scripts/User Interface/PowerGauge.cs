@@ -19,7 +19,6 @@ public class PowerGauge : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] UIManager UIManager;
 
     [SerializeField] Transform launchCrystalTransform;
-    [SerializeField] bool inverted = true;
 
     [SerializeField] float chargeSpeed;
     [SerializeField]float launchForceMultiplier;

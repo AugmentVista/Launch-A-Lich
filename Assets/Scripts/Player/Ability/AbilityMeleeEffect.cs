@@ -56,7 +56,7 @@ public class AbilityMeleeEffect : MonoBehaviour
         {
             float recoveryBonus = 0f;
             if (PlayerResultsManager.currentHeight < 25f) { recoveryBonus = 100 + (50 - PlayerResultsManager.currentHeight); }
-            relativeStrength = Mathf.Max(abilityStrength, PlayerResultsManager.currentHeight);
+            relativeStrength = Mathf.Max(abilityStrength, recoveryBonus);
         }
         else
         {
@@ -127,7 +127,6 @@ public class AbilityMeleeEffect : MonoBehaviour
     private Vector2 CalculateLogarithmicDirection()
     {
         float x = 15f;
-        if (PlayerResultsManager.currentHeight <= 13f && !downForce) { x = Mathf.RoundToInt(15f - PlayerResultsManager.currentHeight); }
         if (downForce) { x = 30f; }
         float y = downForce ? -5f * Mathf.Log(x + 2f) : 5f * Mathf.Log(x + 2f);
 

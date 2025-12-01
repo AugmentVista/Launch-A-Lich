@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpawnPod : MonoBehaviour
@@ -13,19 +12,36 @@ public class SpawnPod : MonoBehaviour
     [HideInInspector]
     public float cooldownRemaining = 0f;
 
+    [SerializeField]private bool touchingGrass = false;
+
     public bool IsAvailable => cooldownRemaining <= 0f;
 
     private void Awake()
     {
         weight = data.baseWeight;
     }
+
     public void TriggerCooldown()
     {
         cooldownRemaining = data.cooldown;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Ceiling") || collision.CompareTag("Ground"))
+        {
+            touchingGrass = true;
+        }
+    }
+
     void Update()
     {
+        if (touchingGrass)
+        {
+            cooldownRemaining = data.cooldown;
+            return;
+        }
+
         if (cooldownRemaining > 0f)
             cooldownRemaining -= Time.deltaTime;
     }

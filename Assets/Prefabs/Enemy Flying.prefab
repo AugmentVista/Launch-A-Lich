@@ -176,6 +176,7 @@ MonoBehaviour:
   moveSpeed: 12
   damageValue: 5
   moneyValue: 10
+  ID: enemy
   type: 0
 --- !u!95 &4947889251600624796
 Animator:

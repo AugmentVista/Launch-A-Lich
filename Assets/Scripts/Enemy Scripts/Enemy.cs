@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
     public int damageValue;
     public int moneyValue;
 
+    public string ID = "enemy";
+
     public enum Type {Flying, Grounded };
     public Type type;
 
@@ -34,7 +36,8 @@ public class Enemy : MonoBehaviour
         if (deathPrefab != null && explodedPrefab != null)
         {
             if (hitByPlayerAbility) 
-            { 
+            {
+                //Debug.LogError($"KILL {ID}");
                 Instantiate(explodedPrefab, transform.position, Quaternion.identity); 
             }
             else 

@@ -106,7 +106,7 @@ public class PlayerInteractionHandler : PlayerBase
     public void EnemySlayed(Enemy enemy)
     {
         if (!healthPositive) { return; }
-
+        Debug.LogError($"KILL {enemy.ID}");
         OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
     }
 
@@ -146,6 +146,7 @@ public class PlayerInteractionHandler : PlayerBase
             if (!healthPositive) { return; }
 
             Enemy enemy = collision.GetComponent<Enemy>();
+            
             TakeDamage(enemy.damageValue);
 
             if (Health <= MaxHealth && Health > 0)
@@ -171,28 +172,24 @@ public class PlayerInteractionHandler : PlayerBase
         if (collision.CompareTag("Ground"))
         {
             ground = collision.GetComponent<Ground>();
-            TakeDamage(ground.damageValue);
+            TakeDamage(ground.damageValue - Mathf.RoundToInt(ApplyBounceyUpgrade()));
             if (!healthPositive) { return; }
 
             switch (Health)
             {
-                case int i when (i < MaxHealth && i >= MaxHealth * 0.75f):
-                    ApplyExp2Force(5f, ground.damageValue + ApplyBounceyUpgrade());
+                case int i when (i < MaxHealth &&  i > 0f):
+                    LogarithmicBounce(4f, ground.damageValue * 2);
                     break;
+                case int i when (i >= 0):
 
-                case int i when (i < MaxHealth && i >= MaxHealth * 0.5f):
-                    ApplyExp2Force(6f, ground.damageValue + ApplyBounceyUpgrade());
-                    break;
-
-                case int i when (i < MaxHealth * 0.5f && i >= MaxHealth * 0.25f):
-                    ApplyExp2Force(7f, ground.damageValue + ApplyBounceyUpgrade());
-                    break;
-
-                case int i when (i < MaxHealth * 0.25f && i >= 0f):
-                    ApplyExp2Force(8f, ground.damageValue + ApplyBounceyUpgrade());
                     break;
             }
-            if (Health <= 0) { playerAnim.PlayDeath(); }
+            if (Health <= 0)
+            { playerAnim.PlayDeath(); }
+            else if (Health > 0 && bouncyUpgradesCount >= 5)
+            {
+                playerAnim.PlayTakeHitSmall();
+            }
             else { playerAnim.PlayTakeHitBig(); }
         }
 
@@ -241,11 +238,16 @@ public class PlayerInteractionHandler : PlayerBase
             {
                 groundedTimer = 0f;
 
-                TakeDamage(ground.damageValue - Mathf.RoundToInt(ApplyBounceyUpgrade()/2));
+                TakeDamage(ground.damageValue - Mathf.RoundToInt(ApplyBounceyUpgrade()));
 
-                ApplyExp2Force(2f, ground.damageValue + ApplyBounceyUpgrade());
+                LogarithmicBounce(2f, ground.damageValue * 2);
 
-                if (Health <= 0) { playerAnim.PlayDeath(); }
+                if (Health <= 0) 
+                { playerAnim.PlayDeath(); }
+                else if (Health > 0 && bouncyUpgradesCount >= 5)
+                {
+                    playerAnim.PlayTakeHitSmall();
+                }
                 else { playerAnim.PlayTakeHitBig(); }
             }
         }
