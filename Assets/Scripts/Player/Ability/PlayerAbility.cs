@@ -64,7 +64,7 @@ public class PlayerAbility : MonoBehaviour
         if (!abilityEnabled || Time.timeScale == 0) return;
 
         // Passive regen
-        if (PlayerResultsManager.currentHeight <= 25f) { currentMana += 2 * manaRegenRate * Time.deltaTime;}
+        if (PlayerResultsManager.currentHeight <= 25f) { currentMana += 3 * manaRegenRate * Time.deltaTime;}
         else { currentMana += manaRegenRate * Time.deltaTime; }
 
         currentMana = Mathf.Clamp01(currentMana);
