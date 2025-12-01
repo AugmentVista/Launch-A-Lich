@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: CheeseCake
   m_EditorClassIdentifier: 
   nameOfTreat: 
-  hintText: Found over 1,000 meters
-  statsText: stats for cheesecake
+  hintText: The fifth treat; Discover more beyond 6,000 meters
+  statsText: Restores 30% Mana upon pick-up
   allTreatSprites:
   - {fileID: 21300000, guid: 1f7b00790183e42c791ca32bbe933266, type: 3}
   - {fileID: 21300000, guid: af57cefb9e21e441da779138dfbfc9d1, type: 3}

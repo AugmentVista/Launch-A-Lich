@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Candy
   m_EditorClassIdentifier: 
   nameOfTreat: Candy
-  hintText: Found under 500 meters
-  statsText: 
+  hintText: The first treat you'll discover in your journey
+  statsText: Restores 10% Mana upon pick-up
   allTreatSprites:
   - {fileID: 21300000, guid: 1f7b00790183e42c791ca32bbe933266, type: 3}
   - {fileID: 21300000, guid: af57cefb9e21e441da779138dfbfc9d1, type: 3}

@@ -54,11 +54,11 @@ public class TreatToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
         if (statsOnHoverEnabled)
         {
-            infoText.text = treatPickUp.statsText + $" collected: {treatObject.amountCollected} All time";
+            infoText.text = treatPickUp.statsText + $"\n total collected: {treatObject.amountCollected}";
         }
         else if (hintOnHoverEnabled)
         {
-            infoText.text = treatPickUp.hintText + $"Collect {5 - treatObject.amountCollected} more to complete this treat";
+            infoText.text = treatPickUp.hintText + $"\n Collect {5 - treatObject.amountCollected} to complete this entry";
         }
     }
 

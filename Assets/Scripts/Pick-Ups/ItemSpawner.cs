@@ -85,31 +85,31 @@ public class ItemSpawner : MonoBehaviour
 
         switch (dist)
         {
-            case float distance when (distance < 500f):
+            case float distance when (distance < 1500f):
                 itemPrefab = flyingItems[0];
                 break;
-            case float distance when (distance < 1500f):
+            case float distance when (distance <= 3000f):
                 itemPrefab = flyingItems[1];
                 break;
-            case float distance when (distance <= 3000f):
+            case float distance when (distance <= 4500f):
                 itemPrefab = flyingItems[2];
                 break;
-            case float distance when (distance <= 4000f):
+            case float distance when (distance <= 6000f):
                 itemPrefab = flyingItems[3];
                 break;
-            case float distance when (distance <= 5000f):
+            case float distance when (distance <= 7500f):
                 itemPrefab = flyingItems[4];
                 break;
-            case float distance when (distance <= 6000f):
+            case float distance when (distance <= 9000f):
                 itemPrefab = flyingItems[5];
                 break;
-            case float distance when (distance <= 7000f):
+            case float distance when (distance <= 11000f):
                 itemPrefab = flyingItems[6];
                 break;
-            case float distance when (distance <= 8000f):
+            case float distance when (distance <= 13000f):
                 itemPrefab = flyingItems[7];
                 break;
-            case float distance when (distance <= 9000f):
+            case float distance when (distance <= 15000f):
                 itemPrefab = flyingItems[8];
                 break;
             default:

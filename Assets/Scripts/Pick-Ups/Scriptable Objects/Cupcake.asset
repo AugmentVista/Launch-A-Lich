@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Cupcake
   m_EditorClassIdentifier: 
   nameOfTreat: 
-  hintText: Found beyond 2000 meters
-  statsText: stats for cupcake
+  hintText: The fourth treat; Discover more beyond 4,500 meters
+  statsText: Restores 25% Mana upon pick-up
   allTreatSprites:
   - {fileID: 21300000, guid: 1f7b00790183e42c791ca32bbe933266, type: 3}
   - {fileID: 21300000, guid: af57cefb9e21e441da779138dfbfc9d1, type: 3}
