@@ -7,6 +7,8 @@ public class InstructionsSpeechBubble : MonoBehaviour
 
     [SerializeField] GameObject NextButton;
 
+    [SerializeField] GameObject Compendium;
+
     [SerializeField] GameObject HealthBar;
 
     [SerializeField] GameObject BoostIcon;
@@ -52,14 +54,15 @@ public class InstructionsSpeechBubble : MonoBehaviour
         switch (counter)
         {
             case 0:
-                speechBubble.setDialogueText("SUGAR!    SPEED!    MAGIC!");
+                speechBubble.setDialogueText("Travel far to complete the compendium");
                 speechBubble.setBubbleType(SpeechBubbleType.Stress);
+                Compendium.SetActive(true);
                 break;
             case 1:
                 speechBubble.setDialogueText("Hold to charge\n Release to fire");
                 speechBubble.setBubbleType(SpeechBubbleType.Yell);
+                Compendium.SetActive(false);
                 LaunchIcon.SetActive(true);
-                BoostIcon.SetActive(false);
                 break;
             case 2:
                 speechBubble.setDialogueText("Deflect & Dash with Right Mouse \n\n Sweep and Soar with Left Mouse");
@@ -74,7 +77,7 @@ public class InstructionsSpeechBubble : MonoBehaviour
                 HealthBar.SetActive(true);
                 break;
             case 4:
-                speechBubble.setDialogueText("Cash out for Upgrades after each run");
+                speechBubble.setDialogueText("Spend money to improve your abilities");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 HealthBar.SetActive(false);
                 GoldIcon.SetActive(true);

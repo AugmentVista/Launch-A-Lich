@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1446005976578240911}
   - component: {fileID: 5945824292595923845}
   - component: {fileID: 354536901746810292}
-  - component: {fileID: -4084754068299243647}
+  - component: {fileID: 3907647032670390272}
   m_Layer: 6
-  m_Name: Item Flying
+  m_Name: CheeseCake
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1f7b00790183e42c791ca32bbe933266, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 55fee746438a44352bf8b7ee9998f174, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -167,14 +167,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a56e6968bd66bda4ba6406b0ef03b6c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  treat: {fileID: 11400000, guid: 47af7cb58c9b7bc46a48fe909483413a, type: 2}
+  treat: {fileID: 11400000, guid: 84b318603bed0564e9ce7b6c00c5a452, type: 2}
   isDead: 0
-  supportValue: 0.1
-  moneyValue: 2
+  supportValue: 0.25
+  moneyValue: 8
   type: 0
-  tier: 0
+  tier: 4
   deathPrefab: {fileID: 0}
---- !u!114 &-4084754068299243647
+--- !u!114 &3907647032670390272
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -13,8 +13,9 @@ public class UpgradeCardButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         UpgradeItem item = display.upgradeData;
 
+        int currentPrice = display.GetPurchaseCount() + 1;
         // check if player can afford
-        if (!bank.TrySpendMoney(item.price, true))
+        if (!bank.TrySpendMoney(item.price * currentPrice, true))
         {
             Debug.Log("Not enough currency to buy " + item.title);
             return;
@@ -32,11 +33,13 @@ public class UpgradeCardButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void OnPointerEnter(PointerEventData eventData)
     {
         UpgradeItem item = display.upgradeData;
-        if (bank.TrySpendMoney(item.price, false))
+        int currentPrice = display.GetPurchaseCount() + 1;
+
+        if (bank.TrySpendMoney(item.price * currentPrice, false))
         {
             cardBackground.color = Color.green;
         }
-        else if (!bank.TrySpendMoney(item.price, false))
+        else if (!bank.TrySpendMoney(item.price * currentPrice, false))
         {
             cardBackground.color = Color.red;
         }
@@ -45,14 +48,6 @@ public class UpgradeCardButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void OnPointerExit(PointerEventData eventData)
     {
         UpgradeItem item = display.upgradeData;
-        //if (bank.TrySpendMoney(item.price, false))
-        //{
-
-        //}
-        //else if (!bank.TrySpendMoney(item.price, false))
-        //{
-
-        //}
         cardBackground.color = Color.white;
     }
 }
