@@ -8,7 +8,6 @@ public class Respawner : MonoBehaviour
 
     public static bool hasPlayerReturnedToLaunchpad = false;
 
-    // Call this from PlayerResultsManager after results screen opens
     public void RespawnPlayer()
     {
         if (player != null)
@@ -22,9 +21,9 @@ public class Respawner : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             player = collision.gameObject;
+            if (player == null) { return; }
             hasPlayerReturnedToLaunchpad = true;
             playerStateMachine.StoppedToLaunchReady();
-            //Debug.Log("Player has returned to launchpad.");
         }
     }
 
@@ -34,7 +33,6 @@ public class Respawner : MonoBehaviour
         {
             player = collision.gameObject;
             hasPlayerReturnedToLaunchpad = false;
-            //Debug.Log("Player has left the launchpad.");
         }
     }
 }

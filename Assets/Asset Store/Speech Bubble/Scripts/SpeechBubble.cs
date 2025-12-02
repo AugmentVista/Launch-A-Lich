@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -186,12 +184,19 @@ namespace SpeechBubble
         #region private functions
         /// <summary>
         /// Updates the animator to play the bubbleType animation
+        /// fixed the authors bullshit
         /// </summary>
         private void updateAnimator()
         {
-            //bubbleType
-            gameObject.GetComponent<Animator>().Play(bubbleType.ToString());
+            Animator anim = gameObject.GetComponent<Animator>();
+
+            // prevent Unity warning spam when object / animator is disabled
+            if (anim == null || !anim.isActiveAndEnabled)
+                return;
+
+            anim.Play(bubbleType.ToString());
         }
+
 
         #endregion
 

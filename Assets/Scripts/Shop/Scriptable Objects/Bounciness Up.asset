@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Bounciness Up
   m_EditorClassIdentifier: 
   title: Bounciness Up
-  description: Lose less speed when you hit the ground
-  itemImage: {fileID: 21300000, guid: 52c12fab9ce564f0792ee7745720dfaa, type: 3}
-  price: 500
-  improvementModifier: 20
+  description: Reduce ground damage taken
+  itemImage: {fileID: 21300000, guid: 52383f821a1bb5b46b4bf6819228b3a7, type: 3}
+  price: 1200
+  improvementModifier: 2
   maxPurchases: 5
   upgradeType: 5

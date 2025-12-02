@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3901030333919834056}
   - component: {fileID: 4019678594104698565}
   - component: {fileID: 8621468396464194560}
+  - component: {fileID: 7102301170005653377}
   - component: {fileID: 908429729025918814}
   m_Layer: 0
   m_Name: Power Gauge Hollow
@@ -78,6 +79,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7102301170005653377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798073809152487767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b811d9866289a49acc9a78a5ed4704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorTexture: {fileID: 2800000, guid: 5ca3fd67d995dc643bc208ffcf490a80, type: 3}
+  cursorMode: 0
+  hotSpot: {x: 0, y: 0}
 --- !u!114 &908429729025918814
 MonoBehaviour:
   m_ObjectHideFlags: 0

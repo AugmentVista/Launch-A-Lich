@@ -1,10 +1,14 @@
 using UnityEngine;
+using System.Collections;
 
 public class Player_Anim_Manager : MonoBehaviour
 {
     private Animator animator;
     private PlayerStateMachine stateMachine;
     private PlayerInteractionHandler interactionHandler;
+
+    private bool animationLocked = false;
+    private float lockTimer = 0f;
 
     private void Awake()
     {
@@ -13,12 +17,15 @@ public class Player_Anim_Manager : MonoBehaviour
         interactionHandler = GetComponent<PlayerInteractionHandler>();
     }
 
+    private void Start()
+    {
+        PlayIdle();
+    }
+
     private void OnEnable()
     {
         PlayerStateMachine.OnReadyToLaunch += PlayIdle;
-        PlayerStateMachine.OnReadyToLaunch += GetBetter;
         PlayerStateMachine.OnStopped += PlayDeath;
-        PlayerStateMachine.OnStopped += Die;
         PlayerStateMachine.OnFlying += EvaluateFlyingState;
         PlayerStateMachine.OnGrounded += EvaluateFlyingState;
     }
@@ -26,11 +33,59 @@ public class Player_Anim_Manager : MonoBehaviour
     private void OnDisable()
     {
         PlayerStateMachine.OnReadyToLaunch -= PlayIdle;
-        PlayerStateMachine.OnReadyToLaunch -= GetBetter;
         PlayerStateMachine.OnStopped -= PlayDeath;
-        PlayerStateMachine.OnStopped -= Die;
         PlayerStateMachine.OnFlying -= EvaluateFlyingState;
         PlayerStateMachine.OnGrounded -= EvaluateFlyingState;
+    }
+
+    private void Update()
+    {
+        if (animationLocked)
+        {
+            lockTimer -= Time.deltaTime;
+
+            if (lockTimer <= 0f)
+                animationLocked = false;
+
+            return;
+        }
+        // Only evaluate rising/falling if the animation is not locked
+        EvaluateFlyingState();
+    }
+
+    private IEnumerator PlayAndLockRoutine(string anim)
+    {
+        animator.Play(anim);
+
+        // Wait 1 frame so animator updates current state
+        yield return null;
+
+        float clipLength = animator.GetCurrentAnimatorStateInfo(0).length;
+
+        animationLocked = true;
+        lockTimer = clipLength;
+    }
+
+    private void EvaluateFlyingState()
+    {
+        if (animationLocked) return;
+
+        float velocityY = PlayerResultsManager.globalPlayerSpeedY;
+
+        if (velocityY > 0.01f)
+            PlayIfNotPlaying("Player_Rising");
+        else if (velocityY < -0.01f)
+            PlayIfNotPlaying("Player_Falling");
+    }
+
+    public void PlayIfNotPlaying(string stateName)
+    {
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (!info.IsName(stateName))
+        {
+            animator.Play(stateName);
+        }
     }
 
     private void PlayIdle()
@@ -38,42 +93,20 @@ public class Player_Anim_Manager : MonoBehaviour
         animator.Play("Player_Idle");
     }
 
-    private void EvaluateFlyingState()
-    {
-        if (PlayerResultsManager.globalPlayerSpeedY > 0.01)
-        {
-            animator.Play("Player_Rising");
-        }
-        else if (PlayerResultsManager.globalPlayerSpeedY < -0.01)
-        { 
-            animator.Play("Player_Falling");
-        }
-    }
-
     public void PlayRolling()
     {
-        animator.Play("Player_Rolling");
+        StartCoroutine(PlayAndLockRoutine("Player_Rolling"));
+        //animator.Play("Player_Rolling");
     }
-
-    private void Die()
+    public void PlayTakeHit()
     {
-        //isDead = true;
-    }
-
-    private void GetBetter()
-    {
-        //isDead = false;
+        StartCoroutine(PlayAndLockRoutine("Player_Take_Hit"));
+        //animator.Play("Player_Take_Hit");
     }
 
     public void PlayDeath()
     {
         animator.Play("Player_Death");
-        //isDead = false;
-    }
-
-    public void PlayTakeHit()
-    {
-        animator.Play("Player_Take_Hit");
     }
 
     public void PlayAttack()

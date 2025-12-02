@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using System;
 
 public class PlayerStateMachine : MonoBehaviour
 {
@@ -9,9 +8,12 @@ public class PlayerStateMachine : MonoBehaviour
     public GameObject ground;
     public Rigidbody2D playerRb;
 
+    private bool groundWasSearched = false;
     private float speedToStopAt = 4f;
     private float flyingHeightThreshold = 15f;
     public float playerLinearX;
+
+    public static bool allowCameraFollow = true;
 
     public enum PlayerState
     {
@@ -32,6 +34,11 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Start()
     {
+        if (ground == null)
+        {
+            ground = GameObject.FindGameObjectWithTag("Ground");
+            groundWasSearched = true;
+        }
         playerState = PlayerState.ReadyToLaunch;
     }
 
@@ -46,26 +53,22 @@ public class PlayerStateMachine : MonoBehaviour
         {
             case PlayerState.Inactive:
                 OnInactive?.Invoke();
-                //Debug.Log("Player is Inactive");
                 break;
             case PlayerState.Grounded:
                 OnGrounded?.Invoke();
-                //Debug.Log("Player is Grounded");
                 break;
             case PlayerState.Flying:
                 OnFlying?.Invoke();
-                //Debug.Log("Player is flying");
                 break;
             case PlayerState.Stopped:
                 OnStopped?.Invoke();
-                //Debug.Log("Player has stopped");
                 break;
             case PlayerState.ReadyToLaunch:
                 OnReadyToLaunch?.Invoke();
-                //Debug.Log("Player is Ready To Launch");
                 break;
         }
     }
+
     private void Update()
     {
         playerLinearX = playerRb.linearVelocityX;
@@ -134,16 +137,27 @@ public class PlayerStateMachine : MonoBehaviour
 
     private IEnumerator FreezeRoutine()
     {
+        // temporarily force the camera to keep following
+        PlayerStateMachine.allowCameraFollow = true;
+
         // HARD STOP THE PLAYER
         playerRb.bodyType = RigidbodyType2D.Kinematic;
         playerRb.linearVelocity = Vector2.zero;
         playerRb.angularVelocity = 0f;
         player.transform.rotation = Quaternion.identity;
 
+        // tiny delay to ensure physics settles
         yield return new WaitForSeconds(0.05f);
-        //Debug.LogWarning("FREEZE ROUTINE CALLED");
+
+        // move to ground for death animation
         Vector3 pos = player.transform.position;
-        pos.y = ground.transform.position.y - ground.transform.position.y;
+
+        if (groundWasSearched) { pos.y = 4f; } else { pos.y = 4f; }
+
         player.transform.position = pos;
+
+        // now the camera may stop
+        yield return new WaitForSeconds(0.25f); // small buffer for animation
+        PlayerStateMachine.allowCameraFollow = false;
     }
 }

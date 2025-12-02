@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class Parallax : MonoBehaviour
 {
     [SerializeField] SpeedLimit speedLimit;
@@ -14,7 +13,6 @@ public class Parallax : MonoBehaviour
 
     [SerializeField] float minPlayerSpeed = 0f;
     [SerializeField] float maxPlayerSpeed = 50f;
-
 
     void Start()
     {

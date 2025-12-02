@@ -3,149 +3,103 @@
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    private EnemyPlacement placement;
 
-    [SerializeField] GameObject GroundEnemy;
-    [SerializeField] GameObject FlyingEnemy;
+    int count = 0;
+    [SerializeField] private GameObject[] flyingEnemies;
 
-    [SerializeField] SpeedLimit speedLimit;
-    private float speedLimitX;
-    private float spawnInterval = 0.25f;
-    public float spawnY;
-    public float spawnOffset = 2f;  // how far past right edge to spawn
+    [SerializeField] private SpeedLimit speedLimit;
 
-    [SerializeField] private float minSpawnRate = 0.5f;
-    [SerializeField] private float maxSpawnRate = 0.15f;
+    [SerializeField] private float minSpawnRate = 2f;
+    [SerializeField] private float maxSpawnRate = 5.0f;
+    [SerializeField] private int maxEnemyAmount;
 
-    private Camera cam;
     private bool canSpawn = false;
     private float timer = 0f;
+    private float spawnInterval;
 
     void Awake()
     {
-        cam = Camera.main;
+        placement = GetComponentInChildren<EnemyPlacement>();
     }
 
     void OnEnable()
     {
-        PlayerStateMachine.OnGrounded += EnableSpawning;
         PlayerStateMachine.OnFlying += EnableSpawning;
-        PlayerStateMachine.OnGrounded += SpawnGroundedEnemies;
-        PlayerStateMachine.OnFlying += SpawnFlyingEnemies;
-
-
         PlayerStateMachine.OnInactive += DisableSpawning;
         PlayerStateMachine.OnStopped += DisableSpawning;
-
     }
 
     void OnDisable()
     {
-        PlayerStateMachine.OnGrounded -= EnableSpawning;
         PlayerStateMachine.OnFlying -= EnableSpawning;
-        PlayerStateMachine.OnGrounded -= SpawnGroundedEnemies;
-        PlayerStateMachine.OnFlying -= SpawnFlyingEnemies;
-
         PlayerStateMachine.OnInactive -= DisableSpawning;
         PlayerStateMachine.OnStopped -= DisableSpawning;
     }
 
     void Update()
     {
-        if (canSpawn)
+        if (!canSpawn) { return; }
+
+        float playerSpeedX = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
+        float playerSpeedY = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedY);
+        float playerSpeedFloor = 20f;
+
+        float effectiveSpeed = (playerSpeedX * 2f + playerSpeedY) / 3f;
+
+        float playerSpeedNormalized = Mathf.InverseLerp(playerSpeedFloor, speedLimit.maxSpeedX, effectiveSpeed);
+
+        // get enemies per second
+        float spawnRate = Mathf.Lerp(minSpawnRate, maxSpawnRate, playerSpeedNormalized);
+
+        // Round to whole numbers
+        spawnRate = Mathf.Round(spawnRate);
+
+        // Prevent invalid spawn rates
+        if (spawnRate < 1f) { spawnRate = 1f; }
+
+        // convert enemies/sec -> seconds/enemy
+        spawnInterval = 1f / spawnRate;
+
+        timer += Time.deltaTime;
+
+        if (timer >= spawnInterval)
         {
-            speedLimitX = speedLimit.maxSpeedX;
-            float speed = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
-
-            float speedDeterminedSpawnRange = Mathf.InverseLerp(20f, speedLimitX, speed);
-            float scaledInterval = Mathf.Lerp(0.1f, 1.0f, speedDeterminedSpawnRange);
-
-            spawnInterval = Mathf.Clamp((float)Mathf.Round(scaledInterval * 10f) / 10f, maxSpawnRate, minSpawnRate);
-
-            if (PlayerResultsManager.globalPlayerSpeedY > 10 || PlayerResultsManager.globalPlayerSpeedY < -10f)
-            {
-                SpawnFlyingEnemies();
-            }
-            else { SpawnGroundedEnemies(); }
-
-            timer += Time.deltaTime;
-
-            if (timer >= spawnInterval)
-            {
-                SpawnEnemy();
-                timer = 0f;
-            }
+            SpawnEnemy();
+            timer = 0f;
         }
     }
-
-    void SpawnFlyingEnemies()
-    {
-        enemyPrefab = FlyingEnemy;
-
-        Vector3 bottomEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
-        Vector3 topEdge = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, cam.nearClipPlane));
-
-        float randomY = Random.Range(bottomEdge.y + 10f, topEdge.y - 1f);
-
-        spawnY = Mathf.Clamp(randomY, 10f, float.MaxValue);
-    }
-
-    void SpawnGroundedEnemies()
-    {
-        enemyPrefab = GroundEnemy;
-
-        spawnY = 0f;
-    }
-
 
     private void SpawnEnemy()
     {
+        DetermineFlyingPrefab();
         if (enemyPrefab == null) return;
 
-        CapsuleCollider2D prefabCollider = enemyPrefab.GetComponent<CapsuleCollider2D>();
-        if (prefabCollider == null)
-        {
-            Debug.LogError("Enemy prefab does not have a BoxCollider2D attached.");
-            return;
-        }
+        Transform pod = placement.GetNextPod();
+        if (pod == null) return;
 
-        Vector2 colliderSize = prefabCollider.size;
-        Vector2 overlapBoxSize = colliderSize * 2f; // Double the size for spacing
-
-        Vector2 rightEdge = cam.ViewportToWorldPoint(new Vector3(1, 0.5f, 0));
-
-        const int maxAttempts = 10;
-        for (int attempt = 0; attempt < maxAttempts; attempt++)
-        {
-            float randomSpawnOffset = Random.Range(0.25f, 0.75f);
-            Vector2 spawnPos = new Vector2(rightEdge.x + randomSpawnOffset, spawnY);
-
-            Collider2D hit = Physics2D.OverlapBox(spawnPos, overlapBoxSize, 0f, LayerMask.GetMask("Enemies"));
-
-            if (hit == null || !hit.CompareTag("Enemy") && !hit.CompareTag("Item"))
-            {
-                GameObject instance = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-
-                if (enemyPrefab == GroundEnemy)
-                {
-                    Vector3 scale = instance.transform.localScale;
-                    scale.x *= -1;
-                    instance.transform.localScale = scale;
-                }
-                return;
-            }
-        }
-
-        Debug.LogWarning("EnemySpawner: Could not find valid spawn position after multiple attempts.");
+        // Spawn as a child of that pod 
+        GameObject instance = Instantiate(enemyPrefab, pod.position, Quaternion.identity, pod);
+        count++;
+        //instance.GetComponent<Enemy>().ID = (pod.gameObject.GetComponent<SpawnPod>().debugName + $"{count}");
     }
 
+    private void DetermineFlyingPrefab()
+    {
+        float dist = PlayerResultsManager.currentDistance;
 
+        if (dist < 2000f) enemyPrefab = flyingEnemies[0];
+        else if (dist < 4000f) enemyPrefab = flyingEnemies[1];
+        else if (dist >= 4000){ enemyPrefab = flyingEnemies[2]; }
+    }
+
+    // Called from EnemyPlacement when it retries after pod cooldown
+    public void SpawnUsingPod(Transform pod)
+    {
+        if (enemyPrefab == null) return;
+        Instantiate(enemyPrefab, pod.position, Quaternion.identity, pod);
+    }
 
     private void EnableSpawning() => canSpawn = true;
     private void DisableSpawning() => canSpawn = false;
-
-    private void OnPlayerReadyToLaunch()
-    {
-        DisableSpawning();
-    }
-
 }

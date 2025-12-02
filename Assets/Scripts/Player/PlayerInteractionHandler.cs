@@ -1,17 +1,18 @@
+using System;
 using UnityEngine;
 
 public class PlayerInteractionHandler : PlayerBase
 {
-    [SerializeField] Player_Anim_Manager playerAnim;
-
-    public int forceMult;
-    public int enemyImpactVelocityGain;
+    #region Variable Declarations
+    [SerializeField] Player_DarkWizard_Anim_Manager playerAnim;
 
     private float groundedTimer = 0f;
 
     private float bouncyUpgradesActive = 0;
     public float bouncyUpgradeValue;
     public float bouncyUpgradesCount;
+
+    public bool outOfMana = false;
 
     [SerializeField] private bool grounded = false;
     private Ground ground;
@@ -20,10 +21,11 @@ public class PlayerInteractionHandler : PlayerBase
     public static event EnemyDefeated OnFlyingEnemyDefeated;
     public static event EnemyDefeated OnGroundEnemyDefeated;
 
-    public delegate void ItemCollected(int goldValue);
+    public delegate void ItemCollected(int goldValue, Enum tier);
     public static event ItemCollected OnFlyingItemCollected;
     public static event ItemCollected OnGroundItemCollected;
 
+    #endregion
     private void Awake()
     {
         if (!playerRb)
@@ -31,6 +33,8 @@ public class PlayerInteractionHandler : PlayerBase
 
         ResetHealth();
     }
+
+    #region State Subcriptions
 
     private void OnEnable()
     {
@@ -59,18 +63,37 @@ public class PlayerInteractionHandler : PlayerBase
         ResetHealth();
     }
 
+    #endregion
+
     private void Update()
     {
+        DetectPlayerAttacking();
         ApplyTouchingGroundDamage();
     }
 
+    public void DetectPlayerAttacking()
+    {
+        
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (!healthPositive || outOfMana) { return; }
+            playerAnim.PlayAttackDown();
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            if (!healthPositive || outOfMana) { return; }
+            playerAnim.PlayAttackUp();
+        }
+    }
+
+    #region Upgrade Section
     public void UpgradeBounce(float improvementMod, float purchaseCount)
     {
         bouncyUpgradesCount = purchaseCount;
         bouncyUpgradeValue = improvementMod;
     }
 
-    float ApplyBounceyUpgrade()
+    [SerializeField]private float ApplyBounceyUpgrade()
     {
         if (bouncyUpgradesCount > 0)
             bouncyUpgradesActive = bouncyUpgradesCount * bouncyUpgradeValue;
@@ -79,6 +102,15 @@ public class PlayerInteractionHandler : PlayerBase
 
         return bouncyUpgradesActive;
     }
+
+    public void EnemySlayed(Enemy enemy)
+    {
+        if (!healthPositive) { return; }
+        //Debug.LogError($"KILL {enemy.ID}");
+        OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
+    }
+
+    #endregion
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -89,131 +121,141 @@ public class PlayerInteractionHandler : PlayerBase
 
         if (collision.CompareTag("Item"))
         {
+            if (!healthPositive) { return; }
             Item_World item = collision.GetComponent<Item_World>();
 
-            LogarithmicBounce(4, item.healValue);
+            PlayerAbility playerAbility = GetComponentInChildren<PlayerAbility>();
+            if (playerAbility != null) { playerAbility.AddMana(item.supportValue); }
 
             if (item.type == Item_World.Type.Flying)
-                OnFlyingItemCollected?.Invoke(item.moneyValue);
+            {
+                OnFlyingItemCollected?.Invoke(item.moneyValue, item.tier);
+            }
             else if (item.type == Item_World.Type.Grounded)
-                OnGroundItemCollected?.Invoke(item.moneyValue);
+            { 
+                OnGroundItemCollected?.Invoke(item.moneyValue, item.tier);
+            }
 
             if (item != null) item.isDead = true;
         }
 
+        #region Enemy Interactions
+
         if (collision.CompareTag("Enemy"))
         {
-            Enemy enemy = collision.GetComponent<Enemy>();
+            if (!healthPositive) { return; }
 
+            Enemy enemy = collision.GetComponent<Enemy>();
+            
             TakeDamage(enemy.damageValue);
 
-            if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
+            if (Health <= MaxHealth && Health > 0)
             {
-                ApplyLog2Force(2f, enemyImpactVelocityGain * forceMult);
+                NegativeLogarithmicBounce(4f, enemy.damageValue * 2f);
+
                 OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
             }
-            else if (Health >= MaxHealth * 0.5f && enemy.type == Enemy.Type.Flying)
+            if (Health <= 0) // if this hit would kill player, downward spike
             {
-                ApplyLog2Force(8f, enemyImpactVelocityGain * (forceMult - 1));
-                OnFlyingEnemyDefeated?.Invoke(enemy.moneyValue);
-            }
-            else if (Health < MaxHealth * 0.5f && enemy.type == Enemy.Type.Grounded)
-            {
-                LogarithmicBounce(8f, enemyImpactVelocityGain * forceMult);
-                OnGroundEnemyDefeated?.Invoke(enemy.moneyValue);
-            }
-            else if (Health >= MaxHealth * 0.5f && enemy.type == Enemy.Type.Grounded)
-            {
-                LogarithmicBounce(4f, enemyImpactVelocityGain * forceMult);
-                OnGroundEnemyDefeated?.Invoke(enemy.moneyValue);
+                { NegativeLogarithmicBounce(2f, 50f); }
             }
 
-            if (Health >= 0)
-                LogarithmicBounce(1f, enemyImpactVelocityGain * 0f);
+            if (Health <= 0) { playerAnim.PlayDeath(); }
+            else { playerAnim.PlayTakeHitSmall(); }
 
-            if (Health - enemy.damageValue > 0)
-                GetComponent<Player_Anim_Manager>()?.PlayRolling();
-
-            //Debug.LogWarning("Player hit an enemy");
             if (enemy != null) enemy.isDead = true;
         }
 
+        #endregion
+
+        #region Ground & Ceiling Damaging details
         if (collision.CompareTag("Ground"))
         {
             ground = collision.GetComponent<Ground>();
-            TakeDamage(ground.damageValue);
+            TakeDamage(ground.damageValue - Mathf.RoundToInt(ApplyBounceyUpgrade()));
+            if (!healthPositive) { return; }
 
             switch (Health)
             {
-                case int i when (i < MaxHealth && i >= MaxHealth * 0.75f):
-                    ApplyExp2Force(9f, Mathf.Abs(playerRb.linearVelocityY) * 0.95f + ApplyBounceyUpgrade());
+                case int i when (i < MaxHealth &&  i > 0f):
+                    LogarithmicBounce(4f, ground.damageValue * 2);
                     break;
+                case int i when (i >= 0):
 
-                case int i when (i < MaxHealth && i >= MaxHealth * 0.5f):
-                    ApplyExp2Force(9f, Mathf.Abs(playerRb.linearVelocityY) * 0.9f + ApplyBounceyUpgrade());
-                    break;
-
-                case int i when (i < MaxHealth * 0.5f && i >= MaxHealth * 0.25f):
-                    ApplyExp2Force(9f, Mathf.Abs(playerRb.linearVelocityY) * 0.85f + ApplyBounceyUpgrade());
-                    break;
-
-                case int i when (i < MaxHealth * 0.25f && i >= 0f):
-                    ApplyExp2Force(9f, Mathf.Abs(playerRb.linearVelocityY) * 0.8f + ApplyBounceyUpgrade());
                     break;
             }
-            if (Health <= 0){ playerAnim.PlayDeath(); }
-            else { playerAnim.PlayTakeHit(); }
-                
+            if (Health <= 0)
+            { playerAnim.PlayDeath(); }
+            else if (Health > 0 && bouncyUpgradesCount >= 5)
+            {
+                playerAnim.PlayTakeHitSmall();
+            }
+            else { playerAnim.PlayTakeHitBig(); }
         }
 
-        if (collision.CompareTag("Celling"))
+        if (collision.CompareTag("Ceiling"))
         {
             ground = collision.GetComponent<Ground>();
+
             TakeDamage(ground.damageValue);
+
+            if (!healthPositive) { return; }
 
             switch (Health)
             {
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.75f):
-                    NegativeLogarithmicBounce(2f , Mathf.Abs(playerRb.linearVelocityY) * 0.95f + ApplyBounceyUpgrade());
+                    NegativeLogarithmicBounce(2f , Mathf.Min(Mathf.Abs(playerRb.linearVelocityY) * 0.60f, 10f));
                     break;
 
                 case int i when (i < MaxHealth && i >= MaxHealth * 0.5f):
-                    NegativeLogarithmicBounce(2f , Mathf.Abs(playerRb.linearVelocityY) * 0.90f + ApplyBounceyUpgrade());
+                    NegativeLogarithmicBounce(2f , Mathf.Min(Mathf.Abs(playerRb.linearVelocityY) * 0.70f, 15f));
                     break;
 
                 case int i when (i < MaxHealth * 0.5f && i >= MaxHealth * 0.25f):
-                    NegativeLogarithmicBounce(2f , Mathf.Abs(playerRb.linearVelocityY) * 0.85f + ApplyBounceyUpgrade());
+                    NegativeLogarithmicBounce(2f , Mathf.Min(Mathf.Abs(playerRb.linearVelocityY) * 0.80f, 20f));
                     break;
 
                 case int i when (i < MaxHealth * 0.25f && i >= 0f):
-                    NegativeLogarithmicBounce(2f , Mathf.Abs(playerRb.linearVelocityY) * 0.80f + ApplyBounceyUpgrade());
+                    NegativeLogarithmicBounce(2f , Mathf.Min(Mathf.Abs(playerRb.linearVelocityY) * 0.90f, 20f));
                     break;
             }
             if (Health <= 0) { playerAnim.PlayDeath(); }
-            else { playerAnim.PlayTakeHit(); }
+            else { playerAnim.PlayTakeHitBig(); }
 
         }
+#endregion
     }
+
+    #region Prevent player from skidding across ground
 
     private void ApplyTouchingGroundDamage()
     {
-        if (grounded && PlayerResultsManager.globalPlayerSpeedX > 4f)
+        if (grounded && PlayerResultsManager.globalPlayerSpeedX > 4f && healthPositive)
         {
             groundedTimer += Time.deltaTime;
 
-            if (groundedTimer > 0.5f)
+            if (groundedTimer > 1.0f)
             {
                 groundedTimer = 0f;
-                GetComponent<Player_Anim_Manager>()?.PlayTakeHit();
-                TakeDamage(ground.damageValue / 2);
-                ApplyExp2Force(2f, ground.damageValue * 2 + ApplyBounceyUpgrade());
+
+                TakeDamage(ground.damageValue - Mathf.RoundToInt(ApplyBounceyUpgrade()));
+
+                LogarithmicBounce(2f, ground.damageValue * 2);
+
+                if (Health <= 0) 
+                { playerAnim.PlayDeath(); }
+                else if (Health > 0 && bouncyUpgradesCount >= 5)
+                {
+                    playerAnim.PlayTakeHitSmall();
+                }
+                else { playerAnim.PlayTakeHitBig(); }
             }
         }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ground"))
+        if (collision.CompareTag("Ground") || collision.CompareTag("Ceiling"))
         {
             ground = collision.GetComponent<Ground>();
             grounded = true;
@@ -222,9 +264,10 @@ public class PlayerInteractionHandler : PlayerBase
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ground"))
+        if (collision.CompareTag("Ground") || collision.CompareTag("Ceiling"))
         {
             grounded = false;
         }
     }
+    #endregion
 }

@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2900234308310453448}
   - component: {fileID: 8340735773484740312}
   - component: {fileID: 4947889251600624796}
+  - component: {fileID: 5716178792326692795}
+  - component: {fileID: 3410199686108046960}
   m_Layer: 6
   m_Name: Enemy Flying
   m_TagString: Enemy
@@ -31,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.254, y: 13.062, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 8, y: 8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,8 +81,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -1311810430, guid: 6bd00600f368fd842910f603d08e671c, type: 3}
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 21300000, guid: f62996eeedd3848f9861a4d9257f66a3, type: 3}
   m_Color: {r: 1, g: 0.84629023, b: 0.6367924, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -126,7 +128,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.8, y: 3}
+  m_Size: {x: 0.3, y: 0.4}
   m_Direction: 0
 --- !u!50 &2900234308310453448
 Rigidbody2D:
@@ -167,12 +169,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9a3be55128d9b4b95bab6f7d126b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDead: 0
-  baseSpeed: 10
-  damageValue: 4
-  moneyValue: 3
-  type: 0
   deathPrefab: {fileID: 6063229312718930144, guid: 8e543592794d4c84ba197233b378ade0, type: 3}
+  explodedPrefab: {fileID: 3044282159541186506, guid: b17c7236d34adf14f9525be37bc3368e, type: 3}
+  hitByPlayerAbility: 0
+  isDead: 0
+  moveSpeed: 12
+  damageValue: 5
+  moneyValue: 10
+  ID: enemy
+  type: 0
 --- !u!95 &4947889251600624796
 Animator:
   serializedVersion: 7
@@ -183,7 +188,7 @@ Animator:
   m_GameObject: {fileID: 4302006093261710066}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0d160bb94275f364cb2004eb583bfb5d, type: 2}
+  m_Controller: {fileID: 9100000, guid: dcdff630ede3d6b43ad3bc8895e22342, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -195,3 +200,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5716178792326692795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4302006093261710066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39b83ac8b07f3eb46b5928558cad2512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3410199686108046960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4302006093261710066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec8570ec248fb142b174e1c79987d97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snakeFrequency: 0.5
+  snakeAmplitude: 8

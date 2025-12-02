@@ -7,6 +7,8 @@ public class InstructionsSpeechBubble : MonoBehaviour
 
     [SerializeField] GameObject NextButton;
 
+    [SerializeField] GameObject Compendium;
+
     [SerializeField] GameObject HealthBar;
 
     [SerializeField] GameObject BoostIcon;
@@ -52,35 +54,37 @@ public class InstructionsSpeechBubble : MonoBehaviour
         switch (counter)
         {
             case 0:
-                speechBubble.setDialogueText("Launch!\n Boost\n Collect\n Upgrade\n Repeat\n Reach 5000m");
-                speechBubble.setBubbleType(SpeechBubbleType.Think);
+                speechBubble.setDialogueText("Travel far to complete the compendium");
+                speechBubble.setBubbleType(SpeechBubbleType.Stress);
+                Compendium.SetActive(true);
                 break;
             case 1:
-                speechBubble.setDialogueText("Click me with a full meter to Boost!\n");
-                speechBubble.setBubbleType(SpeechBubbleType.Think);
-                BoostIcon.SetActive(true);
-                break;
-            case 2:
-                speechBubble.setDialogueText("Click and hold Launch button to charge");
-                speechBubble.setBubbleType(SpeechBubbleType.Think);
-                BoostIcon.SetActive(false);
+                speechBubble.setDialogueText("Hold to charge\n Release to fire");
+                speechBubble.setBubbleType(SpeechBubbleType.Yell);
+                Compendium.SetActive(false);
                 LaunchIcon.SetActive(true);
                 break;
-            case 3:
-                speechBubble.setDialogueText("Enemies hurt a little\n The Ground hurts a lot");
+            case 2:
+                speechBubble.setDialogueText("Deflect & Dash with Right Mouse \n\n Sweep and Soar with Left Mouse");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 LaunchIcon.SetActive(false);
+                BoostIcon.SetActive(true);
+                break;
+            case 3:
+                speechBubble.setDialogueText("Avoid getting hurt \n\n Health = 0 \n Run over.");
+                speechBubble.setBubbleType(SpeechBubbleType.Yell);
+                BoostIcon.SetActive(false);
                 HealthBar.SetActive(true);
                 break;
             case 4:
-                speechBubble.setDialogueText("Height, distance, enemies, and treats = $$$");
+                speechBubble.setDialogueText("Spend money to improve your abilities");
                 speechBubble.setBubbleType(SpeechBubbleType.Think);
                 HealthBar.SetActive(false);
                 GoldIcon.SetActive(true);
                 break;
             case 5:
-                speechBubble.setDialogueText("Purchase upgrades go even farther beyond!");
-                speechBubble.setBubbleType(SpeechBubbleType.Think);
+                speechBubble.setDialogueText("Collect every sweet this world has to offer!");
+                speechBubble.setBubbleType(SpeechBubbleType.Stress);
                 GoldIcon.SetActive(false);
                 Proceed();
                 break;

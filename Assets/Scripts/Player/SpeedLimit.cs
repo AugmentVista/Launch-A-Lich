@@ -5,8 +5,10 @@ public class SpeedLimit : MonoBehaviour
     [SerializeField] Rigidbody2D playerRb;
 
     public float maxSpeedX;
+    private float baseMaxSpeedX = 50;
 
     public float maxSpeedY;
+    private float baseMaxSpeedY = 50;
 
     [SerializeField] float baseLinearDampeningValue;
 
@@ -19,12 +21,18 @@ public class SpeedLimit : MonoBehaviour
 
     private float maxSpeedUpgradesActive = 0;
 
-    private float fullColorThreshold = 0.5f;
+    private float fullColorThreshold = 0.25f;
+
+    private float gravityStepFactor = 0.5f;
+
+    private float percentageIncrement = 0.10f;
+
+    public bool overSpeed = false;
 
     void Start()
     {
-        if (playerRb == null)
-            playerRb = GetComponent<Rigidbody2D>();
+        if (playerRb == null) { playerRb = GetComponent<Rigidbody2D>(); }
+            
         baseLinearDampeningValue = playerRb.linearDamping;
         baseGravityScale = playerRb.gravityScale;
     }
@@ -35,7 +43,7 @@ public class SpeedLimit : MonoBehaviour
         maxSpeedUpgradeValue = improvementMod;
     }
 
-    float ApplyMaxSpeedUpgrade()
+    private float ApplyMaxSpeedUpgrade()
     {
         if (maxSpeedUpgradesCount > 0)
             maxSpeedUpgradesActive = maxSpeedUpgradesCount * maxSpeedUpgradeValue;
@@ -45,17 +53,21 @@ public class SpeedLimit : MonoBehaviour
         return maxSpeedUpgradesActive;
     }
 
-
     void Update()
     {
-        float currentSpeedX = Mathf.Abs(playerRb.linearVelocityX);
-        float currentSpeedY = (playerRb.linearVelocityY);
+        maxSpeedX = baseMaxSpeedX + ApplyMaxSpeedUpgrade();
+        maxSpeedY = baseMaxSpeedY + ApplyMaxSpeedUpgrade();
+
+        float currentSpeedX = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
+        float currentSpeedY = PlayerResultsManager.globalPlayerSpeedY;
+
+        // DIRECT overspeed check
+        overSpeed = currentSpeedX > maxSpeedX;
 
         float dampX = CalculateDamping(currentSpeedX);
         float gravityY = CalculateGravityDrag(currentSpeedY);
 
         playerRb.linearDamping = Mathf.Lerp(playerRb.linearDamping, dampX, Time.deltaTime * 5f);
-
         playerRb.gravityScale = Mathf.Lerp(playerRb.gravityScale, gravityY, Time.deltaTime * 5f);
 
         UpdateSpeedTextColor(playerRb.linearDamping);
@@ -63,11 +75,11 @@ public class SpeedLimit : MonoBehaviour
 
     private float CalculateGravityDrag(float velocity)
     {
-        if (velocity <= maxSpeedY)
-            return baseGravityScale;
+        if (velocity <= maxSpeedY) { return baseGravityScale; }
 
-        float excessRatio = (velocity - maxSpeedY) / maxSpeedY;
-        float addedGravity = excessRatio * (0.5f / 0.05f);// add 0.5 gravity scale every 5% over maxSpeedY
+        float excessRatio = Mathf.Clamp01((velocity - maxSpeedY) / maxSpeedY);
+
+        float addedGravity = excessRatio * (gravityStepFactor / percentageIncrement);// add 0.5 gravity scale every 10% over maxSpeedY
         return baseGravityScale + addedGravity;
     }
 
@@ -77,15 +89,16 @@ public class SpeedLimit : MonoBehaviour
             return baseLinearDampeningValue;
 
         float excessRatio = (velocity - (maxSpeedX + ApplyMaxSpeedUpgrade())) / (maxSpeedX + ApplyMaxSpeedUpgrade());
-        float addedDamping = excessRatio * (0.05f / 0.025f); // Add 0.05 linear dampening every 5% over maxSpeedX
+        float addedDamping = excessRatio * (0.01f / 0.01f); // Add 0.01 linear dampening every 1% over maxSpeedX
         return baseLinearDampeningValue + addedDamping;
     }
 
     private void UpdateSpeedTextColor(float currentDamping)
     {
-        if (currentDamping >= 0.3f)
+        if (currentDamping >= fullColorThreshold)
         {
-            hudDisplay.speedText.color = new Color32(255, 0, 0, 255);
+            // If the level of dampening is past the full color threshold set text color to full red.
+            hudDisplay.speedText.color = Color.red;
         }
         else
         {
@@ -94,12 +107,11 @@ public class SpeedLimit : MonoBehaviour
             // Normalize the excess to 0–1 for the range between base and 0.3
             float t = Mathf.InverseLerp(0f, fullColorThreshold - baseLinearDampeningValue, excess);
 
-            // Lerp from white to red
-            Color targetColor = Color.Lerp(Color.white, Color.red, t);
+            // Lerp from black to red
+            Color targetColor = Color.Lerp(Color.black, Color.red, t);
 
             Color currentColor = hudDisplay.speedText.color;
             hudDisplay.speedText.color = Color.Lerp(currentColor, targetColor, Time.deltaTime * 10f);
         }
     }
-
 }

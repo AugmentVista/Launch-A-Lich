@@ -38,10 +38,16 @@ public class ItemDisplay : MonoBehaviour
         UpdatePurchaseVisuals();
     }
 
+    public void UpdatePriceDisplay(UpgradeItem data)
+    {
+        priceText.text = $"${data.price * (timesPurchased + 1)}";
+    }
+
     private void UpdatePurchaseVisuals()
     {
         bool canBuyMore = timesPurchased < upgradeData.maxPurchases;
         purchaseButton.interactable = canBuyMore;
+        UpdatePriceDisplay(upgradeData);
 
         if (purchaseCountText != null)
             purchaseCountText.text = $"{timesPurchased}/{upgradeData.maxPurchases}";

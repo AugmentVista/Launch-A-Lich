@@ -3,8 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-
     [SerializeField] Respawner respawner;
+    [SerializeField] TreatManager treatManager;
+
+    public GameObject VictoryMeal;
 
     [Header("UI Screens")]
     public GameObject Menu;
@@ -22,12 +24,13 @@ public class UIManager : MonoBehaviour
     [Range(0.25f, 1f)]
     public float time;
 
+    public float trueTime;
+
     private float minTime = 0.25f;
 
     private float maxTime = 1f;
 
-    bool gaming = false;
-
+    public bool gaming = false;
 
     private void OnEnable()
     {
@@ -41,11 +44,15 @@ public class UIManager : MonoBehaviour
         PlayerStateMachine.OnFlying -= gameTime;
     }
 
+    public void SpawnVictoryMeal()
+    {
+        VictoryMeal.SetActive(true);
+    }
+
     private void Start()
     {
-        SetUIFalse();
-        Time.timeScale = 0;
-        Menu.gameObject.SetActive(true);
+        B_ToMainMenu();
+        trueTime = Time.timeScale;
     }
 
     private void gameTime()
@@ -55,12 +62,13 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+       
         if (Gameplay.gameObject.activeSelf && gaming) 
         {
             float speed = PlayerResultsManager.globalPlayerSpeedX;
 
             // Clamp the raw speed between 25 and 150
-            float clampedSpeed = Mathf.Clamp(speed, 25f, 150f);
+            float clampedSpeed = Mathf.Clamp(speed, 20f, 100f);
 
             // Normalize (100 -> 0, 25 -> 1)
             float normalizedSpeed = Mathf.InverseLerp(100f, 25f, clampedSpeed);
@@ -84,6 +92,7 @@ public class UIManager : MonoBehaviour
         {
             Time.timeScale = 1f;
         }
+        trueTime = Time.timeScale;
     }
 
     public void SetUIFalse()
@@ -179,6 +188,7 @@ public class UIManager : MonoBehaviour
         LastScreenActive = GetCurrentActiveScreen();
 
         SetScreen(Results);
+        treatManager.ApplyRunResultsToTreatObjects();
     }
 
     public void B_Return()
@@ -188,21 +198,25 @@ public class UIManager : MonoBehaviour
 
     public void B_ToMainMenu()
     {
+        LastScreenActive = GetCurrentActiveScreen();
         SetScreen(Menu);
     }
 
     public void B_OpenShop()
     {
+        LastScreenActive = GetCurrentActiveScreen();
         SetScreen(Shop);
 
         if (respawner != null)
         {
             respawner.RespawnPlayer();
         }
+        else if (respawner == null) { Debug.LogWarning("WHY IS THIS NULL -> RESPAWNER"); }
         
     }
     public void B_Resume()
     {
+        LastScreenActive = GetCurrentActiveScreen();
         SetScreen(Gameplay);
     }
 
