@@ -109,7 +109,7 @@ public class CameraFollow : MonoBehaviour
 
         if (applyLeftOffsetBias) { offset = offsetLeftBias; } else { offset = offsetDefault; }
 
-        if (PlayerResultsManager.globalPlayerSpeedX > maxPlayerSpeed)
+        if (PlayerResultsManager.globalPlayerSpeedX > maxPlayerSpeed - baseFollowSpeed)
         {
             baseFollowSpeed = PlayerResultsManager.globalPlayerSpeedX / 2;
         }
@@ -118,7 +118,7 @@ public class CameraFollow : MonoBehaviour
             baseFollowSpeed = 41f;
         }
 
-            float playerSpeedX = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
+        float playerSpeedX = Mathf.Abs(PlayerResultsManager.globalPlayerSpeedX);
         float playerSpeedY = PlayerResultsManager.globalPlayerSpeedY;
 
         //  X axis lag 

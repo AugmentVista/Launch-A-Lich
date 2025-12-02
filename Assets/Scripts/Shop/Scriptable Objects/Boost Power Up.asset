@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Boost Power Up
   m_EditorClassIdentifier: 
   title: Boost Power Up
-  description: Power + 20%
+  description: Power + 15%
   itemImage: {fileID: 21300000, guid: 41f70abcc24fcdc4b96be8ddb1b8cf45, type: 3}
   price: 500
-  improvementModifier: 20
+  improvementModifier: 15
   maxPurchases: 5
   upgradeType: 3

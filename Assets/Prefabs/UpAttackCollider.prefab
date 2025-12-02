@@ -428,7 +428,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  abilityStrength: 100
+  abilityStrength: 80
   downForce: 0
 --- !u!114 &-4416792362543866391
 MonoBehaviour:

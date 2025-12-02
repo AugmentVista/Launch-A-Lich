@@ -71700,10 +71700,10 @@ MonoBehaviour:
   offset: {x: 5, y: 4, z: -10}
   offsetDefault: {x: 15, y: 4, z: -10}
   offsetLeftBias: {x: 12, y: 4, z: -10}
-  baseFollowSpeed: 41
+  baseFollowSpeed: 51
   maxFollowLag: 4
   speedThreshold: 50
-  maxPlayerSpeed: 200
+  maxPlayerSpeed: 300
   maxCameraLagX: 0.3
   verticalLerpSpeed: 1.5
   riseThreshold: 20
@@ -99066,7 +99066,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -473.55, y: 51.749695}
+  m_AnchoredPosition: {x: -473.55005, y: 51.749756}
   m_SizeDelta: {x: -1102.9, y: 525}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &593605829194584483
